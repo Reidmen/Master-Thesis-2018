@@ -1,0 +1,65 @@
+\documentclass[upright, contnum]{umemoria}
+
+%fix for the oneside argument
+\makeatletter
+\g@addto@macro\titlepage{\pagenumbering{Alph}}
+\g@addto@macro\endtitlepage{\pagenumbering{roman}}
+\makeatother
+
+\depto{Departamento de Ingeniería Matemática}
+\author{Reidmen Alexander Aróstica Barrera}
+\title{}
+\auspicio{PROYECTO FONDECYT 1151512}
+\date{Noviembre 2018}
+\guia{AXEL OSSES.}
+\carrera{Magíster en Ciencias de la Ingeniería, Mención Matemáticas Aplicadas}
+\memoria{Tesis para optar al Grado de \break
+Magíster en Ciencias de la Ingeniería, Mención Matemáticas Aplicadas}
+\comision{}
+
+\usepackage{lipsum}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\begin{abstract}
+{\lipsum[1]}
+\end{abstract}
+
+\begin{dedicated}
+A mi madre y padre, por todo.
+\end{dedicated}
+
+%\begin{thanks}
+%\lipsum[1]
+%\end{thanks}
+
+\cleardoublepage
+
+\tableofcontents
+\listoftables % optional
+\listoffigures % optional
+
+\mainmatter
+
+\input{introduction.tex}
+\input{motivation.tex}
+\input{homogenization.tex}
+\input{discretization.tex}
+\input{simulations.tex}
+\input{Qfactor.tex}
+\input{conclusion.tex}
+
+% \input{glosario.tex} % optional
+
+\bibliographystyle{plain} 
+\bibliography{bibliography}
+
+% \input{anexo_apendices.tex} % optional
+
+\end{document}

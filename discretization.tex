@@ -1,0 +1,183 @@
+\chapter{Discretization Procedures}
+
+
+
+\section{The Elastodynamic Model}
+\subsection{Approximation by Finite Spaces}
+To discretize the elastodynamic model, we denote the elastic operator defined on a \textit{Banach} space $\mathbf{V}$ by:
+\begin{equation*}
+    \mathcal{I}_C (u,v) := \int \limits_{\Omega} C_{ijkl}\mathbf{e}_{kl}(u) \mathbf{e}_{ij}(v) \, dx \quad \forall u,v \in \mathbf{V}
+\end{equation*}
+Moreover, by the uniform ellipticity condition on the coefficients $C_{ijkl}$ we have that $\mathcal{I}_{C}(\cdot, \cdot)$ is coercive on $\mathbf{V}$, i.e., there exist $\alpha > 0$ constant, such that:
+\begin{equation*}
+    \mathcal{I}_C (u,u) \geq  \alpha \Vert u \Vert_{\mathbf{V}}
+\end{equation*}
+
+The solution of the elastodynamic problem will be found as projection solutions of finite dimensional subspaces that approximate to solution space \footnote{Such workflow is defines the approximation theory of PDE solutions and the so-called finite elements method} \cite{ern2004theory}.
+Let $\{\mathbf{V}_h \}_{0 \leq h \leq 1}$ be a family of finite-dimensional subspaces of $\mathbf{V}$, We assume that there exist a dense subspace $\mathbf{W} \subset \mathbf{V}$ a linear interpolator $\Pi_h \in \mathcal{L}(\mathbf{W};\mathbf{V}_h)$, integer $k > 0$ such that our finite dimensional approximation for the solution satisfies:
+\begin{equation*}
+    \Vert v - \Pi_h v \Vert_{\mathcal{L}(\mathbf{W};\mathbf{V}_h} \leq h^{k+1} \Vert v \Vert_{\mathbf{W}} \quad \forall v \in \mathbf{W}
+\end{equation*}
+In particular, the above assumptions are assured in REFERENCE: HUDGENDS PAPER.
+\begin{rem}
+In our case the interest will considering $\mathbf{V} = \mathbb{L}^2(\Omega, \Gamma_D)$ and $\mathbf{W} = \mathbf{H}^1(\Omega, \Gamma_D)$ being $\mathbf{V}_h$ the $\mathbf{H}^1$-conformal finite element spaces using as reference element $\{ \hat{K}, \hat{P}, \hat{\sigma}$ of \textit{Lagrange} type with typical order $k \in \{1,2\}$, such that $\mathbb{P}_k \subset \hat{P}$ with $\mathbf{W} := \mathbf{H}^{k+1}(\Omega) \cap \mathbf{H}^1(\Omega, \Gamma_D$
+\end{rem}
+
+Let us then consider the approximate problem:
+\begin{equation}
+\label{ODE-Discretized}
+    \left \{
+    \begin{array}{cc}
+        \text{Find } u_h \in \mathcal{C}^2(0,T; \mathbf{V}_h) & \text{ such that } \\
+        (d_{tt} u_h(t), v_h)_{\Omega} + \mathcal{I}_C(u_h(t), v_h) & = (\mathbf{F}(t), v_h)_{\Gamma_N} \quad \forall v_h \in \mathbf{V}_h\\
+        d_t u_h(0) = u_h(0) = \mathbf{0} & 
+    \end{array}
+    \right. 
+\end{equation}
+
+Such a problem (\ref{ODE-Discretized}) corresponds to a finite linear system of ODE where the existence can be obtained by application of the spectral theory decomposing the elastic operator in its spectrum. The treatment is similar to the procedure proposed in the above section \cite{raviart1983introduction}.
+
+The space discretization then is obtained from (\ref{ODE-Discretized}) which corresponds to a system of ODE's. Indeed, let $\{ \varphi_1, \dots, \varphi_{N(h)} \}$ denote a basis for the finite dimensional space $\mathbf{V}_h$ or so-called global shape functions for $\mathbf{V}_h$, then for all $t \in [0,T]$ the approximate solution $u_h(t) \in \mathbf{V}_h$ can be expanded as
+\begin{equation*}
+    u_h(\mathbf{x},t) = \sum \limits_{l=1}^{N(h)} \mathbf{U}_i(t) \varphi_i
+\end{equation*}
+
+where for each $t \in [0,T]$ its used the notation $\mathbb{U}(t) = (U_i)_{1 \leq i \leq N} \in \mathbb{R}^N$. Now, introducing also $\mathbf{F}_h(t) = \big( (\mathbf{F}(t), \varphi_i)_{\Omega} \big)_{1 \leq i \leq N} \big) \in \mathbb{R}^N$ with the so-called stiffness and stress matrices $\mathcal{A}(t) \in \mathbb{R}^{N \times N}$ and $\mathcal{M} \in \mathbb{R}^{N \times N}$ respectively by:
+\begin{equation*}
+    \mathcal{A}_{ij}(t) = \mathcal{I}_C(\varphi_j, \varphi_i), \, \mathcal{M}_{ij} = (\rho^0 \varphi_i , \varphi_j)_{\Omega} \quad 1 \leq i,j \leq N
+\end{equation*}
+
+In particular, by the previous assumed hypothesis $\mathcal{A}(t)$ is symmetric and positive-definite whereas $\mathcal{M}_{ij}$ is positive definite,
+With such notation, it follows the matrix form formulation for the problem in space by:
+\begin{equation}
+    \label{MatrixFormulation}
+    \left \{
+    \begin{array}{cc}
+        \mathcal{M} d_{tt} \mathbf{U}(t) + \mathcal{A} \mathbf{U}(t) = & \mathbf{F}_h (t)  \\
+        d_{t} \mathbf{U}(0) = \mathbf{U}(0)  = \mathbf{0}&
+    \end{array}
+    \right.
+\end{equation}
+
+MENTION FENICS PROJECT (AS A FOOTNOTE?)
+
+\subsection{Time Discretization}
+Let us note first that (\ref{MatrixFormulation}) is an standard \textit{Cauchy} ODE problem, To solve numerically such system, we will introduce an uniform time-step in the form $\Delta t = T/N$ with a discretization of the interval $[0, T]$ in the form:
+\begin{equation*}
+    t_n = n \Delta t, \quad 0 \leq n \leq N(h)
+\end{equation*}
+
+We will find then, for each $n \in \{1,\dots, N(h) \}$ an approximate sequence tuple $(u_n, v_n, a_n)$ of the pair $(u(t_n), \partial_{t} u(t_n), \partial_{tt} u(t_n))$ being the method chosen the so-called $\beta$-\textit{Newmark}, a well-known scheme to study mechanically driven behavior. 
+
+Taking into account the time-domain regularity from the solution of the homogenized PDE problem (similar to prop. 2.2) let us note by using the \textit{Taylor} expansion on the function $u \in \mathcal{C}^{p}(0,T;\mathbf{H}^1(\Omega, \Gamma_D)$ and the mean value theorem that for the displacement at time $t_{n+1}$ we have:
+\begin{equation*}
+    u(t_{n+1}) = u(t_n) + \Delta t \, \partial_{t} u(t_n) + \Delta t^2 \, \big( \beta \partial_{tt} u(t_{n+1} + (\frac{1}{2} - \beta) \partial_{tt} u(t_{n+1}) \big) + \mathcal{O}(\Delta t^3)    
+\end{equation*}
+and for the velocity
+\begin{equation*}
+    \partial_{t} u(t_{n+1}) = \partial_{t} u (t_{n}) + \Delta t \, \big( \gamma \partial_{tt} u(t_{n+1}) + (1-\gamma) \partial_{tt} u(t_n) \big) + \mathcal{O}(\Delta t^2)
+\end{equation*}
+being $\beta, \gamma$ two parameters with $0 < 2\beta, \gamma < 1$.
+The $\beta$-Newmark scheme consist then in a approximation of the above equations by using a finite difference scheme in the form:
+\begin{align}
+    \label{TimeDif-Scheme}
+    u_{n+1} &= u_{n} + \Delta t\, v_{n} + \Delta t^2 \, \big( \beta a_{n+1} + (\frac{1}{2} - \beta) a_n \big) \\
+    v_{n+1} &= v_n + \Delta t\, \big( \gamma a_{n+1} + (1-\gamma) a_{n} \big)
+\end{align}
+
+It follows then from (\ref{TimeDif-Scheme}) that the numerical procedure is defined by the two-step update in the form:
+
+\begin{align}
+    \label{TwoStage-Update}
+    \text{(Stage 1)}\longrightarrow  a_{n+1} &= \frac{1}{\beta \Delta t^2} ( u_{n+1}-u_n - \Delta t \, v_n) - \frac{(1-2\beta)}{2 \beta} a_n, \quad \forall 0 \leq n \leq N-1 \\
+    \text{(Stage 2)}\longrightarrow v_{n+1} &= v_n + \Delta t \, \big( (1-\gamma) a_n + \gamma a_{n+1} \big), \quad \forall 0 \leq n \leq N-1
+\end{align}
+
+Let us show now the precision of the $\beta$-\textit{Newmark} scheme. Note that the elastodynamic equation contains two derivatives in time, so that taking into account the above and applying again \textit{Taylor} expansion and the mean value theorem, it follows as $\Delta t$ tends to zero that:
+
+\begin{multline}
+    u(t_{n+1}) = u(t_{n}) + \Delta t \, \partial_{t} u(t_n) + \\
+    \Delta t \, \big( \beta \partial_{tt} u(t_{n+1}) + (\frac{1}{2}- \beta) \partial_{tt} u(t_n) \big) + \Delta t^3 (\frac{1}{6}-\beta) \partial_{ttt}u(t_n) + \mathcal{O}(\Delta t^4)
+\end{multline}
+
+\begin{multline}
+    \partial_{t} u(t_{n+1}) = \partial_{t} u(t_n) + \Delta t\, \big( \gamma \partial_{tt} u(t_{n+1}) + \\
+    (1-\gamma) \partial_{tt}u(t_n) \big) + \Delta t^2 \, (\frac{1}{2}-\gamma) \partial_{ttt} u(t_n) + \mathcal{O}(\Delta t^3)
+\end{multline}
+
+so that, the scheme as $\mathcal{O}(\Delta t)$ for $\gamma \neq 1/2$ and $\mathcal{O}(\Delta t^2)$ for $\gamma = 1/2$.
+
+Applying now such scheme over (\ref{MatrixFormulation}) it follows the matrix system update procedure:
+\begin{align}
+    \label{MatrixSystemUpdate}
+    \frac{1}{\beta \Delta t} \mathcal{M}(\mathbf{U}_{n+1} - \mathbf{U}_{n} - \Delta t\, \mathbf{V}_n) - \frac{1}{\beta}(\frac{1}{2}- \beta) \mathcal{M}\mathbf{A}_n + \mathcal{A}\mathbf{U}_{n+1} &= \mathbf{F}_h \quad 0 \leq n \leq N-1 \\
+    \frac{1}{\gamma \Delta t} \mathcal{M}(\mathbf{V}_{n+1} - \mathbf{V}_{n}) - \frac{1}{\gamma}(1-\gamma) \mathcal{M}\mathbf{A}_n + \mathcal{A}\mathbf{U}_{n+1} & = \mathbf{F}_h \quad 0 \leq n \leq N-1
+\end{align}
+
+Note then that such a time step iteration (\ref{MatrixSystemUpdate}) corresponds to solve the linear system of equations defined for the function $\mathbf{U}_{n+1}$ in the form:
+\begin{equation*}
+    (\mathcal{M}+ \beta \Delta t^2 \, \mathcal{A}) \mathbf{U}_{n+1} = \mathbf{F}_{n+1}
+\end{equation*}
+being $\mathbf{F}_{n+1} \in \mathbb{R}^{I(h)}$ known.
+Now, since the $\beta \geq 0$, if follows that the $\mathbf{R}^{I(h)} \times \mathbf{R}^{I(h)}$ matrix $(\mathcal{M}+ \beta \Delta t^2 \mathcal{A})$ is positive definite and moreover its symmetric.
+
+
+With the above procedure, we obtain an explicit formulation for the governing equation for our problem for each $n \in \{1,\dots, N\}$ in the form:
+\begin{equation*}
+    \frac{\langle\rho\rangle}{\beta (\Delta t)^2} u_{n+1} - \nabla \cdot \sigma(u_{n+1}) = \frac{\langle\rho\rangle}{\beta (\Delta t)^2} ( u_{n} + (\Delta t) v_n ) + \langle\rho\rangle\frac{(1-2\beta)}{2\beta} a_n
+\end{equation*}
+
+\section{Elastodynamic Models with Attenuation}
+The presence of eigen-frequencies in the elastodynamic operator gives a bad numerical solution after solving the discrete system. This problem can be bypass using a regularization factor, or moreover, a kind of \textit{viscosity} term which changes the eigen-frequencies and stabilizes the discrete system resulting in \textit{good} approximation to the experimental results.\\
+In this case, we add a term which in the \textit{viscoelastic} literature corresponds of a \textit{Kelvin-Voigt} term. We add such term scaled with parameter $\epsilon$, so that the overall behavior is not abruptly disrupted but is well-posed in the real line of frequencies.
+
+\begin{rem}
+I possible way to see this technique is to consider the fact that we are moving the real frequencies $\omega$ at $\omega - i\epsilon$, so we are away from the eigen-frequencies, but the overall behavior of the real part remains close to the experimental setting, just avoiding the real eigen-frequencies.
+\end{rem}
+
+So, we model the material as function of displacement $u(\mathbf{x},t) \in H^{1}(\Omega)$ (after the homogenization procedure) being $\Omega \subset \mathbb{R}^2$ a sufficiently regular domain, with Lipschitz boundary $\partial \Omega := \Gamma_D \cup \Gamma_N$. 
+We model regularized the elastic model presented before in the form:
+\begin{align*}
+    \langle \rho \rangle \partial_{tt} u - \epsilon \partial_{t} u - \nabla \cdot \sigma(u) & = 0 & \text{in } \Omega \times (0,T) \\
+    \sigma(u(\mathbf{x},t)) & =  \mathbf{C}:\mathbf{e}(u(\mathbf{x},t)  & \text{in }\Omega \times (0,T)\\
+    \sigma(u)\cdot n & = \mathbf{F} & \text{on }\Gamma_N\times (0,T) \\
+    u & = 0 & \text{on }\Gamma_D \times (0,T) \\
+    u = \partial_t u & = 0& \text{on } \Omega \times \{t=0\}
+\end{align*}
+where $\epsilon$ denotes a small regularization parameter associated to a Kelvin-Voigt type viscosity. 
+\subsection{Time-discretization}
+As before, we consider a time-discretization following the $\beta$-Newmark scheme following the two-step update procedure for each $n \in \{1,\dots, N\}$:
+\begin{align*}
+    \text{(Stage 1)} &\longrightarrow a_{n+1} = \frac{1}{\beta (\Delta t)^2} (u_{n+1}-u_{n}-(\Delta t)v_n) - \frac{1-2\beta}{2\beta}a_n\\
+    \text{(Stage 2)}& \longrightarrow v_{n+1} = v_n + \Delta t((1-\gamma)a_n + \gamma a_{n+1})
+\end{align*}
+It's then possible to define a numerically explicit scheme for our model, with update procedure at time $n+1$ given in the form:
+\begin{align*}
+    \frac{(\langle \rho \rangle- \epsilon (\Delta t) \gamma)}{\beta (\Delta t)^2} u_{n+1} - \nabla \cdot u_{n+1} &= \frac{\langle \rho \rangle}{\beta (\Delta t)^2} (u_n + (\Delta t)v_n) + \langle \rho \rangle\frac{ (1-2\beta)}{2\beta}a_n \\
+    & \, - \frac{\epsilon (\Delta t)\gamma}{\beta (\Delta t)^2}(u_n + (\Delta t)v_n) - \epsilon (\Delta t)\gamma\frac{1-2\beta}{2 \beta} a_n
+\end{align*}
+
+\section{A Kelvin-Voigt Viscoelastic Model}
+Following the developments of the above ideas, a $\epsilon$-Kelvin-Voigt viscoelastic bone model captures the main characteristics observed in biological and biomechanical literature of bone. In this case, the model we consider is a linear elastic-viscous characteristic behavior with an $\epsilon$-regularization of the viscous part.
+Then the mulstiscale system we are considering is defined after homogenization by
+\begin{align*}
+     \rho^{hom} \partial_{tt} u - \nabla \cdot \sigma^{hom}(u) & = 0 \quad \text{in } \Omega \times (0,T) \\
+    \sigma^{hom}(u(\mathbf{x},t)) & =  \mathbf{C}:\mathbf{e}(u) + \epsilon \mathbf{D}:\mathbf{e}(\partial_{t}u) \quad \text{in }\Omega \times (0,T)\\
+    \sigma^{hom}(u)\cdot n & = \mathbf{F} \quad \text{on }\Gamma_N\times (0,T) \\
+    u & = 0 \quad \text{on }\Gamma_D \times (0,T) \\
+    \partial_t u = u & = 0 \quad \text{on } \Omega \times \{t=0\}
+\end{align*}
+The standard discretization scheme is defined by a $\beta$-Newmark implicit finite differences scheme for the time domain and FEM for the space domain (using FEniCS environment). In this case, the time discretization is obtained in the usual two steps:
+\begin{align*}
+    \text{(Stage 1)} &\longrightarrow a_{n+1} = \frac{1}{\beta (\Delta t)^2} (u_{n+1}-u_{n}-(\Delta t)v_n) - \frac{1-2\beta}{2\beta}a_n\\
+    \text{(Stage 2)}& \longrightarrow v_{n+1} = v_n + \Delta t((1-\gamma)a_n + \gamma a_{n+1})
+\end{align*}
+So that, the update scheme obtained at times $t_n = n+1$ in the form:
+\begin{align*}
+    \frac{\rho^{hom}}{\beta (\Delta t)^2} u_{n+1} - \nabla \cdot \sigma_C^{hom}( u_{n+1})  & - \frac{\gamma \Delta t}{\beta (\Delta t)^2} \nabla \cdot \sigma_D^{hom}(u_{n+1}) \\
+    &= \frac{\rho^{hom}}{\beta (\Delta t)^2} (u_n + (\Delta t)v_n) + \rho^{hom}\frac{ (1-2\beta)}{2\beta} a_n \\
+    & + \nabla \cdot \sigma_D^{hom}(v_n) + (1-\gamma)(\Delta t) \nabla\cdot \sigma_D^{hom}(a_n) \\
+    & - \frac{(\Delta t)\gamma}{\beta (\Delta t)^2}\nabla \cdot \sigma_D^{hom}(u_n + (\Delta t)v_n) \\
+    & - (\Delta t)\gamma\frac{1-2\beta}{2 \beta} \nabla \cdot \sigma_D^{hom}(a_n)
+\end{align*}
+

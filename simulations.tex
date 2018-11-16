@@ -1,0 +1,273 @@
+\chapter{Simulations}
+
+\subsection{Numerical Solutions to Cell Problems}
+Following the developments done before to obtain effective equations governing the macroscopic mechanical behavior of cortical bone, one of the main difficulties to solve corresponds to the so-called cell problems, which contains in this case the non-linear component associated to the homogenized coefficients.
+Such a PDE problem is characterized by a unique vector valued solution $\mathbf{N}^{rs} \in \mathbf{H}^1_{\#} (\mathbf{Y})$ for each $r,s \in \{1,\dots, d\}$ satisfying the elliptic PDE system:
+\begin{equation*}
+    \left \{
+    \begin{array}{cc}
+        - \partial_{y_j} \big[C_{ijkl}(\mathbf{y}) \mathbf{e}_{kl,y} \big( \mathbf{N}^{rs}(\mathbf{y}) \big)  \big] = \partial_{y_j} \big( C_{ijrs} (\mathbf{y}) \big)& \text{ in } \mathbf{Y} \\
+        \big[ C_{ijkl}(\mathbf{y}) \epsilon_{kl,\mathbf{y}}\big( N^{rs}(\mathbf{y}) \big) \big]n_j = 0 &  \forall \mathbf{y} \in \partial Y
+    \end{array}
+    \right.
+\end{equation*}
+where we are adding the condition 
+\begin{equation*}
+    \int_{\partial Y} N^{rs}(\mathbf{y}) \, d\mathbf{y} = 0
+\end{equation*}
+to obtain uniqueness, since the right hand side of the problem has average $\mathbf{0}$.
+The variational formulation is then giving by integration by parts, where for $\phi \in \mathbf{H}^1_{\#}(\mathbf{Y})$ we have
+\begin{equation*}
+    \int_{Y} C_{ijkl}(\mathbf{y}) \mathbf{e}_{kl,\mathbf{y}}(N^{rs}(\mathbf{y})) \partial_{y_j}\phi_i = - \int_{Y}C_{ijrs}(\mathbf{y}) \partial_{y_j} \phi_i + \int_{\partial Y}C_{ijrs}(\mathbf{y}) n_j \phi_i
+\end{equation*}
+
+Considering the standard biomechanical literature, the bone matrix is mainly made from hydroxyapatite, a material which can be modeled with a linear elasticity behavior and inclusion defining the mesoscale composed mainly of fluid with principal component being water or viscous behavior which in this first approximation we consider static elastic water-like material. Taking radial symmetry, the composed compaterial is modeled with transverse isotropy in each component $C^m_{ijkl}$, $C^w_{ijkl}$ matrix and water phases respectively.
+It follows then the elastic tensors $C_{ijkl}$ defined in the cell $\mathbf{Y}$ by
+\begin{equation*}
+    C_{ijkl} (\mathbf{y}) := C^m_{ijkl} \mathbb{I}_{\{\mathbf{y} \in  \mathbf{Y}_{m}\}} + C^w_{ijkl} \mathbb{I}_{\{ \mathbf{y} \in \mathbf{Y}_{w}\}}
+\end{equation*}
+Such isotropic elastic behavior can be described explicitely using \textit{Voigt} notation as a $6\times 6$ matrix in the 3-dimensional case by:
+\begin{equation*}
+    C_{ij}(\mathbf{y}) = 
+    \begin{bmatrix}
+    C_{11}(\mathbf{y}) & C_{12}(\mathbf{y}) & C_{13}(\mathbf{y}) & 0 & 0 & 0 \\
+    C_{12}(\mathbf{y}) & C_{11}(\mathbf{y}) & C_{23}(\mathbf{y}) & 0 & 0 & 0 \\
+    C_{13}(\mathbf{y}) & C_{23}(\mathbf{y}) & C_{23}(\mathbf{y}) & 0 & 0 & 0 \\
+    0 & 0 & 0 & C_{44}(\mathbf{y}) & 0 & 0 \\
+    0 & 0 & 0 & 0 & C_{44}(\mathbf{y}) & 0 \\
+    0 & 0 & 0 & 0 & 0 & C_{66}(\mathbf{y}) 
+    \end{bmatrix}
+\end{equation*}
+
+which is given by the symmetries of the transverse isotropy of the material components. In particular, we have that $C_{55}(\mathbf{y}) = C_{44}(\mathbf{y})$ and $C_{11}(\mathbf{y}) = C_{22}(\mathbf{y})$.
+
+We consider then simulations of the homogenized coefficients in function of the porosity level, i.e., setting the circular inclusion with radious $r(p)$ being $p \in (0,1)$ the set of admissible porosity levels, in the form 
+\begin{equation*}
+    p := \frac{\vert \mathbf{Y}_f \Vert }{\vert \mathbf{Y}\vert} = \pi r(p)^2 \implies r(p) := \sqrt{\frac{p}{\pi}}
+\end{equation*}
+
+Explicitly, we consider an increasing array of possible porosity levels associated limited to the clinical interest intervals, i.e. we limit ourselves to the interval $[0, 0.3]$ of possible porosities. The numerical solution to the model is done using the UFL language implemented within the library FEniCS to solve PDE in variational formulation.
+
+In particular, it's used the \texttt{PETScKrylov} solver to solve the matrix system obtained after discretize the variational formulation by FEM, and over such solver we used the \texttt{GMRES} (Generalized Minimal Residual Method)\footnote{The \texttt{GMRES} method is an efficient algorithm to solve large linear systems. It uses an iterative method associated to the Theory of Krylov subspaces to approximate the solution of the system by reducing the high dimensional problem to a sequence of low dimensional, solved each one by least squares.
+Explicitly, given $A \in \mathcal{M}_{m\times m} (\mathbb{R})$, $b \in \mathbb{R}^m$ for $m\gg 1$, the \texttt{GMRES} algorithm solves the problem $A x = b$ by solving the problems 
+\begin{equation*}
+    \underset{x \in \mathcal{K}_n}{\text{ min }} \Vert b - Ax \Vert_2   
+\end{equation*} 
+for increasing values of $n \in \mathbb{N}$, knowing $\mathcal{K}_n = \mathcal{K}_n(A,b)$ the Krylov space of order $n$ defined by
+\begin{equation*}
+ \mathcal{K}_n(A,b) = \text{span }\{ b, Ab, \dots, A^{n-1}b \} \subset \mathbb{R}^m   
+\end{equation*}
+At each iteration, its computed the residual by least squares, where under reasonable assumptions of symmetry of the matrix, the residual will be sufficiently small for $n \ll m$.} with preconditioner given by \textit{iLU} (incomplete LU factorization). Such consideration where done to obtain convergence with stable results.
+
+The results are then compared with the approximation of the homogenized coefficients for cortical bone using the same input coefficient data of \cite{Parnell2008}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/CellsProb/CellProb_MainHomCoeffsCircular.pdf}
+	\caption{Logo de la Facultad}
+	\label{kldmuytu}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/CellsProb/CellProb_OthersHomCoeffsCircular.pdf}
+	\caption{Logo de la Facultad}
+	\label{kldfgdmalsda}
+\end{figure}
+ADD TABLE OF RELATIVE ERROR WRT PG APPROX SOLUTIONS
+
+\begin{rem}
+It's important to note also the periodic microstructure idealization being used in PARNEL-GRIMAL since it corresponds to an hexagonal structure defining the mesoscale, while the idealization proposed here is a square microstructure.
+\end{rem}
+
+Nevertheless, if we consider now a model using a microstructure as the one defined in PARNEL-GRIMAL, i.e., as an hexagonal model with inclusions for the porosity level, the following results are obtained.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/CellsProb/CellProb_MainHomCoeffsCircularHexa.pdf}
+	\caption{Logo de la Facultad}
+	\label{kloiuouda}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/CellsProb/CellProb_OthersHomCoeffsCircularHexa.pdf}
+	\caption{Logo de la Facultad}
+	\label{klojhgjha}
+\end{figure}
+
+\subsection{Simulations of Wave Propagation}
+
+The simulation setting associated to the experimental measurements is defined by a 2-dimensional rectangular array imitating the frontal plane associated to the cortical bone. The transducer excitation source is defined at the upper surface where the omit the interaction between the human skin and the bone structure itself. 
+The experimental measurement procedure consist in the following steps:
+\begin{itemize}
+    \item Each source associated to the emission transductor is placed approximately at a distance of $0.5 \, [mm]$ from one another, being together a set of 8-12 different sources. 
+    \item The detection is obtained by placing approximately from 24-72 sensors depending on the configuration used, where each one is placed at a distance approximately of $0.4 \, [mm]$ from one another.
+\end{itemize}
+Explicitly, the force acting is modeled in vertical direction associated to the horizontal plane of the skin pointing to the center of the cortical bone with a central time $t_0 > 0$ and oscillation speed $\tau_0 > 0$ defined by:
+\begin{equation}
+    \mathbf{F}(\mathbf{x},t) = - e^{\frac{(t-t_0)^2}{2\sigma^2}} cos( 2 \pi t \tau_0 ) \mathbb{I}_{\mathbf{x} \in \Gamma_i} \hat{j} \quad \text{ on } \Gamma_N
+\end{equation}
+where $\{ \Gamma_i\}_{ i \in \{1,\dots, 8\}} \subset \Gamma_N$ denotes a disjoint subset of boundaries where the force is applied. 
+Such kind of configuration produce empirically and can be probed theoretically the existence of the so-called \textit{Lamb}-waves that describe the particular propagation of the guided wave associated to the elastic coefficients and density of the model being used.
+In particular, the presence of a closed domain implies reflection with different directions associated to the \textit{Neumann} or \textit{Dirichlet} respectively.
+
+\subsubsection{Case of Multiple Sources}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{images/TimeMultSous/2DTimeS8P12ElasticFK10M780_y.pdf}
+	\caption{Logo de la Facultad}
+	\label{kldmalsda}
+\end{figure}
+EXPLAINS THE SV FIGURES!
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/TimeMultSous/2DTimeS8P12Elastic10_SV.pdf}
+	\caption{Logo de la Facultad}
+	\label{k765lsda}
+\end{figure}
+OTHER PAIR OF TH, PO SIMULATIONS
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{images/TimeMultSous/2DTimeS8P3ElasticFK28M780_y.pdf}
+	\caption{Logo de la Facultad}
+	\label{klyhu6sda}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/TimeMultSous/2DTimeS8P3Elastic28_SV.pdf}
+	\caption{Logo de la Facultad}
+	\label{k765lsda}
+\end{figure}
+
+
+
+\subsubsection{Case of a Single Source}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/TimeSingSous/2DTime_P7ElasticFK30M1460_y.pdf}
+	\caption{Logo de la Facultad}
+	\label{kldmalgdfgdsda}
+\end{figure}
+
+ADD CONSIDERATION OF USING A SINGLE SOURCE WITH DIFFERENT COMPUTATIONAL COST!!
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/TimeSingSous/2DTime_P7Elastic30_SV.pdf}
+	\caption{Logo de la Facultad}
+	\label{kldmalsda}
+\end{figure}
+
+MENTION OBSERVED SINGULAR VALUES! GENERATE IMAGES!
+
+The effect of reflections shown in the image above produced from the simulations corresponds to an aliasing effect in the input signal $S(f, \mathbf{x}_r, e)_{(r,e) \in R\times E}$ after applying FFT over the space $R \times E$. Such aliasing express the folding of the $k$-variable \footnote{Associated to the wavenumber} by the conjugation property on \texttt{FFT}, i.e., 
+\begin{equation*}
+    \overline{\texttt{FFT}(S(f, \cdot, e))(k)} := \sum_{m=0}^M S(f, m, e) \overline{e^{-2 \pi i \frac{m k}{M}}} = \texttt{FFT}(S(f, \cdot, e))(-k)
+\end{equation*}
+in such a way that the norm associated is the same. Moreover since we consider a finite wavenumber interval denoted $[0, k_{max}]$, such a reflected wavenumber is given by $k_{max}-k$ as observed in the figure.
+
+Given such a symmetry, its considered the application of the analytic projector defined for a given signal $s$ regular enough by:
+\begin{equation*}
+    \mathcal{P}(s) := (I + \mathbf{i}\mathcal{H})(s)
+\end{equation*}
+being $\mathcal{H}$ the Hilbert transform. Such a projector defines the analytic signal of $s$ by constructing its real and imaginary parts.
+
+ADD THE FORMULAS ASSOCIATED IN THE ANNEXED
+
+
+Since the behavior observed in the $(f,k)$-diagrams are of symmetry, a natural idea is to use the \textit{Hilbert} transform on the input signal, obtaining a analytic signal which maintains the structure of the \textit{Lamb} modes and moreover recreates experimentally obtained results \textit{in-vivo} and \textit{ex-vivo}.
+Applying then such a projection filter we obtain the results qualitatively and quantitatively similar with respect to the real experimental data.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/TimeSingSous/2DTimeHilb_P7ElasticFK30M1460_y.pdf}
+	\caption{Logo de la Facultad}
+	\label{kdasldgdgf}
+\end{figure} 
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/TimeSingSous/2DTimeHilb_P7Elastic30_SV.pdf}
+	\caption{Logo de la Facultad}
+	\label{klbvcsda}
+\end{figure}
+
+\subsection{Case on Frequency Domain}
+
+The time-domain simulation given results which represent qualitatively the model with enough fidelity, nevertheless such simulation requires a relatively small time step in such a way that the full simulation take considerable time. Thus, it is necessary to consider a model which reduces the computational cost.
+To this end, taking into account that the signal processing involves the application of \texttt{FFT} over the sensors data, a straightforward method is to consider the simulations now in the time-domain over the arrays of frequencies that are of interest.
+\subsubsection{Solutions without Attenuation}
+In this case, using the schemes proposed in the section before showed results in which Lamb-Waves and also $dB$ figures where affected by distortions FIGURE BELOW. Such kind of behavior repeated over different pairs of porosity level and thickness associated to the simulations, in such a way that was necessary to study the spectrum of the elastic operator.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{images/FreqRes/2DFreqS8P10ElasticFK09M300_y.pdf}
+	\caption{Logo de la Facultad}
+	\label{kdasl6t}
+\end{figure} 
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/FreqRes/2DFreqS810Elastic09_SV.pdf}
+	\caption{Logo de la Facultad}
+	\label{kdahjgjh}
+\end{figure} 
+
+Such a study corresponds to the formulation of an eigenvalue problem associated to the elastic operator, defined as finding the pairs $\{(\lambda_k, u_k) \, : \, k \in \mathbb{N} \} \subset \mathbb{R}_+ \times \mathbf{H}^1(\Omega, \Gamma_D)$ solution to the following variational form:
+
+\begin{equation*}
+    \label{VariationalEigenProb}
+    \mathcal{I}_{\mathbf{C}^{hom}} (u_k, v) = \lambda_k (u_k, v)_{\Omega} \quad \forall v \in \mathbf{H}^1(\Omega, \Gamma_D)
+\end{equation*}
+where we identify each eigenvalue to the eigenfrequency associated to our problem in the form:
+\begin{equation*}
+    \lambda_k = \rho^0 (2\pi f_k)^2, \text{ i.e. } f_k = \frac{1}{2\pi} \sqrt{\frac{\lambda_k}{\rho^0}} \quad k \in \mathbb{N}_{*}
+\end{equation*}
+
+\begin{rem}
+Ket us note in particular that the existence of such pairs is obtained from a classical result of elliptic theory \cite{raviart1983introduction}, \cite{evans2010partial}. Explicitly, it follows since the homogenized coefficients are elliptic and moreover they are bounded which gives us a well-defined bilinear, bicontinuous and coercive operator $\mathcal{I}_{\mathbf{C}^{hom}}(\cdot, \cdot)$ and a linear continuous operator $b(\cdot) := (u_k, \cdot)$ defined respectively on $\mathbf{H}^1(\Omega, \Gamma_D)^2$ and $\mathbf{H}^1(\Omega, \Gamma_D)$.
+\end{rem}
+
+
+
+It was found numerically a spectrum with abundant eigen-frequencies in bounded intervals of frequency (predicted from the theory), nevertheless the experimental frequency array which was necessary to use for further studies in connection with the real data, showed a neighborhood of at least eigen-frequencies over each experimentally selected frequency. 
+
+The FIGURE BELOW shown the frequencies used in the experimental setting used for the simulations in the frequency domain and the eigen-frequencies associated to the operator under study.
+
+\begin{figure}%
+    \centering
+    \subfloat[label 1]{{\includegraphics[width=7cm]{images/FreqRes/SingValues-EigenFreqs05-10.pdf} }}%
+    \qquad
+    \subfloat[label 2]{{\includegraphics[width=7cm]{images/FreqRes/SingValues-EigenFreqs15-20.pdf} }}%
+    \caption{2 Figures side by side}%
+    \label{fig:example}%
+\end{figure}
+
+
+\subsubsection{Solution using Attenuation.}
+To fix the oscillation observed in the frequency-domain problem we consider adding a $\epsilon$ viscous-like term associated to the governing equation obtaining the PDE system proposed in EPS-ATT-PDE REF, so that natural eigen-frequencies of the elastic operator are now displaced to the complex plane. In such a way, we are avoiding the ill-conditioned matrix system associated to the FEM space discretization.
+
+Fixing a frequency $\omega \in \mathbb{R}$, let us consider solutions in the form: $u(\mathbf{x},t) = e^{2 \pi i \omega t}\hat{u}(\mathbf{x})$, so that $\hat{u}(\mathbf{x})$ solves the equivalent problem in the frequency domain
+\begin{equation*}
+    \left \{
+    \begin{array}{ccc}
+        -(2\pi \omega)^2 \rho^0 \hat{u}(\mathbf{x}) - 2 \pi i \epsilon \hat{u}(\mathbf{x}) - \nabla \cdot \sigma(\hat{u}) = \mathbf{0} & \text{ in } \Omega \times [0,T] \\
+        \hat{u} = \mathbf{0} & \text{ on } \Gamma_D\\
+        \sigma(\hat{u}) \cdot n = \mathbf{F}(\mathbf{x}, \omega) & \text{ on }\Gamma_N \times [0,T]
+    \end{array}
+    \right .
+\end{equation*}
+Taking into account that \texttt{FEniCS} don't fully support the usage of a complex coefficient formulation in the variational formulation, we decompose the solution in its real and complex part as $\hat{u} = \hat{u}_R + i \hat{u}_I$. It follow then the coupled system satisfied for the pair $(\hat{u}_R, \hat{u}_I)$ given by:
+\begin{equation*}
+    \left \{
+    \begin{array}{cc}
+        -(2\pi \omega)^2 \rho^0 \hat{u}_R + 2\pi \omega \epsilon \hat{u}_I - \nabla \cdot \sigma (\hat{u}_R) = \mathbf{0} & \text{ in }\Omega \times [0,T] \\
+        -(2\pi \omega)^2 \rho^0 \hat{u}_I - 2\pi \omega \epsilon \hat{u}_R - \nabla \cdot \sigma (\hat{u}_I) = \mathbf{0} & \text{ in }\Omega \times [0, T] \\
+        \hat{u}_R, \hat{u}_I = \mathbf{0} & \text{ on } \Gamma_D \\
+        \sigma(\hat{u}_R)\cdot n, \sigma(\hat{u}_I)\cdot n = \hat{\mathbf{F}}_R, \hat{\mathbf{F}}_I & \text{ on }\Gamma_N
+    \end{array}
+    \right.
+\end{equation*}
+which can be solved with the standard tools of \texttt{FEniCS} by the usage of a mixed element for the couple system.

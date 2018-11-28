@@ -1,12 +1,16 @@
 \chapter{Homogenization and Justification}
-First, let us define the adequate spaces for our problem. We consider the operator $\kappa: \mathbf{L}^2( \Omega) \longrightarrow \mathbf{H}^{-1/2}(\Gamma_D)$ being the trace operator, i.e., $\kappa (u) = u \vert_{\Gamma_D}$. With such a operator, it's possible to define the space of square integrable vector functions with homogeneous Dirichlet condition on $\Gamma_D$ by:
+
+Given the assumptions proposed for multiscale elastodynamic model for the mechanical behavior of the cortical bone, the objective here will be to rigorously give a justification of the existence of such multiscale model, derive the schematic procedure to obtain the so-called macroscopic (or effective) behavior involved of bone model which is clear and keeps the mechanical behavior explicitly in the formulation (with respect to other literature \cite{Parnell2008}) which will be then used in the numerical simulations and finally give a convergence result of the solution between the multiscale model and the homogenized one.
+
+First, let us define the adequate spaces for our problem. Given the domain $\Omega$, it will be denoted by $\mathbf{L}^2(\Omega)$ the $d$-dimensional vector functions, being each component on $L^2(\Omega)$. Similarly, its defined the space $\mathbf{H}^1(\Omega)$ the d-dimensional vector functions, where as before, each component belongs to $H^1(\Omega)$ defined as usual in the literature \cite{evans2010partial}. 
+In particular, by vector trace operator by $\gamma: \mathbf{H}^1(\Omega) \rightarrow \mathbf{L}^2(\partial \Omega)$, its defined the the space:
 \begin{equation*}
-    \mathbf{L}^2(\Omega, \Gamma_D) := \kappa^{-1}\big( \{ \mathbf{0}\}\big)
+    \mathbf{H}^1(\Omega, \Gamma_D) = \big \{ v \in \mathbf{H}^1(\Omega) \, \vert \, \gamma (v) \vert_{\Gamma_D} = \mathbf{0} \big \}
 \end{equation*}
-Note that the operator $\kappa$ defined is linear and continuous in the corresponding spaces, moreover, since $\{\mathbf{0}\}$ is a close subset, then $\mathbf{L}^2(\Omega, \Gamma_D)$ is a close subspace of $\mathbf{L}^2(\Omega)$.
-\begin{rem}
-In particular, $\mathbf{L}^2(\Omega, \Gamma_D)$ is separable, so that there exist a Hilbertian base associated.
-\end{rem}
+The same construction applies for the domain $\Omega^{\epsilon}$ for $\epsilon > 0$.
+Let us note that moreover, by applying the \textit{Rellich-Kondrachov} theorem, the embedding from $\mathbf{H}^1(\Omega, \Gamma_D)$ into $\mathbf{L}^2(\Omega)$ is compact \footnote{From a more abstract points of view, its possible to define $\kappa: \mathbf{L}^2( \Omega) \longrightarrow \mathbf{H}^{-1/2}(\Gamma_D)$ being the trace operator, i.e., $\kappa (u) = u \vert_{\Gamma_D}$. Then define then define an adequate space of square integrable vector functions with homogeneous Dirichlet condition on $\Gamma_D$ by $\mathbf{L}^2(\Omega, \Gamma_D) := \kappa^{-1}\big( \{ \mathbf{0}\}\big)$. Note that the operator $\kappa$ defined is linear and continuous in the corresponding spaces, moreover, since $\{\mathbf{0}\}$ is a close subset, then $\mathbf{L}^2(\Omega, \Gamma_D)$ is a close subspace of $\mathbf{L}^2(\Omega)$.
+In particular, $\mathbf{L}^2(\Omega, \Gamma_D)$ is separable, so that there exist a Hilbertian base associated.}.
+
 Given $\epsilon > 0$, let us fix $p \in (0,1)$ and consider $\mathbf{C}(p) \in \text{ lin}\big(Sym^{n\times n})$, the space of linear operator on the $n\times n$ symmetric matrices space, being uniformly elliptic and bounded elastic tensor. Also, denote by $\rho^{\epsilon}(\mathbf{x}) = \rho \big( \frac{\mathbf{x}}{\epsilon}\big)$ an uniformly bounded density and consider for fixed parameter $T > 0$ the following evolution PDE problem:
 \begin{equation}
     \label{MainPDE}
@@ -23,24 +27,29 @@ Given $\epsilon > 0$, let us fix $p \in (0,1)$ and consider $\mathbf{C}(p) \in \
 \begin{prop}
 Assuming $0 < \rho_0 \leq \rho\big( \frac{\mathbf{x}}{\epsilon} \big) < + \infty$ and $\mathbf{F} \in L^{\infty}(0,T;\mathbf{L}^2(\Omega,\Gamma_N))$ then there exist a unique solution $u^{\epsilon}$ to (\ref{MainPDE}) for each $\epsilon > 0$, such that
 \begin{equation*}
-    u \in \mathcal{C}^0(0,T;\mathbf{H}^1(\Omega,\Gamma_D)) \cap \mathcal{C}^1(0,T;\mathbf{L}^2(\Omega, \Gamma_D))
+    u^{\epsilon} \in \mathcal{C}^0(0,T;\mathbf{H}^1(\Omega,\Gamma_D)) \cap \mathcal{C}^1(0,T;\mathbf{L}^2(\Omega))
 \end{equation*}
 \end{prop}
-The idea for the proof is the following:\\
+
+\begin{rem}
+The formulation of the elastodynamic problem with Dirichlet boundary conditions had been studied in various literatures, in particular on the multiscale works from \cite{panasenko2005multi-scale}, \cite{bakhvalov1989homogenisation:}. On the other hand, the formal study of Neumann boundary conditions has been done mainly on \cite{oleinik1992mathematical}
+In the following, inspired from \cite{raviart1983introduction}, a constructive proof is given based in the spectral decomposition of the elastic operator on $\mathbf{H}^1(\Omega, \Gamma_D)$ and solutions of the reduced ODE's associated to each each eigenvalue from such decomposition.
+\end{rem}
+
 
 Let us first note that problem (\ref{MainPDE}) can be rewritten in a variational form, satisfied in distributions over $(0,T)$ by: 
 \begin{equation}
     \label{MainTimePDE}
     \begin{array}{cc}
-        \text{Find } u^{\epsilon} \in \mathcal{C}^0 (0,T;\mathbf{H}^1(\Omega,\Gamma_D)) \cap \mathcal{C}^1(0,T;\mathbf{L}^2(\Omega,\Gamma_D)) & \text{ s.t. }\\
-        \partial_{tt} (u^{\epsilon}(t),v)_{\Omega} + \mathcal{I}_{C}(u^{\epsilon}(t),v) = (\mathbf{F}(t),v)_{\Gamma_D}&  \forall v \in \mathbf{H}^1(\Omega,\Gamma_D) \\
+        \text{Find } u^{\epsilon} \in \mathcal{C}^0 (0,T;\mathbf{H}^1(\Omega,\Gamma_D)) \cap \mathcal{C}^1(0,T;\mathbf{L}^2(\Omega)) & \text{ s.t. }\\
+        \partial_{tt} (u^{\epsilon}(t),v)_{\Omega} + \mathcal{I}_{C}(u^{\epsilon}(t),v) = (\mathbf{F}(t),v)_{\Gamma_N}&  \forall v \in \mathbf{H}^1(\Omega,\Gamma_D) \\
         \partial_{t} u^{\epsilon}(0) = u^{\epsilon}(0) = \mathbf{0} & \\
     \end{array}
 \end{equation}
 being $\mathcal{I}_{C}(u,v) := \int_{\Omega} C_{ijkl}\mathbf{e}_{kl}(u^{\epsilon}(t)) \partial_{x_j} v_i$.
 Now, let us prove the existence and uniqueness of solution for (\ref{MainTimePDE}).
 \begin{enumerate}
-    \item To do this, we'll consider approximated solutions to (\ref{MainTimePDE}). We define the subspace $V_m$ generated by the first $m \in \mathbb{N}$ eigenvectors $\{w_1, \dots, w_m \}$ being $(w_i)_{i \in \mathbb{N}} \subset \mathcal{C}^{\infty}(\Omega)$ a Hilbertian base of $\mathbf{L}^2(\Omega, \Gamma_D)$ were the regularity follows from bootstrap and by the Sobolev embedding.
+    \item To do this, we will consider approximated solutions to (\ref{MainTimePDE}). We define the subspace $V_m$ generated by the first $m \in \mathbb{N}$ eigenvectors $\{w_1, \dots, w_m \}$ being $(w_i)_{i \in \mathbb{N}} \subset \mathcal{C}^{\infty}(\Omega)$ a Hilbertian base of $\mathbf{H}^1(\Omega, \Gamma_D)$ were the regularity follows from bootstrap and by the Sobolev embedding.
     Then, we consider the problem in time, defined by:
     \begin{equation}
         \label{ApproxTimePDE}
@@ -51,30 +60,31 @@ Now, let us prove the existence and uniqueness of solution for (\ref{MainTimePDE
         \end{array}
     \end{equation}
     \begin{rem}
-    Note that the linear operator $b(t)(v) := (\mathbf{F}(t),v)_{\Gamma_N}$ is well-defined and moreover continuous on $\mathbf{H}^1(\Omega,\Gamma_D)$.
-    This follows from the contruction of $\mathbf{L}^2(\Omega, \Gamma_D)$ since $\forall t \geq 0$, we have the bounds:
+    Note that the linear operator $b(t)(v) := (\mathbf{F}(t),v)_{\Gamma_N}$ is well-defined and moreover continuous on $\mathbf{H}^1(\Omega,\Gamma_D)$ for each $t \in (0,T)$.
+    This follows from the trace theorem applied on $\mathbf{H}^1(\Omega, \Gamma_D)$ since $\forall t \geq 0$, we have the bounds:
     \begin{align*}
-        \vert b(t)(v) \vert & \leq \Vert \mathbf{F}(t) \Vert_{\mathbf{L}^2(\Gamma_N)} \Vert \gamma (v) \Vert_{\mathbf{L}^2(\Gamma_N)} \\
+        \vert b(t)(v) \vert & \leq \Vert \mathbf{F}(t) \mathbb{I}_{\Gamma_N} \Vert_{\mathbf{L}^2(\partial \Omega)} \Vert \gamma (v) \Vert_{\mathbf{L}^2(\Gamma_N)} \\
         & \leq \Vert \mathbf{F}\Vert_{\mathbf{L}^{\infty}(0,T;\mathbf{L}^2(\Gamma_N))} \Vert \gamma(v) \Vert_{\mathbf{L}^2(\partial \Omega)} \\
-        & \leq \Vert \mathbf{F} \Vert_{\mathbf{L}^{\infty}(0,T;\mathbf{L}^2(\Gamma_N))} \Vert v \Vert_{\mathbf{L}^2(\Omega)}\\
+        & \leq \Vert \mathbf{F} \Vert_{\mathbf{L}^{\infty}(0,T;\mathbf{L}^2(\Gamma_N))} \Vert v \Vert_{\mathbf{H}^1(\Omega)}\\
         & = \Vert \mathbf{F}\Vert_{\mathbf{L}^{\infty}(0,T;\mathbf{L}^2(\Gamma_N))} \Vert v \Vert_{\mathbf{H}^1(\Omega, \Gamma_D)}
     \end{align*}
+    where $\gamma: \mathbf{H}^1(\Omega) \longrightarrow L^2(\partial \Omega)$ denotes the trace operator.
     \end{rem}
     Defining $u^{\epsilon}_m(t) = \sum_{i=1}^m \alpha_i^{\epsilon}(t) w_i$ with $\alpha_i^{\epsilon} (t) = (u^{\epsilon}_m(t),w_i)_{\Omega}$ it follows that the functions $\alpha_i^{\epsilon}$ are solutions to the ODE system of the form:
     \begin{equation}
         \label{AlphaODE}
         \begin{array}{cc}
-            \partial_{tt} \alpha_i^{\epsilon}(t) + \lambda \alpha_i^{\epsilon}(t) = (\mathbf{F}(t),w_i)_{\Gamma_N}& \forall t \in (0,T) \\
+            \partial_{tt} \alpha_i^{\epsilon}(t) + \lambda_i \alpha_i^{\epsilon}(t) = (\mathbf{F}(t),w_i)_{\Gamma_N}& \forall t \in (0,T) \\
             \partial_t \alpha_i^{\epsilon}(0) = \alpha_i^{\epsilon}(0) = 0 & 
         \end{array}
     \end{equation}
-    being $(\lambda_i)_{i \geq 1}$ an increasing sequence of eigenvalues associated to the decomposition of the operator $\mathcal{I}_C(\cdot, \cdot)$.\\
-    Let us note then, the solution to (\ref{AlphaODE}) is given in the form:
+    being $(\lambda_i)_{i \geq 1}$ a positive, increasing sequence of eigenvalues associated to the decomposition of the operator $\mathcal{I}_C(\cdot, \cdot)$.\\
+    Let us note then, applying the variation of parameters technique, that the solution to (\ref{AlphaODE}) is given in the form:
     \begin{equation}
         \label{AlphaODEsol}
         \alpha_i^{\epsilon} (t) = \frac{1}{\sqrt{\lambda_i}} \int\limits_0^t sin(\sqrt{\lambda_i} (t-s)) (\mathbf{F}(t),w_i)_{\Gamma_N} \, ds
     \end{equation}
-    so that, defining the matrix 
+    so that, defining the matrix for $\omega \in \mathbb{R}$ by:
     \begin{equation*}
         Q(\omega) =
         \begin{bmatrix}
@@ -96,7 +106,7 @@ Now, let us prove the existence and uniqueness of solution for (\ref{MainTimePDE
         \end{bmatrix}
     \end{equation}
     
-    \item Next, the sequence $(u^{\epsilon}_m)_{m \in \mathbb{N}}$ is of Cauchy type on the spaces $\mathcal{C}^0(0,T;\mathbf{H}^1(\Omega, \Gamma_D))$ and $\mathcal{C}^1(0,T; \mathbf{L}^2(\Omega,\Gamma_D))$.\\
+    \item Next, the sequence $(u^{\epsilon}_m)_{m \in \mathbb{N}}$ is of Cauchy type on the spaces $\mathcal{C}^0(0,T;\mathbf{H}^1(\Omega, \Gamma_D))$ and $\mathcal{C}^1(0,T; \mathbf{L}^2(\Omega))$.\\
     Let $m,p$ be two integers such that $p > m \geq 1$ then from (\ref{AlphaODEsol}) it follows that
     \begin{equation*}
         \mathcal{I}_C(u_p^{\epsilon}(t)- u_m^{\epsilon}(t),u_p^{\epsilon}(t)- u_m^{\epsilon}(t)) + \vert \partial_t (u_p^{\epsilon}(t)- u_m^{\epsilon}(t))_{\Omega} \vert^2 = \sum_{i=m+1}^p \big( \lambda_i \vert \alpha_i^{\epsilon}(t) \vert^2 + \vert \partial_t \alpha_i^{\epsilon}(t) \vert^2 \big) 
@@ -113,14 +123,16 @@ Now, let us prove the existence and uniqueness of solution for (\ref{MainTimePDE
     \end{align*}
     so we obtain finally the bound:
     \begin{equation*}
-        \mathcal{I}_C \big(u_p^{\epsilon}(t) - u_m^{\epsilon}(t),u_p^{\epsilon}(t) - u_m^{\epsilon}(t) \big) + \vert \partial_t (u_p^{\epsilon}(t) - u_m^{\epsilon}(t)) \vert^2 \leq 2 \sum_{i=m+1}^p t \int_0^t (\mathbf{F}(s),w_i)_{\Gamma_N})^2 \, ds
+        \mathcal{I}_C \big(u_p^{\epsilon}(t) - u_m^{\epsilon}(t),u_p^{\epsilon}(t) - u_m^{\epsilon}(t) \big) + \vert \partial_t (u_p^{\epsilon}(t) - u_m^{\epsilon}(t)) \vert^2 \leq 2 \sum_{i=m+1}^p t \int_0^t \vert (\mathbf{F}(s),w_i)_{\Gamma_N} \vert^2 \, ds
     \end{equation*}
-    Now, since $\mathbf{F} \in L^{\infty}(0,T;\mathbf{L}^2(\Omega, \Gamma_N))$ we obtain
+    Now, since $\mathbf{F} \in L^{\infty}(0,T;\mathbf{L}^2( \Gamma_N))$ we obtain
     \begin{equation*}
-        \underset{p,m \longrightarrow + \infty}{lim} \sum_{i=m+1}^p \big \{ T \int_0^T \vert (\mathbf{F}(s),w_i)_{\Gamma_N}\vert^2 \, ds = 0
+        \underset{p,m \longrightarrow + \infty}{lim} \sum_{i=m+1}^p \big \{ T \int_0^T \vert (\mathbf{F}(s),w_i)_{\Gamma_N}\vert^2 \, ds \big \} = 0
     \end{equation*}
     and by using the uniform elliticity of the tensor $\mathbf{C}$, it follows that $(u_m^{\epsilon}(t))_{m \in \mathbb{N}}$ is a Cauchy sequence on the spaces $\mathcal{C}^0(0,T; \mathbf{H}^1(\Omega, \Gamma_D))$ and $\mathcal{C}^1(0,T; \mathbf{L}^2(\Omega, \Gamma_D))$.
-    \item Since the above spaces are complete, there exist $u^{\epsilon}(t)$ limit as $m \longrightarrow +\infty$ of $u^{\epsilon}_m(t)$ belonging to the spaces $\mathcal{C}^0(0,T; \mathbf{H}^1(\Omega, \Gamma_D))$ and $\mathcal{C}^1(0,T; \mathbf{L}^2(\Omega, \Gamma_D))$.\\
+    
+    
+    \item Since the above spaces are complete, there exist $u^{\epsilon}(t)$ limit as $m \longrightarrow +\infty$ of $u^{\epsilon}_m(t)$ belonging to the spaces $\mathcal{C}^0(0,T; \mathbf{H}^1(\Omega, \Gamma_D))$ and $\mathcal{C}^1(0,T; \mathbf{L}^2(\Omega))$.\\
     Let us see that $u^{\epsilon}$ effectively solves the problem (\ref{MainPDE}). To do this, let $m \geq 1$, and consider $\psi \in \mathcal{D}(0,T)$, since $u_m(t)$ solves (\ref{AlphaODE}) then it follows that:
     \begin{equation*}
         \int_0^T (u_m^{\epsilon}(t),v) \partial_{tt}\psi(t) + \int_0^T \mathcal{I}_C (u_m^{\epsilon}(t),v) \psi(t)  = \int_0^T (\mathbf{F}(t),v)_{\Gamma_N} \psi(t) 
@@ -135,7 +147,7 @@ Now, let us prove the existence and uniqueness of solution for (\ref{MainTimePDE
     \end{equation*}
     and by the uniform boundness of the tensor $C$, we obtain the bound
     \begin{equation*}
-        \Vert u^{\epsilon} \Vert_{L^{\infty}(0,T;\mathbf{H}^1(\Omega, \Gamma_D))}  + \Vert \partial_t u^{\epsilon} \Vert_{L^{\infty}(0,T;\mathbf{L}^2(\Omega, \Gamma_N))} \lesssim \Vert \mathbf{F}\Vert_{L^{\infty}(0,T; \mathbf{L}^2(\Gamma_N))}
+        \Vert u^{\epsilon} \Vert_{L^{\infty}(0,T;\mathbf{H}^1(\Omega, \Gamma_D))}  + \Vert \partial_t u^{\epsilon} \Vert_{L^{\infty}(0,T;\mathbf{L}^2(\Omega))} \lesssim \Vert \mathbf{F}\Vert_{L^{\infty}(0,T; \mathbf{L}^2(\Gamma_N))}
     \end{equation*}
     Note in particular that the above bound is independent of $\epsilon > 0$ since there is no dependency on the right-hand side of the inequality, so that, we obtain well-possedness for the multiscale elastic problem for each $\epsilon > 0$.
 \end{enumerate}
@@ -149,9 +161,9 @@ Now, the idea is to obtain a reasonable result of time regularity for the soluti
 In this case, the idea will be to use a bootstrap type method to obtain the time-regularity for the mixed boundary problem, using the bounds obtained from spectral theory.
 
 \begin{prop}
-Let $u^{\epsilon} \in \mathcal{C}^{0}(0,T; \mathbf{H}^1(\Omega, \Gamma_D))$ denote the unique solution of the mixed boundary multiscale problem and suppose also the regularity for the parameters and surface force given by $A^{jk} \in L^{\infty}(\mathbf{Y})$ and $\mathbf{F} \in \mathcal{C}^p(0,T; \mathbf{H}^{3/2}(\Omega))$, then for each $p \geq 1$ we have that:
+Let $u^{\epsilon} \in \mathcal{C}^{0}(0,T; \mathbf{H}^1(\Omega, \Gamma_D))$ denote the unique solution of the mixed boundary multiscale problem and suppose also the regularity for the parameters and surface force given by $A^{jk} \in L^{\infty}(\mathbf{Y})$ and $\mathbf{F} \in \mathcal{C}^p(0,T; \mathbf{L}^{2}(\Gamma_N))$, then for each $p \geq 1$ we have that:
 \begin{equation*}
-    u^{\epsilon}, \partial_t u^{\epsilon} \in \mathcal{C}^p(0,T; \mathbf{L}^2(\Omega, \Gamma_D))
+    u^{\epsilon}, \partial_t u^{\epsilon} \in \mathcal{C}^p(0,T; \mathbf{L}^2(\Omega))
 \end{equation*}
 \end{prop}
 \begin{rem}
@@ -164,7 +176,7 @@ Now, let us develop the main idea of the proof:\\
 \begin{itemize}
     \item Using the spectral theory for the existence of multiscale problem, we obtained a solution $u^{\epsilon}$ having regularity:
     \begin{equation*}
-        u^{\epsilon} \in \mathcal{C}^0(0,T;\mathbf{H}^1(\Omega, \Gamma_D)) \cap \mathcal{C}^1(0,T;\mathbf{L}^2(\Omega, \Gamma_D))
+        u^{\epsilon} \in \mathcal{C}^0(0,T;\mathbf{H}^1(\Omega, \Gamma_D)) \cap \mathcal{C}^1(0,T;\mathbf{L}^2(\Omega))
     \end{equation*}
     so that we have the result valid for initial cases $p = 0, 1$.
     \item Let us take $\vert h \vert \ll 1$ such that $t+h \in (0,T)$ and define the difference with parameter $\epsilon > 0$ fixed as:
@@ -186,26 +198,30 @@ Now, let us develop the main idea of the proof:\\
         \right .
     \end{equation*}
     with initial condition at rest (i.e. $\partial_t u_h^{\epsilon} = u_h^{\epsilon} = \mathbf{0}$ on $\{t=0\} \times \Omega$).
+    
+    
     \item Using the assumption of regularity for the surface force $\mathbf{F}$, we recall from spectral theory the bound given by:
     \begin{equation*}
-        \Vert u_h^{\epsilon} \Vert_{\mathbf{H}^1(\Omega, \Gamma_D)} + \Vert \partial_t u_h^{\epsilon}\Vert_{\mathbf{L}^2(\Omega, \Gamma_D)} \lesssim \int \limits_t^{t+h} \Vert \mathbf{F}(s) \Vert_{\mathbf{L}^2(\Gamma_N)} \, ds
+        \Vert u_h^{\epsilon} \Vert_{\mathbf{H}^1(\Omega, \Gamma_D)} + \Vert \partial_t u_h^{\epsilon}\Vert_{\mathbf{L}^2(\Omega)} \lesssim \int \limits_t^{t+h} \Vert \mathbf{F}(s) \Vert_{\mathbf{L}^2(\Gamma_N)} \, ds
     \end{equation*}
     so, from the continuity we obtain that as $h \rightarrow 0$, the terms 
     \begin{equation*}
-        \Vert u_h^{\epsilon} \Vert_{\mathbf{H}^1(\Omega, \Gamma_D)}, \Vert \partial_t u_h^{\epsilon} \Vert_{\mathbf{L}^2 (\Omega, \Gamma_D)} \rightarrow 0
+        \Vert u_h^{\epsilon} \Vert_{\mathbf{H}^1(\Omega, \Gamma_D)}, \Vert \partial_t u_h^{\epsilon} \Vert_{\mathbf{L}^2 (\Omega)} \rightarrow 0
     \end{equation*}
-    and then $u^{\epsilon} \in \mathcal{C}^2(0,T; \mathbf{L}^2(\Omega, \Gamma_D))$
+    and then $u^{\epsilon} \in \mathcal{C}^2(0,T; \mathbf{L}^2(\Omega))$.
+    
+    
     \item Now, let us observe that we can take a time derivative to the full problem $(P_{\epsilon}$, and obtain a similar multiscale problem. Applying again the spectral theory, is possible to obtain a solution $v_h^{\epsilon} = \partial_t u_h^{\epsilon}$, satisfying save bound as before. In such a way, it follows that:
     \begin{equation*}
-        \Vert \partial_{tt} u_h^{\epsilon} \Vert_{\mathbf{H}^1(\Omega, \Gamma_D)} + \Vert \partial_t u_h^{\epsilon} \Vert_{\mathbf{L}^2 (\Omega, \Gamma_D)} \lesssim \int_t^{t+h} \Vert \partial_t \mathbf{F}_h(t) \Vert_{\mathbf{L}^2(\Gamma_N)}
+        \Vert \partial_{tt} u_h^{\epsilon} \Vert_{\mathbf{H}^1(\Omega, \Gamma_D)} + \Vert \partial_t u_h^{\epsilon} \Vert_{\mathbf{L}^2 (\Omega)} \lesssim \int_t^{t+h} \Vert \partial_t \mathbf{F}_h(t) \Vert_{\mathbf{L}^2(\Gamma_N)}
     \end{equation*}
     so that, as $h \rightarrow 0$ we conclude the regularity
     \begin{equation*}
-        \partial_t u_h^{\epsilon} \in \mathcal{C}^0(0,T;\mathbf{H}^1(\Omega, \Gamma_D)) \cap \mathcal{C}^1(0,T;\mathbf{L}^2(\Omega, \Gamma_D)) 
+        \partial_t u_h^{\epsilon} \in \mathcal{C}^0(0,T;\mathbf{H}^1(\Omega, \Gamma_D)) \cap \mathcal{C}^1(0,T;\mathbf{L}^2(\Omega)) 
     \end{equation*}
     and then
     \begin{equation*}
-        u_h^{\epsilon} \in \mathcal{C}^3(0,T; \mathbf{L}^2(\Omega, \Gamma_D))
+        u_h^{\epsilon} \in \mathcal{C}^3(0,T; \mathbf{L}^2(\Omega))
     \end{equation*}
     and by a bootstrap type argument, the results follows for each $p \geq 1$.
 \end{itemize}
@@ -231,7 +247,7 @@ The ideas are taken from the three main references:
     \item Homogenisation: Averaging Processes in Periodic Media Mathematical Problems in the Mechanics of Composite Materials. \textbf{N. S. Bakhvalov, G. Panasenko}.
 \end{enumerate}
 
-The two-scale homogenization method enables us to obtain effective equation goberning the overall macroscopic mechanical behavior incorporating the periodic microstructure. In this section, we describe the heuristic procedure to obtain the governing equation then used in the numerical simulations.
+ In this section, we describe the algorithmic procedure to obtain the governing equation of multiscale model by means of the asymptotic approximation of the displacement $u^{\epsilon}(\mathbf{x},t)$ proposed on the two-scale homogenization theory. This framework enables us to obtain effective equation governing the overall macroscopic mechanical behavior incorporating the periodic microstructure of the underlying model, and so enabling us to produce less-computational intensive formulations to solve numerically.
 
 With the region $\Omega \subset \mathbb{R}^d$ and boundary $\partial \Omega = \Gamma_D \dot\cup \Gamma_N$, the general model to study using engineering notation is described for fixed time $t \in \mathbb{R}_+$ by the problem :
 \begin{equation}
@@ -256,7 +272,7 @@ where $\mathbf{C} = (C_{ijkl})$, and $\mathbf{e}(u(\mathbf{x},t)) = \mathbf{e}_{
 \end{equation}
 We take also, additional conditions:
 \begin{enumerate}
-    \item We take $\mathbf{x}$ as the global coordinate. Also, interoduce a fast (or local) variable $\mathbf{y}$ in the form $y = \epsilon^{-1}\mathbf{x}$ where the parameter $\epsilon$ represents the a fine periodicity of the cell structure.
+    \item We take $\mathbf{x}$ as the global coordinate. Also, introduce a fast (or local) variable $\mathbf{y}$ in the form $y = \epsilon^{-1}\mathbf{x}$ where the parameter $\epsilon$ represents the a highly-oscillatory periodicity of the cell structure.
     \item The stress tensor $C_{ijkl}$ satisfies that $\mathbf{C}^{\epsilon} (\mathbf{x}) = \mathbf{C}(\mathbf{x}/\epsilon)$ being Y-periodic (related to the fast variable microstructure length).
 \end{enumerate}
 
@@ -267,7 +283,7 @@ Let us take Fourier transform to the problem, in such a way that we consider par
     \label{FreqAnsatz}
     u^{\epsilon}(\mathbf{x},t) = \hat{u}^{\epsilon}(\mathbf{x},\omega) e^{i \omega t}
 \end{equation}
-In this case, the problem defined in \ref{VectorPDE-Elasticity}, \ref{ConstituteEq}, \ref{StrainEq} with initial conditions becomes then:
+In this case, the problem defined in (\ref{VectorPDE-Elasticity}),( \ref{ConstituteEq}), (\ref{StrainEq}) with initial conditions becomes then:
 \begin{equation}
     \label{VectorPDE-Freq}
     \left \{
@@ -282,7 +298,7 @@ In this case, the problem defined in \ref{VectorPDE-Elasticity}, \ref{Constitute
 where we have omitted the frequency dependency on the solution $\hat{u}^{\epsilon}$ for easy of exposure and used $\Hat{F}(\mathbf{x})$ as the Fourier transform at frequency $\omega$, i.e. we've used the equality $F(\mathbf{x}) = \Hat{F}(\mathbf{x})e^{i \omega t}$.
 
 \subsection{Two-Scale Asymptotic Homogenization}
-We'll find an asymptotic solution for \ref{VectorPDE-Freq} at a fixed frequency $\omega$ in the form:
+We'll find an asymptotic solution for (\ref{VectorPDE-Freq}) at a fixed frequency $\omega \in \mathbb{R}$ in the form:
 \begin{equation*}
     \label{AsymptoticExpansion}
     \hat{u}(\mathbf{x},\epsilon) = \sum_{a=0}^{\infty} \epsilon^a \hat{u}^{(a)}(\mathbf{x},\mathbf{y}) 
@@ -292,10 +308,10 @@ In particular, we assume throughout enough regularity
 \begin{equation*}
     \hat{u}^{(a)}(\mathbf{x},\mathbf{y}) \in \mathbf{H}^1\big(\Omega; \, \mathbf{H}^1_{\#}(\mathbf{Y})\big)
 \end{equation*}
-Since we have an explicit relation between the slow and fast variable, we consider natural expressions of strain rate dependent on the variable. Let us define for $\Phi \in \mathcal{C}^{\infty}(\Omega \times \mathbf{Y})$ the expressions related to the shear rate:
-\begin{align*}
+Since we have an explicit relation between the slow and fast variable, we consider natural expressions of strain rate dependent on the variable. Let us define for $\Phi \in \mathcal{C}^{\infty}(\Omega \times \mathbf{Y})$ the expressions related to the strain rate dependent on the variable:
+\begin{equation*}
     \mathbf{e}_{kl,\alpha} (\Phi(\alpha)) = \frac{1}{2}(\partial_{\alpha_l} \Phi_k (\alpha) + \partial_{x_k} \Phi (\alpha)) \quad \forall \alpha \in \{\mathbf{x}, \mathbf{y}\}
-\end{align*}
+\end{equation*}
 With the above definition we can define a strain tensor $\mathbf{e}(\cdot)$ which satisfies the relation at components $k,l$ the relation:
 \begin{equation}
     \label{Multiscale-Strain}
@@ -844,83 +860,89 @@ and moreover
 since the functions $u^0, \partial_{x_k}u^0, \mathbf{N}^s, \partial_{x_k} \mathbf{N}^s$ are bounded.
 
 
-\section{Objective}
-ADD AS A FOOTNOTE THE REFERENCE INSPIRATION PAPER!
-We'll give estimations for the effective coefficients, and also obtain a sort of continuity property with respect to $p$ being associated to the porosity.
-
-The idea is to identify the elasticity tensor $\mathbf{C}(\mathbf{y}, p)$ in a domain $\mathbf{Y}$ with parameter $p \in [0,1]$ related to the cell domain, an the porosity respectively.
+\section{Dependency on the porosity level.}
+Let us recall that our formulation of the elasticity coefficients defined on the fast variable $\mathbf{y} \in \mathbf{Y}$ is given by:
+\begin{equation*}
+    C_{ijkl}(\mathbf{y}, p) = C_{ijkl}^{m} \mathbb{I}_{\mathbf{y} \in \mathbf{Y}_m(p)} + C_{ijkl}^{f} \mathbb{I}_{\mathbf{y} \in \mathbf{Y}_f(p)}
+\end{equation*}
+where there is an explicit dependency on the porosity fraction $p \in (0,1)$, which defines \textit{a posteriori} the homogenized coefficient dependent also on $p$. In this section is then studied the natural question of well-posedness, continuity and differentiability of such homogenized coefficients\footnote{A similar study has been done for the multiscale \textit{Calderón} problem by with high-oscillation conductivity coefficients, oriented moreover to the inverse problem of identification of the homogenized coefficients using also the two-scale formalism by \textit{A. Abudlle and A. di Blasio} in CITE MISSING.}, by means of the cell problems and expression (\ref{CellProblems}), (\ref{HomCoeffs}) before obtained.
+More explicitly, its given estimations for the such effective coefficients, and a continuity property under reasonable hypothesis on the porosity\footnote{Such reasonable hypothesis are oriented in a continuity condition on the definition of the multiscale coefficients $C_{ijkl}(\mathbf{y},p)$, for example of Lipschitz type on $p$.}.
 
 \section{Definition and Estimates}
+In this section, its given the main definition to formalize the presence of a factor $p \in (0,1)$ that defined a highly oscillating coefficient $C_{ijkl}(\cdot)$ on the cell domain $\mathbf{Y}$.
 \begin{defn}
-Let us define the set of linear operators 
-\begin{equation*}
-    \mathbf{T}([0,1]\times \mathbf{Y}) := \big \{ \mathbf{C}(\mathbf{y}) \in L^{\infty}([0,1]; \text{lin}(\mathbb{S}^3)\, : \mathbf{C}(\cdot, p)^* = \mathbf{C}(\cdot, p) \big \}
-\end{equation*}
-where we are using the notation of $\mathbb{S}^n$ as the space of $n\times n$ symmetric matrices, being $n=2,3$.
+Let us define the set of operators from the feasible porosity interval $(0,1$, associated to a cell-domain $\mathbf{Y}$ by:
+\begin{equation}
+    \label{T-definition}
+    \mathbf{T}((0,1) \times \mathbf{Y}) := \big \{ \mathbf{C}(\cdot, \mathbf{y}) \in L^{\infty}([0,1]; \, \text{lin}(\textbf{Sym}^d))\, : \mathbf{C}(\mathbf{y}, p)^* = \mathbf{C}(\mathbf{y}, p) \, \forall \mathbf{y} \in \mathbf{Y}\big \}
+\end{equation}
+where we are using the notation of $\mathbf{Sym}^d$ as the space of $d\times d$ symmetric matrices, being $d=2,3$.
 \end{defn}
 \begin{rem}
-Note that, the linear elastic tensors $\mathbf{C} = C_{ijkl}$ belong to $\mathbf{T}([0,1]\times \mathbf{Y})$. In particular, the symmetry of the tensors expressed in Voigt notation as $C_{IJ}=C_{JI}$ is expressed by the condition of being an adjoint operator, i.e. symmetric since we are identifying the the linear operator of $\mathbb{S}^3$ by the a four-dimensional array.
+Note that, the linear elastic second-order tensors $\mathbf{C} = (C_{ijkl})_{ijkl}$ belong to $\mathbf{T}((0,1)\times \mathbf{Y})$. In particular, the symmetry of the tensors expressed in Voigt engineering notation as $C_{IJ}=C_{JI}$ is given by the self-adjoint property given in the definition, which is reduced then to the condition of symmetry, in the form $\mathbf{C}(p, \cdot)^T = \mathbf{C}(p,\cdot)$ by identifying the set $lin(\mathbf{Sym}^d)$, i.e., of linear operators from $\mathbf{Sym}^d$ to the space of d-dimensional arrays indexed in the form $\mathbf{C}(p, \cdot) = (C_{ijkl} (\cdot) )_{ijkl}$.
+Over such considerations, the set (\ref{T-definition}) becomes:
+\begin{equation*}
+    \mathbf{T}((0,1)\times \mathbf{Y}) = \big \{ C_{ijkl}(\cdot, \mathbf{y}) \in L^{\infty}((0,1); \mathbb{R}) \, \forall \mathbf{y} \in \mathbf{Y}\,:\, C_{ijkl} = C_{ijlk} = C_{klij} \big \}
+\end{equation*}
+where its assumed implicitly the dependency of each coefficient.
 \end{rem}
-With the above definition we can then define the space of bounded tensors with parameters $(\alpha,\beta) \in \mathbb{R_+}^2$ as a subset of $\mathbf{T}([0,1]\times \mathbf{Y})$ with the following conditions:
-Let $\mathbf{C} \in \mathbf{T}([0,1]\times \mathbf{Y})$ and consider the hypothesis:
+With the above definition we can then define the space of bounded and coercive tensors associated to parameters $(\alpha,\beta) \in \mathbb{R}^2_+$ given as a subset of $\mathbf{T}([0,1]\times \mathbf{Y})$ with conditions specified below.
+Let $(C_{ijkl})_{ijkl} \in \mathbf{T}([0,1]\times \mathbf{Y})$, consider $\alpha, \beta$ two positive parameters and define the following properties:
 \begin{enumerate}
-    \item[(H1)] If $\alpha \xi \cdot \xi \leq \mathbf{C}(\mathbf{y},p)  \xi\cdot\xi\, \text{a.e.} \mathbf{y} \in \mathbf{Y}, \forall p \in [0,1]$.
-    \item[(H2)] If $\vert \mathbf{C}(\mathbf{y},p) \cdot \xi \vert \leq \beta \vert \xi \vert^2 \, \text{a.e.}\mathbf{y} \in \mathbf{Y}, \forall p \in [0,1]$
-    \item[(H3)] If $\mathbf{C}(\cdot,p))^T = \mathbf{C}(\cdot, p) \,\forall p \in [0,1]$
+    \item[(H1)] If $\xi \in \mathbf{R}^{d\times d} \setminus \{0_{d \times d}\}$ then $\alpha \xi_{ij} \, \xi_{ij} \leq C_{ijkl}(p,\mathbf{y})  \xi_{kl}\,\xi_{ij}\, \text{a.e.} \mathbf{y} \in \mathbf{Y}$ for each $p \in (0,1)$.
+    \item[(H2)] If $\xi \in \mathbf{R}^{d\times d} \setminus \{0_{d \times d}\}$ then $\vert \mathbf{C}(p,\mathbf{y}) \xi\cdot \xi \vert \leq \beta \vert \xi \vert^2 \, \text{a.e.}\mathbf{y} \in \mathbf{Y}$ for each $p \in (0,1)$ where $\vert \cdot \vert$ denotes a norm on the space of square matrices $\mathcal{M}^{d\times d}(\mathbb{R})$.
 \end{enumerate}
-So that we can define the space of elastic tensors:
+The above, let us define the reasonable space of linear elastic tensors, related to the generalized \textit{Hookes} law.
 \begin{defn}
-We say that $\mathbf{C} \in \mathcal{T}(\alpha, \beta, [0,1]\times \mathbf{Y})$
-if $\mathbf{C}$ satisfies $(H1)-(H2)-(H3)$.
+We say that $\mathbf{C} = (C_{ijkl})_{ijkl} \in \mathcal{T}(\alpha, \beta, [0,1]\times \mathbf{Y})$
+if $\mathbf{C}$ is a feasible tensors, i.e., belongs to $\mathbf{T}((0,1)\times \mathbf{Y})$ and satisfies the properties $(H1)-(H2)$.
 \end{defn}
 \begin{rem}
-In the two-scale elastodynamic model formulation, the linear elastic tensor can be considered by
+In the two-scale elastodynamic model formulation, the linear elastic tensor is expressed on the macroscopic (or slow) variable by
 \begin{equation*}
-    \mathbf{C}^{\epsilon}(\mathbf{x},p) = \mathbf{C}(\frac{\mathbf{x}}{\epsilon},p)
-\end{equation*} being $\mathbf{x}\in \Omega$ the macroscopic domain with the natural condition $\mathbf{C} \in \mathcal{T}(\alpha, \beta, \mathbf{Y}\times [0,1])$ for each $\epsilon >0$. Recall also that, the $\epsilon$ parameter indicates the relation of micro-to-macro structure scales.
+    \mathbf{C}^{\epsilon}(p,\mathbf{x}) =\mathbf{C}(p,\frac{\mathbf{x}}{\epsilon})
+\end{equation*} being $\mathbf{x}\in \Omega$, in such a way that $\mathbf{C}^{\epsilon} \in \mathcal{T}(\alpha, \beta, [0,1]\times \mathbf{Y})$ for each $\epsilon >0$. Recall also that, the $\epsilon$ parameter indicates the relation of micro-to-macro structure scales. (ADD REFERENCE TO PICTURE)
 \end{rem}
-By using the two-scale homogenization method, we can obtain an \textit{homogenized} (or effective) equation governing the macroscopic elastodynamic behavior with effective coefficients given at porosity $p \in [0,1]$ by:
-\begin{equation*}
-    C^0_{ijrs}(p) = \frac{1}{\vert \mathbf{Y}\vert} \int\limits_{\mathbf{Y}} C_{ijkl}(\mathbf{y},p) \, dy + \frac{1}{\vert \mathbf{Y}\vert} \int\limits_{\mathbf{Y}} C_{ijkl}(\mathbf{y},p) \mathbf{e}_{kl,y}( N^{rs})\,dy
-\end{equation*}
-for each $ i,j,r,s \in \{1,2,3\}$, where the cell vector functions $(N^{rs})_{rs}$ are defined as the unique solution each of the cell problems defined for each $i \in \{1,2,3\}$ by:
+Following the two-scale homogenization procedure studied in the sections above, the homogenized equations\footnote{Also called effective equations depending on the literature, since the governing equation of the model after applying the constrains at the order $\mathcal{O}(1)$ gives us a mechanical model for $u^{(1)}$ the first term of the asymptotic expansion of the displacements, i.e., the macroscospic or effective.} governing the macroscopic mechanical behavior are of elastic type with effective coefficients defined at porosity $p \in [0,1]$ by the following expression:
+\begin{equation}
+    \label{eq:homogenized-coeff}
+    C^{hom}_{ijrs}(p) = \frac{1}{\vert \mathbf{Y}\vert} \int\limits_{\mathbf{Y}} C_{ijkl}(p,\mathbf{y}) \, dy + \frac{1}{\vert \mathbf{Y}\vert} \int\limits_{\mathbf{Y}} C_{ijkl}(p,\mathbf{y}) \mathbf{e}_{kl,y}( N^{rs}(p))\,dy
+\end{equation}
+for each $ i,j,r,s \in \{1,2,3\}$, where the vector functions $(N^{rs})_{rs}$ are defined as the unique solution to the cell problems, satisfying for each $i \in \{1,2,3\}$, the equality:
 \begin{equation}
     \label{eq:cell}
-    -\partial_{y_j} \big[ C_{ijkl}(\mathbf{y},p) \mathbf{e}_{kl}(N^{rs}) \big] = \partial_{y_j} \big[ C_{ijrs}(\mathbf{y},p) \big] 
+    -\partial_{y_j} \big[ C_{ijkl}(p,\mathbf{y}) \mathbf{e}_{kl}(N^{rs}(p,\mathbf{y}) \big] = \partial_{y_j} \big[ C_{ijrs}(p,\mathbf{y}) \big] 
 \end{equation}
-with the condition $\langle N^{rs} \rangle_{\mathbf{Y}} = 0$ for each $r,s \in \{1,2,3\}$.
-So, we find solutions $(N^{rs})(\cdot,p)$ to the cell problem above in the space
+with the normalization condition $\langle N^{rs} \rangle_{\mathbf{Y}} = \mathbf{0}$. Such a condition is necessary to obtain a well-posed elliptic problem on the space $\mathbf{H}^1$.
+Moreover, the given vector solutions $N^{rs}(\cdot,p)$ to the cell problem expressed above are then found on the space
 \begin{equation*}
-    H^1_{\#, 0} (\mathbf{Y}) := \big \{ N \in \big[ H^1(\mathbf{Y}) \big]^n \, : \, N \text{ being } \mathbf{Y}-\text{periodic}; \, \langle N \rangle_{\mathbf{Y}}=0 \big \}
+    \mathbf{H}^1_{\#, 0} (\mathbf{Y}) := \big \{ N(p) \in  \mathbf{H}^1(\mathbf{Y}) \, : \, \langle N(p) \rangle_{\mathbf{Y}}=\mathbf{0} \,, N(p) \text{ being } \mathbf{Y}\text{-periodic} \big \}
 \end{equation*}
 \subsection{Variational Formulations}
-Seeking solution to (\ref{eq:cell}) can be seen in the variational for each $r,s \in \{1,2,3\}$ as:
+The study of solutions to the problem (\ref{eq:cell}) is done via the variational formulation of such problem for each $r,s \in \{1,2,3\}$. In all that follows, its assumed a condition of radial symmetry of the coefficients\footnote{Such kind of condition, which is naturally presented in periodic and compound media is assumed throughout this study, moreover the numerical results developed are obtained over a formulation of bone satisfying that property since the model is defined as compounds material with the inclusion being of different kind where the surrounding is a known fixed material. Its important to observe that under such assumptions the term associated to $\partial \mathbf{Y}$ vanishes obtaining the expression observed on (\ref{eq:cell_variational}).} $C_{ijkl}(\mathbf{y})$ which applied to (\ref{eq:cell}) gives us the desired equivalent problem:
 \begin{equation}
     \label{eq:cell_variational}
     \left \{
     \begin{array}{cc}
-        \text{Find a function } N^{rs} \in H^1_{\#,0}(\mathbf{Y}) \text{ such that: } \forall v \in H^1_{\#, 0}(\mathbf{Y})&\\
-        \int\limits_{\mathbf{Y}} C_{ijkl}(\mathbf{y},p)\mathbf{e}_{kl,y} \partial_{y_j}(v_i)\,dy = -\int\limits_{\mathbf{Y}} C_{ijrs}(\mathbf{y},p) \partial_{y_j}(v_i)\,dy & 
+        \text{Find a function        } N^{rs} \in H^1_{\#,0}(\mathbf{Y}) \text{ such that: } & \quad \\
+        \int\limits_{\mathbf{Y}} C_{ijkl}(p,\mathbf{y})\mathbf{e}_{kl,y} \partial_{y_j}(v_i)\,dy = -\int\limits_{\mathbf{Y}} C_{ijrs}(p, \mathbf{y}) \partial_{y_j}(v_i)\,dy &  \forall v \in H^1_{\#, 0}(\mathbf{Y})
     \end{array}
     \right.
 \end{equation}
 
-\begin{rem}
-In (\ref{eq:cell_variational}), the boundary term missing vanishes by adding a symmetry condition over the cell-boundaries, which we assume in all that follows.
-\end{rem}
 Note the variational formulation (\ref{eq:cell_variational}) can be rewritten by the symmetry of the operator $\mathbf{C}(\cdot,p)$ in the form:
 \begin{equation}
     \label{eq:cell_symmetric}
     \left \{
     \begin{array}{cc}
-        \text{Find a function } N^{rs} \in H^1_{\#,0}(\mathbf{Y}) \text{ such that: } \forall v \in H^1_{\#, 0}(\mathbf{Y})&\\
-        \int\limits_{\mathbf{Y}} C_{ijkl}(\mathbf{y},p)\mathbf{e}_{kl,y} \mathbf{e}_{kl,y}(v)\,dy = -\int\limits_{\mathbf{Y}} C_{ijrs}(\mathbf{y},p) \mathbf{e}_{ij,y}(v)\,dy & 
+        \text{Find a function } N^{rs}(p) \in H^1_{\#,0}(\mathbf{Y}) \text{ such that: } \forall v \in H^1_{\#, 0}(\mathbf{Y})&\\
+        \int\limits_{\mathbf{Y}} C_{ijkl}(p,\mathbf{y})\mathbf{e}_{kl,y} \mathbf{e}_{kl,y}(v)\,dy = -\int\limits_{\mathbf{Y}} C_{ijrs}(p,\mathbf{y}) \mathbf{e}_{ij,y}(v)\,dy & 
     \end{array}
     \right.
 \end{equation}
-Let us now define the following useful notation for the contraction of the last two indices of a tensor:
+Let us now define the following useful notation for the contraction of the last two indexes, that allow us to reduce notation.
 \begin{defn}
-Let us consider $\mathbf{a} = (a_{ij})_{ij}$ and $\mathbf{b} = (b_{ij})_{ij}$ matrices, and consider $\mathbf{A}=(A_{ijkl})_{ijkl}$ a element of $\mathbf{T}([0,1]\times \mathbf{Y})$ identified as a multidimensional array. We define the contraction of two indices by
+Let us consider $\mathbf{a} = (a_{ij})_{ij}$ and $\mathbf{b} = (b_{ij})_{ij}$ elements in $\mathcal{M}_{d\times d}(\mathbb{R})$, and consider $\mathbf{A}=(A_{ijkl})_{ijkl}$ a element of $\mathbf{T}([0,1]\times \mathbf{Y})$ identified with their multidimensional array. We define the contraction of the (last) two indices by
 \begin{equation*}
     \mathbf{a}:\mathbf{b} := a_{ij}b_{ij}
 \end{equation*}
@@ -930,7 +952,7 @@ and naturally we extend the definition to three elements in the form:
 \end{equation*}
 \end{defn}
 \begin{rem}
-In particular, if we assume that $\mathbf{A}$ satisfies $(H3)$ then if follows that:
+In particular, since $\mathbf{A} \in \mathbf{T}((0,1)\times \mathbf{Y})$ then we have the symmetry conditions $A_{ijkl}=A_{klij}=A_{ijlk}$, which allows us to obtain a conmutative condition between $\mathbf{a},\mathbf{b}$ two matrices, in the form:
 \begin{equation}
     \mathbf{A}: \mathbf{a}:\mathbf{b}= \mathbf{A}:\mathbf{b}:\mathbf{a}
 \end{equation}
@@ -938,7 +960,7 @@ In particular, if we assume that $\mathbf{A}$ satisfies $(H3)$ then if follows t
 
 %%%%%%%%%%%%%%%%%%%%%%%%%5
 \subsection{Rewritten Coefficients}
-Let us define the base of $\mathbb{S}^3$ by $(m_{ij})_{ij}$. Observe that the homogenized coefficient (w.l.o.g $\vert \mathbf{Y} \vert = 1$) can be rewritten in the following form:
+Let us define the base of $\mathbf{Sym}^3$ denoted by the set $m_{ij} = \delta_{ij}$ for each $i,j \in \{1,2,3\}$, i.e., the set of $d \times d$ matrices with $1$ at the entry $(i,j)$ and $0$ otherwise. Observe that the homogenized coefficient (\ref{eq:homogenized-coeff}) (where we assume w.l.o.g $\vert \mathbf{Y} \vert = 1$) can be rewritten with the previously defined notation in the form:
 \begin{equation}
     \label{eq:effective_coef}
     \begin{array}{ccc}
@@ -947,72 +969,135 @@ Let us define the base of $\mathbb{S}^3$ by $(m_{ij})_{ij}$. Observe that the ho
     \end{array}
 \end{equation}
 
-In particular, using (\ref{eq:cell_symmetric}) and taking $v := N^{ij} \in H^1_{\#,0}(\mathbf{Y})$ we obtain the following equality:
+Moreover, we can rewrite (\ref{eq:cell_symmetric}) in the form:
 \begin{equation}
-    \label{eq:cell_Nij}
-    \int\limits_{\mathbf{y}}\mathbf{C}(\mathbf{y},p):\mathbf{e}(N^{rs}): \mathbf{e}(N^{ij}) \, dy = - \int\limits_{\mathbf{y}} \mathbf{C}(\mathbf{y},p):\mathbf{e}(N^{ij}):m_{rs}\, dy
+    \label{eq:cell_v}
+    \int\limits_{\mathbf{y}}\mathbf{C}(\mathbf{y},p):\mathbf{e}(v): \mathbf{e}(N^{ij}) \, dy = - \int\limits_{\mathbf{y}} \mathbf{C}(\mathbf{y},p):\mathbf{e}(v):m_{rs}\, dy \quad \forall v \in \mathbf{H}^1_{\#,0}(\mathbf{Y})
 \end{equation}
-So, by using the above equality (\ref{eq:cell_Nij}) with our expression (\ref{eq:effective_coef}) for the effective coefficients, it follows:
+
+So, by using the above equality (\ref{eq:cell_v}) with $v = N^{rs}$ in our expression (\ref{eq:effective_coef}) for the effective coefficients, its obtained the homogenized coefficient given in the form:
 \begin{equation}
     \label{eq:effective_coef_symmetric}
-    C_{ijkl}^0(p) = \int\limits_{\mathbf{Y}} \mathbf{C}(\mathbf{y},p):(m_{rs}+\mathbf{e}(N^{rs})):(m_{ij}+\mathbf{e}(N^{ij}))
+    C_{ijkl}^{hom}(p) = \int\limits_{\mathbf{Y}} \mathbf{C}(\mathbf{y},p):(m_{rs}+\mathbf{e}(N^{rs})):(m_{ij}+\mathbf{e}(N^{ij}))
 \end{equation}
-%%%%%%%%%%%%%%
-\subsection{About the Derivative}
-Let us differentiate (\ref{eq:effective_coef_symmetric}) with respecto to the parameter $p$. It follows then:
+It follows then from (\ref{eq:effective_coef_symmetric}) the full symmetric properties of the elements $C^{hom}_{ijkl}$, since from (\ref{eq:cell_symmetric}) $N^{rs}(p,\mathbf{y}) = N^{sr}(p, \mathbf{y})$ thus taking into account the symmetry of $\mathbf{C}(p)$ we obtain that:
 \begin{equation*}
-    \partial_{p} \big( C_{ijkl}^0 (p) \big) = \int\limits_{\mathbf{Y}} \partial_{p}\big( \mathbf{C}(\mathbf{y},p) \big) : (m_{rs}+\mathbf{e}(N^{rs}) :(m_{ij}+\mathbf{e}(N^{ij})) + 2C_{ijrs}^0(p)
+    C^{hom}_{ijkl} = C^{hom}_{klij} = C^{hom}_{ijlk} \quad \forall i,j,k,l \in \{1,2,3\}
 \end{equation*}
-since the elements given by the integration by parts using (\ref{eq:cell_Nij}) vanish CHECK THIS RESULT!!
+which implies in particular, the validity of the engineering \textit{Voigt} notation used extensively in fields of applied mechanics for the homogenized equations, obtaining a standard elasticity tensor.
 
-By using (\ref{eq:cell_symmetric}), the coercivity of $\mathbf{C}(\cdot, p)$ and H\"{o}lder inequality, it follows that:
-\begin{equation*}
-    \kappa \int\limits_{\mathbf{y}} \mathbf{e}(N^{rs}) : \mathbf{e}(v) \, dy \leq \Vert C(\cdot, p) :m_{rs}\Vert_{M(\mathbf{Y})} \Vert \mathbf{e}(v)\Vert_{M(\mathbf{Y})}
-\end{equation*}
-where we denote by $M(\mathbf{Y}):=[L^2 (\mathbf{Y})]^{n\times n}$, with dot product defined by $:$, i.e., the contraction. \\
-Even more, by a duality argument we can bound $\mathbf{e}(N^{rs})$ in the form:
+Also, by recalling the coercivity condition over $\mathbf{C}(p, \cdot)$ and applying a duality argument over the space $M(\mathbf{Y})$ it follows that:
 \begin{equation}
-    \label{eq:bound_Nrs}
-    \Vert \mathbf{e}(N^{rs}) \Vert_{M(\mathbf{Y})} \leq \kappa^{-1}\Vert C(\cdot, p) :m_{rs}\Vert_{M(\mathbf{Y})}, \quad \forall r,s =1,2,3
+    \label{eq:Estimate-Nrs}
+    \Vert \mathbf{e}(N^{rs}(p))\Vert_{M(\mathbf{Y})} \leq \frac{\beta}{\alpha}
 \end{equation}
-and then, by the $beta$-boundness of $\mathbf{C}$ it follows in particular from (\ref{eq:bound_Nrs}):
-\begin{equation*}
-    \Vert \mathbf{e}(N^{rs}) \Vert_{M(\mathbb{Y}} \leq \frac{\beta}{\kappa}
-\end{equation*}
-
-
+which will be usefull in the estimation in the following subsections.
+%%%%%%%%%%%%%%
 \subsection{About the Continuity}
-For the continuity of the effective coefficients, let us take $p,q \in [0,1]$ (porosity levels). First, let us show a usefull estimation of $N^{rs}(p)-N^{rs}(q)$ for each $r,s \in \{1,2,3\}$. Using (\ref{eq:cell_symmetric}) it's possible to obtain that:
+
+In all that follows, we will denote by $M(\mathbf{Y})$ the set of $d \times d$ matrices with entries given by $\mathbf{L}^2(\mathbf{Y})$ vector functions, and denoting its norm by $\Vert \cdot \Vert_{M(\mathbf{Y})}$. Moreover, since such space is defined as $d \times d$ copies of a \textit{Hilbert} space, its then a \textit{Hilbert} space, which implies the property $M(\mathbf{Y})^* = M(\mathbf{Y})$ which will be used in the following arguments.
+
+To study the continuity condition on the effective coefficients $C^{hom}_{ijkl}(\cdot)$, let $\overline{p},\overline{q} \in (0,1)$ be two porosity levels. It will be first shown a usefull estimation of $N^{rs}(p)-N^{rs}(q)$ for each $r,s \in \{1,2,3\}$. 
+Using (\ref{eq:cell_symmetric}) rewritten in tensor notation, we have the following equality that relates the cell solutions to their coefficients associated to the porosity level being used, in the form:
 \begin{equation}
     \label{eq:diff_Nrs}
-    \begin{array}{ccc}
-        \int\limits_{\mathbf{Y}} \mathbf{C}(\mathbf{y},p):\mathbf{e}\big( N^{rs}(p)-N^{rs}(q) \big) :\mathbf{e}(v) & = & -\int\limits_{\mathbf{Y}} \mathbf{C}(p)-\mathbf{C}(q) : m_{rs}:\mathbf{e}(v) \\
-        &\,&- \int\limits_{\mathbf{Y}}\mathbf{C}(p)-\mathbf{C}(q):\mathbf{e}(N^{rs}(q)):\mathbf{e}(v)
+    \begin{array}{cc}
+        \int\limits_{\mathbf{Y}} \mathbf{C}(\mathbf{y},p):\mathbf{e}\big( N^{rs}(p)-N^{rs}(q) \big) : \mathbf{e}(v) & =  -\int\limits_{\mathbf{Y}} \mathbf{C}(p)-\mathbf{C}(q) : m_{rs}:\mathbf{e}(v) \\
+        & \quad - \int\limits_{\mathbf{Y}}\mathbf{C}(p)-\mathbf{C}(q):\mathbf{e}(N^{rs}(q)):\mathbf{e}(v)
     \end{array}
 \end{equation}
-Then, using (\ref{eq:diff_Nrs}) it follows the representation $\forall v \in H^1_{\#,0}(\mathbf{Y})$
+So that, using (\ref{eq:diff_Nrs}) it follows the representation $\forall v \in H^1_{\#,0}(\mathbf{Y})$
 \begin{equation}
     \label{eq:diff_Nrs_full}
     \int\limits_{\mathbf{Y}} \mathbf{C}(p):\mathbf{e}\big(N^{rs}(p)-N^{rs}(q)\big):\mathbf{e}(v) = -\int\limits_{\mathbf{Y}} \mathbf{C}(p)-\mathbf{C}(q):m_{rs}+\mathbf{e}(N^{rs}(q)):\mathbf{e}(v)
 \end{equation}
-In particular, from (\ref{eq:diff_Nrs_full}) by a duality argument we obtain
+Applying then a duality argument on (\ref{eq:diff_Nrs_full}) since $M(\mathbf{Y})^* = M(\mathbf{Y})$ it follows the first estimate for the difference between the cell solutions, expressed by:
 \begin{equation*}
-    \Vert \mathbf{C}(p):\mathbf{e}\big(N^{rs}(p)-N^{rs}(q)\big) \Vert_{M(\mathbf{Y}} \leq \mathbf{C}(p)-\mathbf{C}(q):m_{rs}+\mathbf{e}(N^{rs}(q))\Vert_{M(\mathbf{Y}}
+    \Vert \mathbf{C}(p):\mathbf{e}\big(N^{rs}(p)-N^{rs}(q)\big) \Vert_{M(\mathbf{Y})} \leq \Vert \mathbf{C}(p)-\mathbf{C}(q):m_{rs}+\mathbf{e}(N^{rs}(q))\Vert_{M(\mathbf{Y}}
 \end{equation*}
-from which after taking H\"{o}lder inequality we have:
+from which after taking H\"{o}lder inequality and recalling the coercivity of $\mathbf{C}(p)$ it follows:
 \begin{equation}
-    \label{eq:ineq_diff_C}
-    \Vert \mathbf{C}(p):\mathbf{e}\big(N^{rs}(p)-N^{rs}(q)\big) \Vert_{M(\mathbf{Y}} \leq \Vert \mathbf{C}(p)-\mathbf{C}(q) \Vert_{M(\mathbf{Y}} \Vert m_{rs}+\mathbf{e}(N^{rs}) \Vert_{M(\mathbf{Y}}
+    \label{eq:ineq_diff_N}
+    \Vert \mathbf{e}\big(N^{rs}(p)-N^{rs}(q)\big) \Vert_{M(\mathbf{Y}} \leq \alpha^{-1}\Vert \mathbf{C}(p)-\mathbf{C}(q) \Vert_{M(\mathbf{Y})} \Vert m_{rs}+\mathbf{e}(N^{rs}) \Vert_{M(\mathbf{Y})}
 \end{equation}
-\begin{rem}
-Let us note that in the above inequalities follows using that $M(\mathbf{Y}) = M(\mathbf{Y})^*$, since $M(\mathbf{Y})$ can can be identified as a $n\times n$ cross product of a Hilbert space.
-\end{rem}
-Let us suppose then a continuity condition for the operators $\mathbf{C}$ in the form:
-\begin{equation*}
-    \Vert \mathbf{C}(p)-\mathbf{C}(q) \Vert_{M} \lesssim \vert p-q\vert^{\alpha}, \quad \alpha \in \mathbb{R}
-\end{equation*}
-So that, we can obtain from (\ref{eq:ineq_diff_C}) the following estimate:
-\begin{equation*}
-    \Vert \mathbf{C}(p):\mathbf{e}\big(N^{rs}(p)-N^{rs}(q) \big) \Vert_{M(\mathbf{Y}} \lesssim \vert p-q\vert^{\alpha} (1+ \Vert \mathbf{C}\Vert_{M(\mathbf{Y})} \kappa^{-1})
-\end{equation*}
 
+Let us then estimate the difference between the homogenized coefficients associated to the porosities $\overline{p},\overline{q}$. By applying the definition and rearranging terms it follows:
+\begin{equation*}
+    \begin{array}{cc}
+        C^{hom}_{ijrs}(\overline{p}) - C^{hom}_{ijrs}(\overline{q}) = & \int_{\mathbf{Y}} \mathbf{C}(\overline{p}):m_{rs} + \mathbf{e}(N^{rs}(\overline{p})):m_{ij} - \int_{\mathbf{Y}} \mathbf{C}(\overline{q}):m_{rs} + \mathbf{e}(N^{rs}(\overline{q})):m_{ij}\\
+        = & \int_{\mathbf{Y}} \mathbf{C}(\overline{p}) - \mathbf{C}(\overline{q}):m_{rs} + \mathbf{e}(N^{rs}(\overline{p}):m_{ij} + \int_{\mathbf{Y}} \mathbf{C}(q):\mathbf{e}(N^{rs}(\overline{p})) - \mathbf{e}(N^{rs}(\overline{q})):m_{ij} 
+    \end{array}
+\end{equation*}
+and by applying the H\"{o}lder inequality and using (\ref{eq:ineq_diff_N}) we obtain that:
+\begin{equation}
+    \label{eq:diff-HomCoeffs}
+    \begin{array}{cc}
+        \vert C^{hom}_{ijrs}(\overline{p}) - C^{hom}_{ijrs}(\overline{q})\vert \leq & \Vert \mathbf{C}(p)-\mathbf{C}(q) \Vert_{\mathcal{L}(M(\mathbf{Y})} \Vert m_{rs}+e(N^{rs}(\overline{p}) \Vert_{M(\mathbf{Y}} \\
+         & +  \frac{\beta}{\alpha} \Vert \mathbf{C}(p)-\mathbf{C}(q) \Vert_{M(\mathbf{Y})} \Vert m_{rs}+\mathbf{e}(N^{rs}) \Vert_{M(\mathbf{Y})} 
+    \end{array}
+\end{equation}
+
+Applying finally the estimation (\ref{eq:Estimate-Nrs}) over (\ref{eq:diff-HomCoeffs}) it follows the continuity property for the coefficients in the form:
+\begin{equation}
+    \label{ContinuityPropHom}
+    \vert C^{hom}_{ijrs}(\overline{p}) - C^{hom}_{ijrs}(\overline{q})\vert \leq \Vert \mathbf{C}(\overline{p}) - \mathbf{C}(\overline{q}) \Vert_{\mathcal{L}(M(\mathbf{Y}))} (1+\frac{\beta}{\alpha})\frac{\beta}{\alpha}
+\end{equation}
+
+\subsection{About the Derivative}
+Our interest now is to obtain some estimates for the derivatives with respect to the porosity $p$. By using the expression (\ref{eq:effective_coef_symmetric}), for fixed $i,j,r,s \in \{1,2,3\}$ and $\overline{p} \in (0,1)$ we have:
+\begin{equation}
+    \label{eq:DerivHomCoeff}
+    \partial_{p}  C_{ijkl}^{hom} (\overline{p}) = \int\limits_{\mathbf{Y}} \partial_{p}\big( \mathbf{C}(\mathbf{y},p) \big)\, : \,m_{rs}+\mathbf{e}(N^{rs})\, :\,m_{ij}+\mathbf{e}(N^{ij}) \, d\mathbf{y} 
+\end{equation}
+which results by distribute each term, rules of differentiation and (\ref{eq:cell_v}).
+It follows then from (\ref{eq:DerivHomCoeff}) after applying holder inequality that:
+\begin{equation*}
+    \vert \partial_p C^{hom}_{ijrs}(p) \vert \leq \Vert \mathbf{C}(p) \Vert_{\mathcal{L}(M(\mathbf{Y}))} \Vert m_{rs} + \mathbf{e}(N^{rs}) \Vert_{M(\mathbf{Y})} \Vert m_{ij} + \mathbf{e}(N^{ij}) \Vert_{M(\mathbf{Y})}
+\end{equation*}
+which after applying the estimate (\ref{eq:Estimate-Nrs}) we obtain the inequality for the derivative in the form:
+\begin{equation}
+    \label{EstimateDerivHomCoeff}
+    \vert \partial_p C^{hom}_{ijrs}(p) \vert \leq (1+\frac{\beta}{\alpha})^2 \Vert \partial_p \mathbf{C}\Vert_{L^{\infty}((0,1); \mathcal{L}(M(\mathbf{Y}))}
+\end{equation}
+Finally, with the above estimates we are able to obtain a bound for the difference of the homogenized elastic tensors. As before, let $\overline{p}, \overline{q}$ be two porosity level on $(0,1)$.
+By applying the equality (\ref{eq:DerivHomCoeff}),rearranging terms and applying directly H\"{o}lder inequality, it follows:
+\begin{align*}
+    \vert \partial_p C_{ijrs}(\overline{p}) - \partial_p C_{ijrs}(\overline{q}) \vert \leq & \Vert \partial_p \mathbf{C}(\overline{p}) - \partial_p \mathbf{C}(\overline{q}) \Vert \Vert m_{rs} + \mathbf{e}(N^{rs}(\overline{p}) \Vert_{M(\mathbf{Y})} \Vert m_{ji} + \mathbf{e}(N^{ij}(\overline{p}))\Vert_{M(\mathbf{Y})} \\
+    & + \Vert \partial_p \mathbf{C}(\overline{q}) \Vert \Vert \mathbf{e}(N^{rs}(\overline{p}) -\mathbf{e}(N^{rs}(\overline{q})) \Vert_{M(\mathbf{Y})} \Vert m_{ij} + \mathbf{e}(N^{ij}(\overline{q}) \Vert_{M(\mathbf{Y})}  \\
+    & + \Vert \partial_p \mathbf{C}(\overline{q}) \Vert \Vert m_{rs} + \mathbf{e}(N^{rs}(\overline{p})) \Vert_{M(\mathbf{Y})} \Vert \mathbf{e}(N^{ij}(\overline{p})) - \mathbf{e}(N^{ij}(\overline{q})) \Vert_{M(\mathbf{Y})}
+\end{align*}
+It follows then, taking into consideration the bounds for the cell solutions (\ref{eq:Estimate-Nrs}), (\ref{eq:ineq_diff_N}) that:
+\begin{equation}
+    \label{EstimateDiffDeriv}
+    \vert \partial_p C_{ijrs}(\overline{p}) - \partial_p C_{ijrs}(\overline{q}) \vert \leq \Vert \partial_p \mathbf{C}(\overline{p}) - \partial_p \mathbf{C}(\overline{q} \Vert  (1+ \frac{\beta}{\alpha})^2 + \Vert \partial_p \mathbf{C}(\overline{q}) \Vert 2\frac{\beta}{\alpha}(1+\frac{\beta}{\alpha})^2 \Vert \mathbf{C}(\overline{p}) - \mathbf{C}(\overline{q}) \Vert
+\end{equation}
+
+As conclusion, we obtain the following results:
+\begin{prop}
+Under the assumptions of regularity of following type for the multiscale elastic coefficients $\mathbf{C} = (C_{ijkl})_{ijkl} \in \mathcal{T}(\alpha, \beta, (0,1)\times \mathbf{Y})$ of the type:
+\begin{enumerate}
+    \item[HI] A Lipschitz continuity assumption for the elastic coefficients in the form:
+    \begin{equation*}
+        \Vert \mathbf{C}(\overline{p} - \mathbf{C}(\overline{q}) \Vert \leq L \vert \overline{p} - \overline{q} \vert^{l} 
+    \end{equation*}
+    for some $L, l > 0$ positive constants, and each $\overline{p},\overline{q} \in (0,1)$.
+    \item[HII] Uniformly boundness over the porosity range for the derivative, i.e., $\Vert \partial_p \mathbf{C}(\overline{q}) \Vert_{M(\mathbf{Y})} < \infty$ for each $\overline{q} \in (0,1)$.
+    \item[HIII] Lipschitz continuity condition for the derivative, in the form:
+    \begin{equation*}
+        \Vert \partial_p \mathbf{C}(\overline{p}- \partial_p \mathbf{C}(\overline{q} \Vert_{\mathcal{L}(M(\mathbf{Y}))} \leq \overline{L} \vert \overline{p}-\overline{q}\vert^{\overline{l}}
+    \end{equation*}
+    for $\overline{L}, \overline{l} > 0$ constants and each $\overline{p},\overline{q} \in (0,1)$.
+\end{enumerate}
+then, from (\ref{ContinuityPropHom}) and (\ref{EstimateDerivHomCoeff}) if follows that for each $i,j,r,s \in \{1,2,3\}$ and $\overline{p},\overline{q}$ porosity levels:
+\begin{enumerate}
+    \item[PI] A continuity property for the homogenized coefficients:
+    \begin{equation*}
+        \vert C_{ijrs}^{hom}(\overline{p}-C^{hom}_{ijrs}(\overline{q}) \vert \leq L \vert \overline{p} - \overline{q} \vert^{l} \frac{\beta}{\alpha} (1+\frac{\beta}{\alpha})
+    \end{equation*}
+    \item[PII] A continuity property for the derivatives of hom. coeffients:
+    \begin{equation*}
+        \vert \partial_p C_{ijrs}^{hom}-\partial_p C_{ijrs}(\overline{q}) \vert \leq C(\alpha, \beta) \vert \overline{p}-\overline{q} \vert^{\overline{l}} + \tilde{C}(\alpha, \beta) \vert \overline{p}-\overline{q} \vert^{l}
+    \end{equation*}
+    being $C(\alpha,\beta), \tilde{C}(\alpha,\beta) > 0$ constants.
+\end{enumerate}
+\end{prop}

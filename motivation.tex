@@ -17,6 +17,10 @@ We'll study the cortical bone by the so-called asymptotic homogenization, which 
 
 
 \section{Time-domain Modelling}
+
+Sophisticated quantitative ultrasound (QUS) approaches under study, are based on the axial transmission measurements which consist of recording the guided modes that propagate into and through the cortex in response to an ultrasonic excitation produced from its surface and then studying their response in the form of dispersion curves\footnote{From a physical perspective, its represented as the variation of wave number $k = 2 \pi f/c(f)$ as function of the frequency $f \in [0, 2]$ being $c(f)$ the phase velocity of the mode.}, i.e., by means of the Lambs waves nonlinear equations. 
+Waveguide characteristics such as thickness and porosity can then be deduced from the dispersion curves by fitting a theorical waveguide model to experimetal data.
+
 In this section, its described the experimental procedure proposed by \cite{Foiret2014}, \cite{Minonzio2018} used to study two bone mechanical properties by means of a ultrasound device. 
 It is also given a brief explanation of the setting involved in the clinical procedure and the assumptions being done to model the recorded signal then processed by spectrum-like technique. 
 
@@ -80,17 +84,22 @@ We model the material using the displacement $u(\mathbf{x},t) \in H^1(\Omega)$ w
 where $\mathbf{C}(\mathbf{x})$ denotes the elasticity tensor and $\mathbf{e}(u(\mathbf{x},t)) = \frac{1}{2}\big( \nabla u(\mathbf{x},t) + \nabla u(\mathbf{x},t)^{T}$ denotes the symmetric gradient.
 
 \section{Main assumptions and Modelling Multiscale}
-Let a bounded domain $\Omega \subset \mathbb{R}^d$ ($d = 2,3$) represent the elastic material, composed of a in-compressible, elastic matrix and several inclusion defining the mesoscale modeled as elastic material with cylindrical shape. 
-Also, for the sake of the experimental setting, the exterior boundary $\partial \mathbf{Y}$ is decomposed as
+Let a bounded domain $\Omega \subset \mathbb{R}^d$ ($d = 2,3$) represent the composed material under study, modelled by an incompressible, elastic matrix and several inclusion defining the so-called mesoscale being modeled mechanically by an elastic of cylindrical shape periodically distributed.
+For the sake of the experimental setting under consideration, the exterior boundary $\partial \Omega$ is decomposed as
 \begin{equation*}
-	\partial \Omega = \Gamma_D \cup \Gamma_N
+	\partial \Omega = \Gamma_D \dot\cup \Gamma_N
 \end{equation*}
-denoting $\Gamma_D, \Gamma_N$ the Dirichlet and Neumann part of the exterior boundary respectively. 
+denoting $\Gamma_D, \Gamma_N$ the Dirichlet and Neumann part of the exterior boundary respectively.
 
-Furthermore, let the small parameter $0 < \epsilon \ll 1$ denote the aspect ratio between the inclusions and the container matrix. 
-We consider the composite material of study with elastic properties having high oscillations rate $\epsilon$, represented by:
+Furthermore, let the small parameter $0 < \epsilon \ll 1$ denote the aspect ratio between the macroscopic variable $\mathbf{x} \in \Omega$ and the microscopic one $\mathbf{y}$ in the form: $\mathbf{y} = \frac{\mathbf{x}}{\epsilon}$ being $\mathbf{y} \in \mathbf{Y}$ and $\mathbf{Y} = (0,1)^d$ the cell structure. In this configuration, the unitary cell $\mathbf{Y}$, can be decomposed as
 \begin{equation*}
-	\overline{\Omega}^{\epsilon} = \overline{\Omega}^{\epsilon}_1  \cup (\overline{\Omega}\setminus \Omega_1) 
+	\mathbf{Y} = \mathbf{Y}_m \cup \Gamma \cup \mathbf{Y}_p 
+\end{equation*}
+where $\mathbf{Y}_m$ and $\mathbf{Y}_p$ are defined as the domains occupied by the matrix and porous part respectively, and $\Gamma$ denotes the interface between them\footnote{This model is inspired in the development of the Homogenization of the elastic operator in a porous media proposed on \cite{christensen1982theory}. Nevertheless, this kind of configurations are typical in the two-scale homogenization literature \cite{panasenko2005multi-scale}, \cite{Boughammoura2013} to mention updated references.}.
+
+Such a cell is assumed to be periodically distributed along the material, defining its highly oscillatory structure, suitable to use the the Homogenization framework. We consider the composite material of study with elastic properties having oscillation rate $\epsilon$, represented in the domain decomposition:
+\begin{equation*}
+	\overline{\Omega}^{\epsilon} = (\overline{\Omega}\setminus \Omega_1^{\epsilon}) \cup \overline{\Omega}^{\epsilon}_1
 \end{equation*}
 where we have defined
 \begin{equation*}
@@ -98,20 +107,25 @@ where we have defined
 \end{equation*}
 being the tessellation $\mathbf{T}_{\epsilon}$ the subset in $\mathbb{Z}^d$ of all points satisfying the conditions
 \begin{equation*}
-    \epsilon (\mathbf{x} + \mathbf{Y}) \subset \Omega, \quad \rho(\epsilon(\mathbf{x}+\mathbf{Y}), \Gamma_D) \geq \epsilon
+    \epsilon (\mathbf{x} + \mathbf{Y}) \subset \Omega, \quad \rho(\epsilon(\mathbf{x}+\mathbf{Y}), \partial \Omega) \geq \epsilon
 \end{equation*}
-and the cell $\mathbf{Y} = (0, 1)^d$ is the unitary cell. 
-In this configuration, the unitary cell $\mathbf{Y}$, can be decomposed as
+
+Let us note in particular that for fixed $\epsilon >0$ and all $\mathbf{x} \in \Omega$ we have a unique decomposition $\mathbf{x}/\epsilon = \mathbf{x}_{\mathbf{T}_{\epsilon}(\mathbf{x})} + \mathbf{y}$ where $\mathbf{x}_{\mathbf{T}_{\epsilon}(\mathbf{x})}$ denotes the element in $\Omega$ of the tessellation.
+
+The above considerations let us define finally the material coefficients defined as second order rank tensors for component $i,j,k,l \in \{1,\dots, d\}$ in the form:
 \begin{equation*}
-	\mathbf{Y} = \mathbf{Y}_m \cup \Gamma \cup \mathbf{Y}_p 
+    C_{ijll}(\frac{\mathbf{x}}{\epsilon}) = C_{ijkl}(\mathbf{y}) \quad \text{for } \frac{\mathbf{x}}{\epsilon} = \mathbf{x}_{\mathbf{T}_{\epsilon}(\mathbf{x})} + \mathbf{y}, \, \mathbf{x} \in \Omega_1^{\epsilon}
 \end{equation*}
-where $\mathbf{Y}_m$ and $\mathbf{Y}_p$ are defined as the domains occupied by the matrix and porous part respectively, and $\Gamma$ denotes the interface between them\footnote{This model is inspired in the development of the Homogenization of the elastic operator in a porous media proposed on \cite{christensen1982theory}. Nevertheless, this kind of configurations are typical in the two-scale homogenization literature \cite{panasenko2005multi-scale}, \cite{Boughammoura2013} to mention updated references.}.
+and being $C_{ijkl}(\frac{\mathbf{x}}{\epsilon}) = 0$ if $\mathbf{x} \in \overline{\Omega} \setminus \Omega_1^{\epsilon}$.
+ADD FIGURES OF THE HOMOGENIZATION IDEALIZATION!!
+
 \begin{rem}
-We model the material confined within the inclusion as a elastic (emulating a mechanical behavior mainly made of saturated static fluid) with volume $\epsilon^d \vert \mathbf{Y}_p \vert$ embedded in a elastic material (modeled mainly of hydroxipatite and collagen) filling a unit cell of volume $\epsilon^d \vert \mathbf{Y} \vert$.
+We model the material confined within the inclusion as a elastic (emulating a mechanical behavior of blood mixture mainly made of saturated static fluid) with volume $\epsilon^d \vert \mathbf{Y}_p \vert$ embedded in a elastic material (modeled mainly of hydroxipatite and collagen) filling a unit cell of volume $\epsilon^d \vert \mathbf{Y} \vert$.
 We define, after scaling, the porosity associated to the material as the fraction of volume occupied by the gas in the unitary cell, i.e., 
 \begin{equation*}
 \phi = \frac{\vert \mathbf{Y}_p \vert}{\vert \mathbf{Y} \vert} = \vert \mathbf{Y}_p \vert
 \end{equation*}
+which will define the material coefficients dependent of such parameters.
 \end{rem}
 
 

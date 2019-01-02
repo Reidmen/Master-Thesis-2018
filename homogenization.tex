@@ -161,6 +161,7 @@ Now, the idea is to obtain a reasonable result of time regularity for the soluti
 In this case, the idea will be to use a bootstrap type method to obtain the time-regularity for the mixed boundary problem, using the bounds obtained from spectral theory.
 
 \begin{prop}
+\label{BootstrapingProp}
 Let $u^{\epsilon} \in \mathcal{C}^{0}(0,T; \mathbf{H}^1(\Omega, \Gamma_D))$ denote the unique solution of the mixed boundary multiscale problem and suppose also the regularity for the parameters and surface force given by $A^{jk} \in L^{\infty}(\mathbf{Y})$ and $\mathbf{F} \in \mathcal{C}^p(0,T; \mathbf{L}^{2}(\Gamma_N))$, then for each $p \geq 1$ we have that:
 \begin{equation*}
     u^{\epsilon}, \partial_t u^{\epsilon} \in \mathcal{C}^p(0,T; \mathbf{L}^2(\Omega))
@@ -247,36 +248,36 @@ The ideas are taken from the three main references:
     \item Homogenisation: Averaging Processes in Periodic Media Mathematical Problems in the Mechanics of Composite Materials. \textbf{N. S. Bakhvalov, G. Panasenko}.
 \end{enumerate}
 
- In this section, we describe the algorithmic procedure to obtain the governing equation of multiscale model by means of the asymptotic approximation of the displacement $u^{\epsilon}(\mathbf{x},t)$ proposed on the two-scale homogenization theory. This framework enables us to obtain effective equation governing the overall macroscopic mechanical behavior incorporating the periodic microstructure of the underlying model, and so enabling us to produce less-computational intensive formulations to solve numerically.
+ In this section, its described the algorithmic procedure to obtain the effective (or macroscopic) equation derived from the multiscale model (\ref{MainPDE}) by means of the asymptotic approximation of the displacement $u^{\epsilon}(\mathbf{x},t)$ proposed by the two-scale homogenization theory.\footnote{The notation is inspired from \cite{altenbach2018generalized} which keeps the mechanical behavior explicitly stated in all the derivation of the homogenized model, thus keeping its physical interpretation in the context of solid mechanics.} This framework enables us to obtain an effective PDE model governing the overall macroscopic mechanical behavior that incorporates the highly oscillatory microstructure variation by means of cell problems. It provides moreover an algorithmic procedure suitable for numerical implementation.
 
-With the region $\Omega \subset \mathbb{R}^d$ and boundary $\partial \Omega = \Gamma_D \dot\cup \Gamma_N$, the general model to study using engineering notation is described for fixed time $t \in \mathbb{R}_+$ by the problem :
+With the region $\Omega \subset \mathbb{R}^d$ and boundaries $\partial \Omega^{\epsilon} = \Gamma_D \dot\cup \Gamma_N$, the general model to study using engineering notation is described for fixed time $t \in \mathbb{R}_+$ by the problem :
 \begin{equation}
     \label{VectorPDE-Elasticity}
-    \left \{
+    \left \{ 
     \begin{array}{cc}
-        \rho^{\epsilon}u^{\epsilon}(\mathbf{x}) \partial_{tt} u^{\epsilon}(\mathbf{x},t) - div \, \sigma(u^{\epsilon}(\mathbf{x},t)) = \mathbf{0} & \text{ in } \Omega \\
+        \rho^{\epsilon}\partial_{tt} u^{\epsilon}(t,\mathbf{x}) - div \, \sigma(u^{\epsilon}(t,\mathbf{x})) = \mathbf{0} & \text{ in } \Omega \\
         u^{\epsilon}(\mathbf{x}, t) = \mathbf{0} & \text{ on } \Gamma_D\\
         \sigma(u(\mathbf{x},t)) \cdot n = \mathbf{F}(\mathbf{x},t) & \text{ on } \Gamma_N
     \end{array}
     \right .
 \end{equation}
-where we associate also a initial condition in the form $u(\mathbf{x}, t) = 0 \text{ in } \Omega \times \{0\}$. For the constitutive law, we consider a generalized \textit{Hooke's} law, i.e.
+where we associate also a initial condition in the form $u(\mathbf{x}, t) = 0 \text{ in } \Omega \times \{0\}$. For the constitutive law, we consider a generalized linear \textit{Hooke's} behavior, i.e.
 \begin{equation}
     \label{ConstituteEq}
     \sigma^{\epsilon}(u^{\epsilon}(\mathbf{x}, t)) = \mathbf{C}(\mathbf{x}) : \mathbf{e}(u(\mathbf{x},t)) 
 \end{equation}
-where $\mathbf{C} = (C_{ijkl})$, and $\mathbf{e}(u(\mathbf{x},t)) = \mathbf{e}_{kl}(u(\mathbf{x},t))$ denotes the fourth rank and second rank tensors of elastic and strain respectively. In particular, the strain relationship in given in the form
+where $\mathbf{C} = (C_{ijkl})$, and $\mathbf{e}(u(\mathbf{x},t)) = \mathbf{e}_{kl}(u(t, \mathbf{x}))$ denotes the second rank strain tensor. In particular, the strain relationship in given in the form
 \begin{equation}
     \label{StrainEq}
     \mathbf{e}_{kl} (u(\mathbf{x},t)) = \frac{1}{2}\big( \partial_{x_l} u_k(\mathbf{x},t) + \partial_{x_k} u_l (\mathbf{x},t) \big)
 \end{equation}
 We take also, additional conditions:
 \begin{enumerate}
-    \item We take $\mathbf{x}$ as the global coordinate. Also, introduce a fast (or local) variable $\mathbf{y}$ in the form $y = \epsilon^{-1}\mathbf{x}$ where the parameter $\epsilon$ represents the a highly-oscillatory periodicity of the cell structure.
+    \item We take $\mathbf{x}$ as the global coordinate. Also, introduce a fast (or local) variable $\mathbf{y}$ in the form $\mathbf{y} = \epsilon^{-1}\mathbf{x}$ where the parameter $\epsilon$ represents the a highly-oscillatory periodicity of the cell structure.
     \item The stress tensor $C_{ijkl}$ satisfies that $\mathbf{C}^{\epsilon} (\mathbf{x}) = \mathbf{C}(\mathbf{x}/\epsilon)$ being Y-periodic (related to the fast variable microstructure length).
 \end{enumerate}
 
-Following the standard literature, the time-domain evolution problem is transformed via \textit{Fourier} transform, and the applied an asymptotic approximated solution.
+With the time-domain formulation (\ref{VectorPDE-Elasticity}) our interest is related in study the elastic operator. To this end, it will be changed the formulation by applying the \textit{Fourier} transform and study frequency-wise.
 
 Let us take Fourier transform to the problem, in such a way that we consider particular solutions for a frequency $\omega \in \mathbb{R}$ in the form:
 \begin{equation}
@@ -295,49 +296,51 @@ In this case, the problem defined in (\ref{VectorPDE-Elasticity}),( \ref{Constit
     \end{array}
     \right .
 \end{equation}
-where we have omitted the frequency dependency on the solution $\hat{u}^{\epsilon}$ for easy of exposure and used $\Hat{F}(\mathbf{x})$ as the Fourier transform at frequency $\omega$, i.e. we've used the equality $F(\mathbf{x}) = \Hat{F}(\mathbf{x})e^{i \omega t}$.
+where it was omitted the frequency dependency on the solution $\hat{u}^{\epsilon}$ for easiness of exposure and used $\Hat{F}(\omega, \mathbf{x})$ as the Fourier transform at frequency $\omega$ of $F(t, \mathbb{x})$, i.e. it is used the equality $F(\mathbf{x}) = \Hat{F}(\mathbf{x})e^{i \omega t}$.
 
 \subsection{Two-Scale Asymptotic Homogenization}
-We'll find an asymptotic solution for (\ref{VectorPDE-Freq}) at a fixed frequency $\omega \in \mathbb{R}$ in the form:
+Its assumed that the displacement solution for problem (\ref{VectorPDE-Freq}) can be expressed as an expansion at different $\epsilon$ scales. Thus, the solution is found by an asymptotic expression at a each fixed frequency $\omega \in \mathbb{R}$ in the form:
 \begin{equation*}
     \label{AsymptoticExpansion}
     \hat{u}(\mathbf{x},\epsilon) = \sum_{a=0}^{\infty} \epsilon^a \hat{u}^{(a)}(\mathbf{x},\mathbf{y}) 
 \end{equation*}
-where the vector functions $\hat{u}^{(a)}$ are Y-periodic for each $a >0$. 
-In particular, we assume throughout enough regularity
+where the vector functions $\hat{u}^{(a)}(\mathbf{x}, \cdot)$ are assumed Y-periodic for each $a>0$, since the microstructure is assumed preriodically distributed spanning the full domain $\Omega$. More explicitly, its assumed throughout, at each $a \in \mathbb{N}$, enough regularity in the form:
 \begin{equation*}
     \hat{u}^{(a)}(\mathbf{x},\mathbf{y}) \in \mathbf{H}^1\big(\Omega; \, \mathbf{H}^1_{\#}(\mathbf{Y})\big)
 \end{equation*}
-Since we have an explicit relation between the slow and fast variable, we consider natural expressions of strain rate dependent on the variable. Let us define for $\Phi \in \mathcal{C}^{\infty}(\Omega \times \mathbf{Y})$ the expressions related to the strain rate dependent on the variable:
+In what follows, it will be imposed several restrictions for the proposed solution (\ref{AsymptoticExpansion}) to effectively satisfy the problem (\ref{VectorPDE-Freq}). In particular, the regularity assumption will naturally be obtained from the restrictions that must be satisfied for each element $\hat{u}^{(a)}$.
+
+Since we have an explicit relation between the slow and fast variable, its considered a natural expressions of strain rate dependent on the variable. Let us define for $\Phi \in \mathcal{C}^{\infty}(\Omega \times \mathbf{Y})$ the expressions related to the strain rate dependent on the variable:
 \begin{equation*}
     \mathbf{e}_{kl,\alpha} (\Phi(\alpha)) = \frac{1}{2}(\partial_{\alpha_l} \Phi_k (\alpha) + \partial_{x_k} \Phi (\alpha)) \quad \forall \alpha \in \{\mathbf{x}, \mathbf{y}\}
 \end{equation*}
-With the above definition we can define a strain tensor $\mathbf{e}(\cdot)$ which satisfies the relation at components $k,l$ the relation:
+thus, after applying such expression over the strain tensor $\mathbf{e}(\cdot)$ it satisfies the relation at components $k,l$ given in the form:
 \begin{equation}
     \label{Multiscale-Strain}
     \mathbf{e}_{kl} ( \hat{u}^{(a)}(\mathbf{x}, \frac{\mathbf{x}}{\epsilon})) = \mathbf{e}_{kl,x}( \hat{u}^{(a)} (\mathbf{x},\mathbf{y})) + \epsilon^{-1} \mathbf{e}_{kl,y} (\hat{u}^{(a)}(\mathbf{x},\mathbf{y})) \quad (10.19)
 \end{equation}
 %%%%%%%%%%%%
-The main idea in the following is a separation of scales with so-called homogenized coefficients, approximating the overall macroscopic (effective) behavior by applying the asymptotic approximation solution:
+The main idea in the following is a separation of scales to obtain the so-called homogenized coefficients, approximating the overall macroscopic (effective) behavior by applying the asymptotic approximation, i.e.,
 \begin{equation*}
-    -\rho^{\epsilon}(\mathbf{x}) \omega^2 \hat{u}(\mathbf{x}, \epsilon) + P^{(\epsilon)}\hat{u}(\mathbf{x},\epsilon) \sim \mathcal{O}(\epsilon) 
+    -\rho^{\epsilon}(\mathbf{x}) \omega^2 \hat{u}^{(0)}(\mathbf{x}) + P^{(\epsilon)}(\hat{u}^{(0)}, \hat{u}^{(1)}) \sim \mathcal{O}(\epsilon^{\gamma}) \quad \gamma \geq 1/2 
 \end{equation*}
-where the operator $P^{(\epsilon)}$ is defined by:
+where the operator $P^{(\epsilon)}$ the elasticity operator is defined by:
 \begin{equation}
     \label{P-Operator}
-    P^{(\epsilon)}\hat{u}(\mathbf{x},\epsilon) \sim - div \, (\mathbf{C}(\mathbf{x}): \epsilon(\hat{u}(\mathbf{x},\epsilon)))
+    P^{(\epsilon)}(\hat{u}^{(0)}, \hat{u}^{(1)}) \sim - div \, (\mathbf{C}^{hom}(\mathbf{x}): \mathbf{e}(\hat{u}^{(0)}(\mathbf{x},\epsilon)))
 \end{equation}
+where $\mathbf{C}^{hom}(\mathbf{x})$ is some four-order tensor to be found and the right-hand side $\mathcal{O}(\epsilon^{\gamma})$ denotes the error expected from such an approximation. 
 
-To handle derivatives from \ref{P-Operator}, let us define the operator 
+To handle derivatives from (\ref{P-Operator}), let us define the operator 
 \begin{equation*}
     L_{\alpha \beta} (\cdot) = - \partial_{\alpha_j} \big( C_{ijkl} (\mathbf{y}) \mathbf{e}_{kl, \beta}(\cdot) \big), \quad \alpha, \beta \in \{ \mathbf{x},\mathbf{y} \}
 \end{equation*}
-And recall that, by the chain rule we have $\forall \Phi$ with the enough regularity stated before:
+And recall that, by the chain rule we have $\forall \, \Phi(\mathbf{x},\mathbf{y})$ enough regular vector function it follows:
 \begin{equation*}
     \partial_{x_j} (\Phi (\mathbf{x}, \frac{\mathbf{x}}{\epsilon})) = \big \{ \partial_{x_j} \Phi (\mathbf{x}, \mathbf{y}) + \frac{1}{\epsilon} \partial_{y_j} \Phi(\mathbf{x},\mathbf{y}) \big \}_{\mathbf{y}= \epsilon^{-1}\mathbf{x}}
 \end{equation*}
 
-Now, using \ref{AsymptoticExpansion},\ref{Multiscale-Strain} we would like to regroup in powers of $\epsilon$. To do this, note that by \ref{P-Operator} it follows:
+Now, using (\ref{AsymptoticExpansion}), (\ref{Multiscale-Strain}) we would like to regroup in powers of $\epsilon$, thus impose contrains over each term $\epsilon^{(a)}$ to satisfy the main formulation (\ref{VectorPDE-Freq}). To this end, note that by (\ref{P-Operator}) it follows:
 \begin{equation*}
     P^{(\epsilon)}(\hat{u}(\mathbf{x},\epsilon)) = A + B + C + \mathcal{O}(\epsilon^3)
 \end{equation*}
@@ -363,14 +366,14 @@ Similarly, for the other terms we have that:
 So, we obtain that for powers of $\epsilon$ the necessary conditions:
 \begin{equation}
     \label{Epsilon-Separation}
-    \begin{array}{cc}
-        \epsilon^{-2} \longrightarrow & L_{yy} \hat{u}^{(0)} = \mathbf{0} \\
-        \epsilon^{-1} \longrightarrow & L_{xy}\hat{u}^{(0)} + L_{yx}\hat{u}^{(0)} + L_{yy}\hat{u}^{(1)} = \mathbf{0} \\
-        \epsilon^{0} \longrightarrow & L_{xx}\hat{u}^{(0)} + L_{xy} \hat{u}^{(1)} + L_{yx}\hat{u}^{(1)} + L_{yy}^{(2)} + \rho(\mathbf{x}) \hat{u}^{(0)} = \mathbf{0}
+    \begin{array}{ccc}
+        \epsilon^{-2} \longrightarrow & L_{yy} \hat{u}^{(0)} &= \mathbf{0} \\
+        \epsilon^{-1} \longrightarrow & L_{xy}\hat{u}^{(0)} + L_{yx}\hat{u}^{(0)} + L_{yy}\hat{u}^{(1)} &= \mathbf{0} \\
+        \epsilon^{0} \longrightarrow & L_{xx}\hat{u}^{(0)} + L_{xy} \hat{u}^{(1)} + L_{yx}\hat{u}^{(1)} + L_{yy}^{(2)} + \rho(\mathbf{x}) \hat{u}^{(0)} &= \mathbf{0}
     \end{array}
 \end{equation}
 
-Let us consider the asymptotic expansion \ref{AsymptoticExpansion} as an approximation for the exact solution of the original problem \ref{VectorPDE-Freq} where their boundary conditions had been replaced to the behavior at $\mathcal{O}(1)$.
+Let us consider the asymptotic expansion (\ref{AsymptoticExpansion}) as an approximation for the exact solution of the original problem (\ref{VectorPDE-Freq}) where their boundary conditions had been replaced to the behavior at $\mathcal{O}(1)$.
 \begin{equation*}
     \left \{
     \begin{array}{cc}   
@@ -387,7 +390,7 @@ and the remaining terms for each $a \in \mathbb{N}$ in the expansion are assigne
     \end{array}
 \end{equation*}
 
-Let us recall a classical results for elliptic problems. It relates the existence for problems in \ref{Epsilon-Separation} by some compatibility conditions.
+Let us recall a classical results for elliptic problems. It relates the existence for problems in (\ref{Epsilon-Separation}) by some compatibility conditions.
 \begin{lem}
 \label{ExistenceLemma}
 Let $f(\cdot)$ be a square integrable function over $\mathbf{Y}$. Consider the problem:
@@ -550,78 +553,80 @@ and a hilbertian orthonormal base of $H$ given by eigenvector $w_m$ such that:
 
 
 \section{Justification of the homogenization}
-Having obtained the homogenized model, in this section it's developed the justification procedure of convergence of solutions in the space $\mathbf{H}^1(\Omega, \Gamma_D)$. To handle easily the derivatives, we rewrite our problem formulation to a canonical form described below \footnote{The choice of a cannonical formulation for the mixed boundary elastodynamic model is based on the straighforward usage of space derivatives and the estimation necessary to assure the justification of the asymptotic solution, in the sense that the two-scale approximate solution $u^{\epsilon}(\mathbf{x},t)$ converge to the real (experimental solution) $u(\mathbf{x},t)$ in some space with enough regularity.}.
-Over the bounded smooth domain $\Omega \subset \mathbb{R}^d$ we consider the multiscale evolution problem:
+Having obtained the homogenized model, in this section it is developed the justification procedure for the convergence of solution in the space $\mathbf{H}^1(\Omega, \Gamma_D)$. To handle easily the derivatives, it will be reformulated the problem \ref{MainPDE} to a canonical form described below \footnote{The choice of a canonical formulation for the mixed boundary elastodynamic model is based on the straightforward usage of space derivatives and the estimation necessary to assure the justification of the asymptotic solution, in the sense that the two-scale approximate solution $u^{\epsilon}(\mathbf{x},t)$ converge to the real (experimental solution) $u(\mathbf{x},t)$ in some space with enough regularity.}.
+
+Over the bounded smooth domain $\Omega \subset \mathbb{R}^d$ we consider the multiscale problem of second order in time:
 \begin{equation}
     \label{MainMultiPDE}
     \left \{
     \begin{array}{cc}
         \mathcal{L}_{\epsilon}(u^{\epsilon}) = \rho\big( \frac{\mathbf{x}}{\epsilon} \big) \partial_{tt} u^{\epsilon} - \partial_{x_h} \big( A^{hk}\big( \frac{\mathbf{x}}{\epsilon} \big) \partial_{x_k} u^{\epsilon} \big)  = \mathbf{0} & \text{ in } (0,T)\times \Omega  \\
-        \sigma^{\epsilon}(u^{\epsilon}) n := A^{hk}\big( \frac{\mathbf{x}}{\epsilon} \big) \partial_{x_k} u^{\epsilon} n_k  = \mathbf{F}(t,\mathbf{x}) & \text{ on } (0,T) \times \Gamma_N \\
+        \sigma^{\epsilon}(u^{\epsilon})\cdot n := A^{hk}\big( \frac{\mathbf{x}}{\epsilon} \big) \partial_{x_k} u^{\epsilon} n_k  = \mathbf{F}(t,\mathbf{x}) & \text{ on } (0,T) \times \Gamma_N \\
         u^{\epsilon} =  \mathbf{0} & \text{ on } (0,T) \times \Gamma_D \\
         \partial_t u^{\epsilon} = u^{\epsilon} = \mathbf{0} & \text{ on } \{ t=0 \} \times \Omega 
     \end{array}
     \right.
 \end{equation}
-where we suppose $\Gamma_D \dot \cup \Gamma_N = \partial \Omega$ and assume enough regularity for the boundaries (at least Lipschitz). It is also assumed that the coefficients matrices $A^{hk}$ satisfy conditions of uniformly ellipticity and boundness for all $t \in (0,T)$. \\
-Consider also the \textit{homogeneous} mixed problem for each $t \in (0,T)$ in the form:
+being $n$ the unit outward normal to $\partial \Omega$ where we used the disjoint decomposition $\partial \Omega = \Gamma_D \dot \cup \Gamma_N$ and assume enough regularity for the boundaries (at least Lipschitz). It is also assumed that the coefficients matrices $A^{hk}(\mathbf{y})$ are smooth functions, $1$-periodic that satisfy conditions of uniformly ellipticity and boundness in $\mathbf{y}$.\\
+Recalling also from (\ref{HomogenizedPDE}) the homogenized mixed problem, it is rewritten in canonical from for each $t \in (0,T)$ by:
 \begin{equation}
     \label{HomMultiPDE}
     \left \{
     \begin{array}{ccc}
         \mathcal{L}_0 (u^0) = \rho^0 \partial_{tt} u^0 - \partial_{x_h}\big( A^{hk}_{hom} \partial_{x_k} u^0 \big) = \mathbf{0} & \text{ in } (0,T)\times \Omega \\
-        \sigma^0(u^0)n := A^{hk}_{hom} \partial_{x_k}u^0 n = \mathbf{F} & \text{ on } (0,T) \times \Gamma_N \\
+        \sigma^0(u^0) \cdot n := A^{hk}_{hom} \partial_{x_k}u^0 n = \mathbf{F}(t, \mathbf{x}) & \text{ on } (0,T) \times \Gamma_N \\
         u^0 = \mathbf{0} & \text{ on } (0,T) \times \Gamma_D \\
         \partial_t u^0 = u^0 = \mathbf{0} & \text{ on } \{ t=0 \} \times \Omega
     \end{array}
     \right .
 \end{equation}
-where the matrices $A^{hk}_{hom}$ are defined by the formulas:
+where the matrices $A^{hk}_{hom}$ (denoting the homogenized material coefficients) are defined by the formulas:
 \begin{equation}
     \label{HomCoeffs}
     A^{pq}_{hom} = \int \limits_{\mathbf{Y}} A^{pq}(\mathbf{y}) + A^{pj} (\mathbf{y}) \partial_{y_j} \mathbf{N}^q (\mathbf{y}) \, d\mathbf{y}
 \end{equation}
-where the matrices $\mathbf{N}^q(\mathbf{y})$ are solutions of the following boundary value problem:
+being the matrices $\mathbf{N}^q(\mathbf{y})$ the so-called cell solutions of the following boundary value problem:
 \begin{equation}
     \label{CellProblems}
     \left \{
-    \begin{array}{ccc}
+    \begin{array}{cc}
         \partial_{y_k} \big( A^{kj}(\mathbf{y}) \partial_{y_j} \mathbf{N}^q \big) = -\partial_{y_k} \big( A^{kq}(\mathbf{y}) \big) & \text{ in } \mathbf{Y} \\
-        \mathbf{N}^q(\mathbf{y}) \text{ being 1-periodic} in \mathbf{y} & \int_{\mathbf{Y}}  \mathbf{N}^q (\mathbf{y}) \, d\mathbf{y} = \mathbf{0}
+        \mathbf{N}^q(\mathbf{y}) \quad 1\text{-periodic in } \mathbf{y}, & \int_{\mathbf{Y}}  \mathbf{N}^q (\mathbf{y}) \, d\mathbf{y} = \mathbf{0}
     \end{array}
     \right .
 \end{equation}
-where $\mathbf{Y} = (0,1)^N$ and $N \in \mathbf{N}^*$ denotes the dimension, usually $2$ or $3$.\\
+where $\mathbf{Y} = (0,1)^d$ is the characteristic microstructure and $d \in \mathbb{N}^*$ denotes the dimension, usually $2$ or $3$.\\
 
 \begin{rem}
- Let us observe that from (\ref{CellProblems}) in its variational form and by the coercivity and boundness condition over the coefficients $A^{kj}(\mathbf{y})$, if follows that formula (\ref{HomCoeffs}) inherit also the continuity and boundness condition. It follows then that the homogenized problem (\ref{HomMultiPDE}) is of elastic type, and moreover we can apply the same proof as in the case of REF PROP 2.2 obtaining then by bootstraping method the result:
+ Let us observe that from (\ref{CellProblems}) in its variational form, the coercivity and boundness condition over the coefficients $A^{kj}(\mathbf{y})$, if follows that formula (\ref{HomCoeffs}) inherit also the continuity and a boundness condition. It follows then that homogenized problem (\ref{HomMultiPDE}) is of elastic type, and moreover we can apply the same proof as in the case of prop. \ref{BootstrapingProp} obtaining then by bootstraping method:
  \begin{equation*}
      u^0, \, \partial_{t} u^0 \in \mathcal{C}^p (0,T; \mathbf{H}^1(\Omega, \Gamma_D))
  \end{equation*}
 \end{rem}
 
-
 We seek an approximate solution to problem (\ref{MainMultiPDE}) in the form:
 \begin{equation}
     \label{Asymptotic}
-    \tilde{u}(t,\mathbf{x}) = u^0 (t,\mathbf{x}) + \epsilon \varphi(\mathbf{x}) \mathbf{N}^{s} \big(t,\frac{\mathbf{x}}{\epsilon}) \partial_{x_s} u^0(t,x)
+    \tilde{u}(t,\mathbf{x}) = u^0 (t,\mathbf{x}) + \epsilon \mathbf{N}^{s} \big(\frac{\mathbf{x}}{\epsilon} \big) \partial_{x_s} u^0(t,x)
 \end{equation}
-where $u^0$ is the solution to problem (\ref{HomMultiPDE}), the $\mathbf{N}^{s} (\mathbf{y})$ solutions to (\ref{CellProblems}) and moreover the function $\varphi(\mathbf{x})$ denotes the truncation function satisfying the conditions 
-\begin{enumerate}
-    \item $\varphi \in \mathcal{C}^{\infty}(\Omega)$ with $\vert \nabla \varphi\vert \lesssim \epsilon^{-1}$,
-    \item $\varphi = 0$ in $\Gamma_D$ and $\varphi = 1$ outside an $\epsilon$-neighborhood of $\Gamma_D$.
-\end{enumerate}
-Such type of functions exists, in particular, we can consider the function $\varphi(\mathbf{x}) := w(\epsilon^{-1} \rho(\mathbf{x},\Gamma_D))$ being
+where $u^0$ is the solution to problem (\ref{HomMultiPDE}), the $\mathbf{N}^{s} (\mathbf{y})$ solutions to the so-called cell problems (\ref{CellProblems})
 
-\begin{equation*}
-    w(t) = 
-    \left \{
-    \begin{array}{cc}
-        t & \text{ if } 0 \leq t \leq 1 \\
-        1 & \text{ if } t > 1
-    \end{array}
-    \right .
-\end{equation*}
+%The function $\varphi(\mathbf{x})$ denotes the truncation function satisfying the conditions 
+%\begin{enumerate}
+%    \item $\varphi \in \mathcal{C}^{\infty}(\Omega)$ with $\vert \nabla \varphi\vert \lesssim \epsilon^{-1}$,
+%    \item $\varphi = 0$ in $\Gamma_D$ and $\varphi = 1$ outside an $\epsilon$-neighborhood of $\Gamma_D$.
+%\end{enumerate}
+%Such type of functions exists, in particular, we can consider the function $\varphi(\mathbf{x}) := w(\epsilon^{-1} \rho(\mathbf{x},\partial \Omega))$ being
+
+%\begin{equation*}
+%    w(t) = 
+%    \left \{
+%    \begin{array}{cc}
+%        t & \text{ if } 0 \leq t \leq 1 \\
+%        1 & \text{ if } t > 1
+%    \end{array}
+%    \right .
+%\end{equation*}
 
 \begin{rem}
 The truncation function $\varphi$ enters in the expression of $\tilde{u}$ since the matrices $\mathbf{N}^s \big(\frac{\mathbf{x}}{\epsilon}\big)$ are in general not defined in a neighborhood of $\Gamma_D$ (the other boundaries $\Gamma_N$ are associated with \textit{Neumann} type boundary conditions).
@@ -632,177 +637,147 @@ Now, we enunciate the main result, with a sketch of proof in the next section
 Assuming that $\mathbf{F} \in L^{\infty}(0,T;\mathbf{L}^{2}(\Gamma_N))$ and also $\mathbf{N}^q \in L^{\infty}(0,T; \mathbf{H}^1(\Omega))$ for each $q \in \{1,\dots, N\}$. Then the solutions $u^{\epsilon}$ and $u^0$ of problems (\ref{MainMultiPDE}) and (\ref{HomMultiPDE}) respectively, satisfy the following inequality
 \begin{equation*}
     \label{MainInequality}
-    \Vert u^{\epsilon} - u^0 - \epsilon \varphi \mathbf{N}^s \big(\frac{\mathbf{x}}{\epsilon} \big) \partial_{x_s} u^0 \Vert_{L^{\infty}(0,T; \mathbf{H}^1(\Omega, \Gamma_D))} \lesssim \epsilon^{1/2} \Vert \mathbf{F}\Vert_{L^{\infty}(0,T; \mathbf{L}^{2}(\Gamma_N)}
+    \Vert u^{\epsilon} - u^0 - \epsilon \mathbf{N}^s \big(\frac{\mathbf{x}}{\epsilon} \big) \partial_{x_s} u^0 \Vert_{L^{\infty}(0,T; \mathbf{H}^1(\Omega, \Gamma_D))} \lesssim \epsilon^{1/2} \Vert u^0 \Vert_{L^{\infty}(0,T; \mathbf{H}^{3}(\Omega)}
 \end{equation*}
 \end{theo}
 
 \section{Ideas for the Proof}
-Let us consider the following expression:
-\begin{equation*}
-    \alpha^{is}(\mathbf{y}) := A^{is}_{hom} - A^{is}(\mathbf{y}) - A^{ij}(\mathbf{y}) \partial_{y_j} \mathbf{N}^s(\mathbf{y}), \quad i,s \in \{1,\dots, N\}
-\end{equation*}
-\begin{lem}
-The matrices $\alpha^{is}(\mathbf{y})$ satisfy the conditions:
-\begin{equation}
-    \label{AlphaCondition}
-    \begin{array}{cc}
-         \int \limits_{\mathbf{Y}} \alpha^{is}(\mathbf{y}) \, d\mathbf{y} = \mathbf{0} & \forall i,s \in \{1,\dots, N\} \\
-         \partial_{y_i} \alpha^{is}(\mathbf{y}) = 0 & \text{ in }\mathbf{Y}, \forall s \in \{1,\dots, N\}
-    \end{array}
-\end{equation}
-\end{lem}
+The result, is constructed using the work done on \cite{oleinik1992mathematical}, extending the results from the elastostatic case to the elastodynamic model with mixed boundary conditions.
 
-Now, lets us see the main sketch of proof:\\
-
-Le us apply the operator $\mathcal{L}_{\epsilon}$ to a vector valued function $u^{\epsilon}-\tilde{u}$, where $\tilde{u}$ is defined by (\ref{Asymptotic}), then:
+The idea will be to study for fixed time $t \in (0,T)$ the elastodynamic operator $\mathbf{L}_{\epsilon}$.
+Let us apply the operator $\mathcal{L}_{\epsilon}$ to a vector valued function $u^{\epsilon}-\tilde{u}$, where $\tilde{u}$ is defined by (\ref{Asymptotic}), then:
 \begin{align*}
-    \mathcal{L}_{\epsilon} (u^{\epsilon}-\tilde{u}) &= \rho^{\epsilon} \partial_{tt} (u^{\epsilon}-\tilde{u}) - \partial_{x_h} \big( A^{hk}\partial_{x_k} u^{\epsilon} \big) + \partial_{x_h} \big( A^{hk}\partial_{x_k} (u^0 + \epsilon \varphi \mathbf{N}^s \partial_{x_s}u^0 )\big) \\
-    & \overset{(*)}{=} - \epsilon \varphi \rho^{\epsilon} \partial_{tt} \big( \mathbf{N}^s \partial_{x_s}u^0 \big) - \partial_{x_h} \big( \big[ A^{hk}_{hom} - A^{hk} - \epsilon A^{hj}\partial_{x_j} (\varphi \mathbf{N}^k \big] \partial_{x_k} u^0\big) \\
-    &\, + \epsilon \partial_{x_h} \big( \varphi A^{hk} \mathbf{N}^s \partial_{x_k x_h} u^0 \\
-    & \overset{(**)}{=} - \epsilon \varphi \rho^{\epsilon} \partial_{tt} \big( \mathbf{N}^s \partial_{x_s}u^0 \big) - \partial_{x_h} \big( (1-\varphi) \big[ A^{hk}_{hom} - A^{hk} \big] \partial_{x_k} u^0 \big)  \\
-    &\, - \partial_{x_h} \big( \varphi \big[ A^{hk}_{hom} - A^{hk} - \epsilon A^{hj} \partial_{x_j} \mathbf{N}^k \big] \partial_{x_k} u^0 \big) \\
-    &\, + \partial_{x_h} \big( \big[ \epsilon A^{hj} \partial_{x_j} \varphi \mathbf{N}^k \big] \partial_{x_k} u^0 \big) + \epsilon \partial_{x_h} \big( \varphi A^{hk} \mathbf{N}^s \partial_{x_k x_s} u^0 \big) 
+    \mathcal{L}_{\epsilon} (u^{\epsilon}-\tilde{u}) &= \rho^{\epsilon} \partial_{tt} (u^{\epsilon}-\tilde{u}) - \partial_{x_h} \big( A^{hk}\partial_{x_k} u^{\epsilon} \big) + \partial_{x_h} \big( A^{hk}\partial_{x_k} (u^0 + \epsilon \mathbf{N}^s \partial_{x_s}u^0 )\big) \\
+    & \overset{(*)}{=} - (\rho^{\epsilon}-\rho^0) \partial_{tt} u^0 - \epsilon \rho^{\epsilon} \partial_{tt}\big(\mathbf{N}^s \partial_{x_s}u^0 \big)  \\
+    & - \partial_{x_h} \big[ \big( A_{hom}^{hk} - A^{hk} - \epsilon A^{hj}\partial_{x_j}\big) \partial_{x_k} u^0 \big] - \epsilon \partial_{x_h} \big( A^{hk} N^s \partial_{x_k x_s} u^0 \big) 
 \end{align*}
-where in $(*)$ we've reordered and relabeled the terms and in $(**)$ we've added a new term.
+where in $(*)$ we've reordered and relabeled the terms, and separated term with $\epsilon$ order.
 Taking into account the equation in (\ref{CellProblems}) for the $\mathbf{N}^s$ we obtain:
 \begin{align*}
-    \mathcal{L}_{\epsilon} (u^{\epsilon} - \tilde{u}) & = - \epsilon \varphi \rho^{\epsilon} \partial_{tt} \big( \mathbf{N}^s \partial_{x_s} u^0 \big) - \partial_{x_h} \big( (1-\varphi) \big[ A^{hk}_{hom} - A^{hk} \big] \partial_{x_k} u^0 \big) \\
-    & \, - \big[ A^{hk}_{hom} - A^{hk} - \epsilon A^{hj} \partial_{x_j} \mathbf{N}^k - \epsilon \partial_{x_s} \big( A^{sh}\mathbf{N}^k \big) \big] \varphi \partial_{x_k x_h} u^0 \\
-    &\, - \partial_{x_h} \varphi \alpha^{hk} \partial_{x_k} u^0 + \epsilon \partial_{x_h} \big( \partial_{x_j} \varphi A^{hj} \mathbf{N}^k \partial_{x_k} u^0 \big) + \epsilon \partial_{x_h} \varphi A^{hk} \mathbf{N}^s \partial_{x_k x_s} u^0 \\
-    & \, + \epsilon \varphi A^{hk} \mathbf{N}^s \partial_{x_k x_h x_s} u^0
+    \mathcal{L}_{\epsilon} (u^{\epsilon} - \tilde{u}) & = - (\rho^{\epsilon}-\rho^0) \partial_{tt} u^0 - \epsilon \rho^{\epsilon} \partial_{tt}\big(\mathbf{N}^s \partial_{x_s}u^0 \big)  \\
+    & + \epsilon A^{hk}N^s \partial_{x_h x_k x_s} - \big[ A^{pq}_{hom} - A^{pq} - A^{pj} \partial_{y_j} N^q - \partial_{y_h}(A^{hp} N^q) \big] \partial_{x_p x_q} u^0 
 \end{align*}
-Let us define the matrices $\mathbf{N}^{hk}(\mathbf{y})$ as weak solutions of the following boundary value problem
+
+
+From the above expression, let us define the matrices $\mathbf{N}^{hk}(\mathbf{y})$ as weak solutions of the following boundary value problem
 \begin{equation}
     \label{SecondCellProblem}
     \left \{
     \begin{array}{cc}
-        \partial_{y_j} \big( A^{jl}\partial_{y_l} \mathbf{N}^{hk}\big) = -\partial_{y_s} \big( A^{sh} \mathbf{N}^k\big) - A^{hj}\partial_{y_j} \mathbf{N}^k - A^{hk} + A^{hk}_{hom} & \text{ in } \mathbf{Y}\\
-        \mathbf{N}^{hk}(\mathbf{y}) \text{ being $\mathbf{Y}$-periodic}
+        \partial_{y_k} \big( A^{kj}\partial_{y_j} \mathbf{N}^{pq}\big) = -\partial_{y_k} \big( A^{kp} \mathbf{N}^q\big) - A^{pj}\partial_{y_j} \mathbf{N}^q - A^{pq} + A^{pq}_{hom} & \text{ in } \mathbf{Y}\\
+        \sigma(N^{pq})\cdot n := A^{kl}\partial_{x_k}N^{pq}n_l = - n_k A^{pk}N^q & \text{ on } \partial \mathbf{Y} \\
+        \mathbf{N}^{hk}(\mathbf{y}) \text{ $\mathbf{Y}$-periodic}, \quad  \int_{\mathbf{Y}} N^{pq} d \mathbf{y} = 0 &
     \end{array}
     \right .
 \end{equation}
+
 So, using (\ref{SecondCellProblem}) we can obtain:
 \begin{align*}
-    \mathcal{L}_{\epsilon} (u^{\epsilon} -\tilde{u}) & = - \epsilon \varphi \rho^{\epsilon} \partial_{tt} \big( \mathbf{N}^s \partial_{x_s} u^0\big) - \partial_{x_h} \big( (1-\varphi) \big[ A^{hk}_{hom} - A^{hk} \big] \partial_{x_k} u^0 \big) \\
-    & \, - \epsilon \partial_{x_j} \big[ \varphi A^{jl} \partial_{y_l} \mathbf{N}^{hk} \partial_{x_k x_h} u^0 \big] + \epsilon \partial_{x_j} \varphi A^{jl} \partial_{y_l} \partial_{x_k x_h} u^0 \\
-    &\, + \epsilon \varphi A^{jl} \partial_{y_l} \mathbf{N}^{hk} \partial_{x_j x_k x_h} u^0 - \partial_{x_h}\varphi \alpha^{hk} \partial_{x_k} u^0 \\
-    & \, + \epsilon \partial_{x_h} \big[ \partial_{x_j} \varphi A^{hj} \mathbf{N}^{k} \partial_{x_k} u^0 \big] + \epsilon \partial_{x_h} \varphi A^{hk} \mathbf{N}^s \partial_{x_k x_s} u^0 \\
-    & \, + \epsilon \varphi A^{hk} \mathbf{N}^s \partial_{x_k x_h x_s} u^0 
+    \mathcal{L}_{\epsilon} (u^{\epsilon} -\tilde{u})  = & - (\rho^{\epsilon}-\rho^0) \partial_{tt} u^0 - \epsilon \rho^{\epsilon} \partial_{tt}\big(\mathbf{N}^s \partial_{x_s}u^0 \big)  \\
+    & + \epsilon A^{hk} N^s \partial_{x_h x_k x_s} u^0 + \epsilon A^{kj} \partial_{y_j} N^{pq} \partial_{x_p x_q x_k} u^0  \\
+    & - \epsilon \partial_{x_k} \big[ A^{kj} \partial_{y_j} N^{pq} \partial_{x_p x_q} u^0\big] 
 \end{align*}
 
 Thus, we have:
 \begin{equation}
-    \mathcal{L}_{\epsilon} (u^{\epsilon}-\tilde{u}) = G_{tt} + \partial_{x_h} G_h^1 + \partial_{x_j} G_j^2 + G_1^0 + G_2^0 + G_3^0
+    \mathcal{L}_{\epsilon} (u^{\epsilon}-\tilde{u}) = G_{tt}^0 + \epsilon G_{tt}^1 + \epsilon F_0 + \epsilon \partial_{x_k} F_k
 \end{equation}
 where each term is defined by:
 \begin{equation}
     \label{Variables}
-    \begin{array}{cc}
-        G_{tt}= & -\epsilon \varphi \rho^{\epsilon} \partial_{tt} \big( \mathbf{N}^s \partial_{x_s} u^0 \big) \\
-        G_h^1= &-(1-\varphi) \big[ A^{hk}_{hom} - A^{hk}\big] \partial_{x_k} u^0 + \epsilon \partial_{x_j}\varphi A^{hj} \mathbf{N}^k \partial_{x_k} u^0 \\
-        G_j^2 = & -\epsilon \varphi A^{jl}\partial_{y_l} \mathbf{N}^{hk} \partial_{x_k x_h} u^0 \\
-        G_1^0 = & \epsilon \partial_{x_j} \varphi A^{jl} \partial_{y_l} \mathbf{N}^{hk} \partial_{x_k x_h} u^0 + \epsilon \partial_{x_h} \varphi A^{hk} \mathbf{N}^s \partial_{x_k x_s} u^0 \\
-        G_2^0 = & \epsilon \varphi A^{jl} \partial_{y_l} \mathbf{N}^{hk} \partial_{x_j x_k x_h} u^0 + \epsilon \varphi A^{hk} \mathbf{N}^s \partial_{x_k x_h x_s} u^0 \\
-        G_3^0 = & - \partial_{x_h} \varphi \alpha^{hk} \partial_{x_k} u^0
-    \end{array}
+    \begin{aligned}
+        G_{tt}^0 = & -(\rho^{\epsilon} - \rho^0) \partial_{tt}u^0 \\
+        G_{tt}^1 = & -\rho^{\epsilon} \partial_{tt}(N^s \partial_{x_s} u^0) \\
+        F_1 = & A^{hk}N^s \partial_{x_h x_k x_s} u^0  + A^{kj}\partial_{y_j} N^{pq} \partial_{x_p x_q x_k} u^0 \\
+        F^0_k = & - A^{kj} \partial_{y_j} N^{pq} \partial_{x_p x_q} u^0 
+    \end{aligned}
 \end{equation}
-\begin{rem}
-Let us note that in $\Gamma_D$ we have by construction $\varphi = 0$ so that by the (\ref{Asymptotic}) expansion, it follows that $u^{\epsilon}\vert_{\Gamma_D} = u^0 \vert_{\Gamma_D}$.
-\end{rem}
-Let us now, obtain the \textit{Neumann} expression for the difference $u^{\epsilon} - \tilde{u}$. We have:
+Let us now obtain a expression for the Neumann condition at $\Gamma_N$. To this end, applying $\sigma_{\epsilon}$ to the difference $u^{\epsilon} - \tilde{u}$ it follows that:
 \begin{align*}
-    \sigma_{\epsilon} (u^{\epsilon} - \tilde{u}) =& A^{ij} \partial_{x_j} (u^{\epsilon}) n_i - A^{ij} \partial_{x_j} \big( u^0 + \epsilon \varphi \mathbf{N}^s \partial_{x_s}u^0\big) n_i \\
-    &= (1-\varphi) A^{ij} \partial_{x_j} (u^{\epsilon})n_i - (1-\varphi) A^{ij}_{hom} \partial_{x_j} (u^0) n_i + (1-\varphi) \big( A^{ij}_{hom} - A^{ij} \big) \partial_{x_j} (u^0)n_i \\
-    &\, - \varphi \big( A^{ij} + \epsilon A^{il} \partial_{x_l} \mathbf{N}^j \big) n_i \partial_{x_j}(u^0) - \epsilon A^{ij} \partial_{x_j}\varphi \mathbf{N}^s \partial_{x_s}(u^0) n_i \\
-    &\, - \epsilon A^{ij} \varphi \mathbf{N}^s \partial_{x_s x_j} u^0 n_i 
+    \sigma_{\epsilon} (u^{\epsilon} - \tilde{u}) = & \sigma_{\epsilon}(u^{\epsilon}) - \sigma_{\epsilon} (\tilde{u}) \\
+    & = F_h(t) n_h - A^{hk} \partial_{x_k} \big( u^0 + \epsilon N^s \partial_{x_s}u^0 \big) \\
+    & = \big(A^{hk}_{hom} - A^{hk} \big) \partial_{x_k} u^0 n_h - A^{hl} \partial_{y_l} N^s \partial_{x_s} u^0 n_h - \epsilon A^{hk} N^s \partial_{x_k x_s} u^0 
 \end{align*}
-It follows then from (\ref{Variables}) that:
+
+Taking into account the obtained expression, let us define:
+\begin{equation*}
+    \alpha^{is}(\mathbf{y}) := A^{is}_{hom} - A^{is}(\mathbf{y}) - A^{ij}(\mathbf{y}) \partial_{y_j} \mathbf{N}^s(\mathbf{y}), \quad i,s \in \{1,\dots, N\}
+\end{equation*}
+That allows us obtain the expression at the Neumann boundary after considering the 
 \begin{equation}
-    \label{NeumannCond}
-    \sigma_{\epsilon} (u^{\epsilon}-\tilde{u}) = (1-\varphi) A^{ij} \partial_{x_j}(u^{\epsilon}) n_i - (1-\varphi) A^{ij}_{hom} \partial_{x_j}(u^0)n_i - G_h^1 n_h - G_j^2 n_j \text{ on } \partial \Omega
-\end{equation}
-Let us define by $\Omega \setminus \Omega_1(\epsilon)$ the $\epsilon$-neighborhood of $\Gamma_D$ such that $\varphi = 0$. Due to the boundary conditions for $u^0, u^{\epsilon}$ and using the fact that $\varphi = 0$ in $\Omega \setminus \Omega_1$, then if $w = u^{\epsilon}-\tilde{u}$ it follows from (\ref{NeumannCond}) that:
-\begin{equation}
-    \label{MainVariationalForm}
-    \begin{array}{cc}
-        \int_{\Omega} (\rho^{\epsilon} \partial_{tt}w, w) & + \big( A^{hk} \partial_{x_k} w, \partial_{x_h}w \big) = \int_{\Omega} (G_{tt}, w) - \int_{\Omega} (G_h^1,\partial_{x_h} w) - \int_{\Omega} ( G_h^2,\partial_{x_h} w) \\
-        & \, + \int_{\Omega} (G_1^0, w) + (G_2^0, w) + (G_3^0, w) + \int_{\partial \Omega} (\sigma_{\epsilon}(w), w) \\
-        & = \int_{\Omega} (G_{tt},w) - \int_{\Omega} (G_h^1, \partial_{x_h}w) - \int_{\Omega} (G_h^2, \partial_{x_h}w) \\
-        & \, + \int_{\Omega} (G_1^0,w) + (G_2^0,w) + (G_3^0,w)
-       % By continuity the below integrals 
-       % & \, + \int_{\partial \Omega \setminus \Gamma_N} \big( (1-\varphi) A^{ij}\partial_{x_j}u^0, w \big) + \int_{\partial \Omega \setminus \Gamma_N} \big( (1-\varphi) A^{ij}_{hom}\partial_{x_j} u^0, w \big) 
-    \end{array}
+    \label{NeumannExp}
+    \begin{aligned}
+    \sigma_{\epsilon} (u^{\epsilon}-\tilde{u}) &= \alpha^{hs} \partial_{x_s} u^0 n_h - \epsilon A^{hk}N^s \partial_{x_k x_s} u^0 n_h \\
+    & = \alpha^{hs} \partial_{x_s} u^0 n_h + \epsilon F_2
+    \end{aligned}
 \end{equation}
 
-Let us estimate the integrals in the right-hand side of the equality (\ref{MainVariationalForm}).
-Note first from the construction of the cut function $\varphi$, we have that $\partial_{x_j} \varphi$ and $1-\varphi$ vanish on $\Omega \cap \{ \rho(x, \Gamma_D \} \geq \epsilon \}$ and moreover, $\vert \epsilon \nabla \varphi \vert \leq C$ for some constant $C > 0$ independent of $\epsilon > 0$.
+The function $\alpha^{hs}$ has been studied before in the same context by Oleinik \cite{oleinik1992mathematical} who shown a continuty property, i.e., for each $v \in \mathbf{H}^1(\Omega)$ 
+\begin{equation}
+    \label{OleinikLemma2.2}
+    \left \vert \int_{\partial \Omega} \alpha^{ik}(\frac{\mathbf{x}}{\epsilon}) v_k n_i \,ds \right \vert \lesssim\epsilon^{1/2} \Vert v \Vert_{\mathbf{H}_0^1(\Omega)}
+\end{equation}
+which applies to our case of interest test functions $v \in \mathbf{H}^1(\Omega, \Gamma_D)$.
 
-\begin{lem}
-\label{BoundLemma}
-Let $\Omega'$ be a bounded domain with a smooth boundary segment $\Gamma' \subset \partial \Omega'$ and $B_{\delta}' = \{ \rho(\mathbf{x}, \Gamma') < \delta \}$ for $\delta > 0$. Then there exist $\delta_0 > 0$ such that for every $\delta \in (0, \delta_0)$ and every $v \in H^1(\Omega)$ we have:
+%\begin{lem}
+%The matrices $\alpha^{is}(\mathbf{y})$ satisfy the conditions:
+%\begin{equation}
+%    \label{AlphaCondition}
+%    \begin{array}{cc}
+ %        \int \limits_{\mathbf{Y}} \alpha^{is}(\mathbf{y}) \, d\mathbf{y} = \mathbf{0} & \forall i,s \in \{1,\dots, N\} \\
+%         \partial_{y_i} \alpha^{is}(\mathbf{y}) = 0 & \text{ in }\mathbf{Y}, \forall s \in \{1,\dots, N\}
+%    \end{array}
+%\end{equation}
+%\end{lem}
+On the other hand, at the boundary $\Gamma_D$ we have for the difference $u^{\epsilon} - \tilde{u}$ that:
 \begin{equation*}
-    \Vert v\Vert_{\mathbf{L}^2(B_{\delta}')} \lesssim \delta^{1/2} \Vert v \Vert_{\mathbf{H}^1(\Omega')}
-\end{equation*}
-where the constant associated is independent of $\delta$ and $v$.
-\end{lem}
-Therefore, using the Lemma (\ref{BoundLemma}) it follows from (\ref{Variables}) that:
+    u^{\epsilon} - \tilde{u} = - \epsilon N^s \partial_{x_s}u^0 \equiv \psi_{\epsilon}
+\end{equation*} 
+Such kind of function satisfies moreover the bound
 \begin{equation}
-    \label{G1Bound}
-\left \vert \int_{\Omega} \big( G_h^1, \partial_{x_h} w\big) \right \vert + \left \vert \int_{\Omega} (G_1^0,w) \right \vert \lesssim \epsilon^{1/2} \Vert u^0 \Vert_{\mathbf{H}^3(\Omega)} \Vert w \Vert_{\mathbf{H}^1(\Omega)} 
-\end{equation}
-where the constant found in the bound is independent of $\epsilon > 0$.
-Moreover, from again from (\ref{Variables}) it follows that:
-\begin{equation}
-    \label{G2Bound}
-    \left \vert \int_{\Omega} (G^2_h, \partial_{x_h} w) \right \vert + \left \vert (G^0_2,w) \right \vert \lesssim \epsilon \Vert u^0 \Vert_{\mathbf{H}^3(\Omega)} \Vert w \Vert_{\mathbf{H}^1(\Omega)}
-\end{equation}
-where again, the constant found is independent of $\epsilon > 0$.
-Now, let us define the expression:
-\begin{equation}
-    \label{J1Expression}
-    \begin{array}{ccc}
-        J_1 & = &\int_{\Omega} (G_3^0,w)\\ %+ \int_{\partial \Omega_1 \setminus \Gamma_D} \big( A^{ij}_{hom} (1-\varphi) \partial_{x_j}u^0 n_i,w) \\
-        & = &-\int_{\Omega_1} (\partial_{x_h}(\varphi - 1) \alpha^{hk} \partial_{x_k}u^0,w) \\ %- \int_{\partial \Omega_1 \setminus \Gamma_D} (\varphi-1) \big( A^{ij}_{hom} \partial_{x_j} u^0 n_i,w) \\
-        & = &-\int_{\partial \Omega_1} \big( \alpha^{hk} \partial_{x_k} u^0,w\big) \\% - \int_{\partial \Omega_1 \setminus \Gamma_D} \big( A^{ij}_{hom} \partial_{x_j} u^0 n_i, w\big) \\
-        & &\, - \int_{\Omega_1} \big( (\varphi -1) \alpha^{hk} \partial_{x_k x_h} u^0,w\big) - \int_{\Omega_1} (\varphi -1) \big( \alpha^{hk} \partial_{x_k} u^0, \partial_{x_h}w \big)
-    \end{array}
-\end{equation}
-\begin{rem}
-Let us note that the integral over $\partial \Omega_1$ has normal $n$ exterior to $\partial \Omega_1$.
-\end{rem}
-It follows again, using the Lemma (\ref{BoundLemma}) on the last two integrals of (\ref{J1Expression}) the bound for them is given by:
+    \label{BoundDirichlet}
+    \Vert \psi_{\epsilon} \Vert_{\mathbf{H}^{1/2}(\Gamma_D)} \lesssim \epsilon^{1/2} \Vert u^0 \Vert_{\mathbf{H}^2(\Omega)}
+\end{equation} 
+
+To prove (\ref{BoundDirichlet}), it suffices to find a function $\Psi_{\epsilon} \in H^1(\Omega)$ such that $\Psi_{\epsilon} \vert_{\Gamma_D} = \psi_{\epsilon} \in \mathbf{H}^{1/2}(\Gamma_D)$ with $\Vert \Psi_{\epsilon} \Vert_{\mathbf{H}^1(\Omega)} \lesssim \epsilon^{1/2} \Vert u^0 \Vert_{\mathbf{H}^2(\Omega)}$.
+Let us define such $\Psi_{\epsilon}(\mathbf{x})$ using a cutoff function. To this end, let $\varphi_{\epsilon} \in \mathcal{C}^{\infty}(\Omega)$ be such that:
 \begin{equation*}
-    \lesssim \epsilon^{1/2} \Vert u^0 \Vert_{\mathbf{H}^3(\Omega)} \Vert w \Vert_{\mathbf{H}^1(\Omega)}
+    \left \{
+    \begin{aligned}
+    \varphi_{\epsilon}(\mathbf{x}) = 1 & \text{ if } \rho(\mathbf{x}, \Gamma_D) \leq \epsilon \\
+    \varphi_{\epsilon}(\mathbf{x}) = 0 & \text{ if } \rho(\mathbf{x}, \Gamma_D) \geq 2\epsilon 
+    \end{aligned}
+    \right.
 \end{equation*}
-It follows from the last equality (\ref{J1Expression}) that:
+with $0 \leq \varphi_{\epsilon}(\mathbf{x}) \leq 1$ and $\vert \nabla \varphi_{\epsilon} \vert \lesssim \epsilon^{-1}$.
+Then, by construction it follows that $\Psi_{\epsilon} := \epsilon \varphi_{\epsilon} N^s \partial_{x_s}u^0 \in \mathbf{H}^1(\Omega)$.
+By applying the properties of $\varphi_{\epsilon}$ and the uniformly boundness in $\epsilon$ of $N^s, \partial_{y_j} N^s$ for each $s,j \in \{1,\dots, d\}$ it follows:
+\begin{equation*}
+    \Vert \Psi_{\epsilon} \Vert_{H^1(\Omega)} \leq \Vert u^0 \Vert_{H^1(\Omega^{\epsilon})} + \epsilon \Vert u^0 \Vert_{\mathbf{H}^2(\Omega)}
+\end{equation*}
+being $\Omega^{\epsilon} = \{\mathbf{x}\in \Omega \, :\, \rho(\mathbf{x},\Gamma_d) \leq 2\epsilon \}$. From which, can then be deduced the desired result after applying a well-known results (Lemma 1.5) $\Vert u^0 \Vert_{\mathbf{H}^1(\Omega^{\epsilon})} \lesssim \epsilon^{1/2} \Vert u^0 \Vert_{\mathbf{H}^2(\Omega)}$.
+
+We obtain finally a mixed boundary evolution problem for the variable $u^{\epsilon} - \tilde{u}$ in the form:
 \begin{equation}
-    \label{J1Bound}
-    \vert J_1 \vert \leq \vert J_2 \vert + C \epsilon^{1/2} \Vert u^0 \Vert_{\mathbf{H}^3(\Omega)} \Vert w \Vert_{\mathbf{H}^1(\Omega)}
+    \label{MixedFormulationDiff}
+    \left \{
+    \begin{aligned}
+        \mathcal{L}_{\epsilon}(u^{\epsilon} - \tilde{u}) = G_{tt}^0 + \epsilon G_tt^1 + \epsilon \partial_{x_k} F_k^0 + \epsilon F_1   & \text{ in } \Omega_T \\
+        u^{\epsilon}-\tilde{u} = \psi_{\epsilon} & \text{ on } (0,T)\times \Gamma_D\\
+        \sigma_{\epsilon}(u^{\epsilon}-\tilde{u}) = F_0 + \epsilon F_1 & \text{ on } (0,T)\times\Gamma_N
+    \end{aligned}
+    \right .
 \end{equation}
-where we have now:
-\begin{equation}
-    \label{J2Expression}
-    J_2 = - \int_{\partial \Omega_1} \big( \alpha^{hk}(\frac{\mathbf{x}}{\epsilon}) n_h \partial_{x_k} u^0, w\big)
-\end{equation}
-Let us recall the following result:
-\begin{lem}
-Let the matrices $\gamma^{hk}(\mathbf{x})\in \big[L^{\infty}(\partial \Omega_1)\big]^{n\times n}$ be such that we have the uniform conditions
-\begin{equation}
-    \int_{\sigma_h^m} \gamma^{hk}(\mathbf{x}) = \mathbf{0}, \quad \underset{\partial \Omega_1}{sup} \vert \gamma^{hk} \vert \leq \gamma
-\end{equation}
-where $h,k \in \{1,\dots,n\}, m = \{1,\dots,l_h\}$ and $\gamma  > 0$ constant. Then for any vector valued function $u^0 \in \mathbf{H}^3(\Omega), \, w \in \mathbf{H}^1(\Omega)$ the inequality
-\begin{equation}
-    \label{GammaBound}
-    \left \vert \int_{\partial \Omega_1} \big(\gamma_{hk} \partial_{x_k} u^0, w \big) \right \vert \lesssim \epsilon^{1/2} \gamma \Vert u^0 \Vert_{\mathbf{H}^3(\Omega)} \Vert w \Vert_{\mathbf{H}^1(\Omega)}
-\end{equation}
-independent of $\epsilon > 0$.
-\end{lem}
-Let us define then $\gamma^{hk} = \alpha^{hk}$. It follows that the conditions of the above Lemma are fulfilled, then by  (\ref{GammaBound}) we conclude that:
-\begin{equation}
-    \label{J2Bound}
-    \vert J_2 \vert \lesssim \epsilon^{1/2} \Vert u^0 \Vert_{\mathbf{H}^3(\Omega)} \Vert w \Vert_{\mathbf{H}^1(\Omega)}
-\end{equation}
-It follows the desired result after using (\ref{G1Bound}),(\ref{G2Bound}), (\ref{J1Bound}), (\ref{J2Bound}), and the uniform bound for the expression with $G_{tt}$ since the regularity assumptions for $\mathbf{N}^q$.
+where each term $G_{tt}^0, G_{tt}^1, F_k^0, F_0, F_1$ are uniformly bounded in $\epsilon$, in the form for each $t \in (0,T)$:
+\begin{equation*}
+    \Vert F_k^0(t) \Vert_{\mathbf{L}^2(\Omega)} \lesssim \Vert u^0 \Vert_{L^{\infty}(0,T; \mathbf{H}^3(\Omega)}
+\end{equation*}
+and $\psi_{\epsilon}$ is bounded by (\ref{BoundDirichlet}), moreover the operator $\mathcal{L}_{\epsilon}(\cdot)$ is of the elastodynamic type.
+It follows that problem (\ref{MixedFormulationDiff}) is a well-posed evolution problem, which can be solved as in the case of the previous multiscale problems by using the spectral decomposition method as studied in simplified cases on \cite{raviart1983introduction}. So, the existence of solution is guaranteed and the continuity condition with respect to the initial data implies in particular the bound
+\begin{equation*}
+    \Vert u^{\epsilon} - u^0 - \epsilon N^s \partial_{x_s}u^0 \Vert_{L^{\infty}(0,T; \mathbf{H}^1(\Omega)} \lesssim \epsilon^{1/2} \Vert u^0 \Vert_{L^{\infty}(0,T; \mathbf{H}^3(\Omega)}
+\end{equation*}
+
 
 \begin{rem}
 Let us note from the above that we have the bound for each $t \in (0,T)$ given by:
@@ -1001,10 +976,10 @@ To study the continuity condition on the effective coefficients $C^{hom}_{ijkl}(
 Using (\ref{eq:cell_symmetric}) rewritten in tensor notation, we have the following equality that relates the cell solutions to their coefficients associated to the porosity level being used, in the form:
 \begin{equation}
     \label{eq:diff_Nrs}
-    \begin{array}{cc}
+    \begin{aligned}
         \int\limits_{\mathbf{Y}} \mathbf{C}(\mathbf{y},p):\mathbf{e}\big( N^{rs}(p)-N^{rs}(q) \big) : \mathbf{e}(v) & =  -\int\limits_{\mathbf{Y}} \mathbf{C}(p)-\mathbf{C}(q) : m_{rs}:\mathbf{e}(v) \\
         & \quad - \int\limits_{\mathbf{Y}}\mathbf{C}(p)-\mathbf{C}(q):\mathbf{e}(N^{rs}(q)):\mathbf{e}(v)
-    \end{array}
+    \end{aligned}
 \end{equation}
 So that, using (\ref{eq:diff_Nrs}) it follows the representation $\forall v \in H^1_{\#,0}(\mathbf{Y})$
 \begin{equation}
@@ -1023,18 +998,19 @@ from which after taking H\"{o}lder inequality and recalling the coercivity of $\
 
 Let us then estimate the difference between the homogenized coefficients associated to the porosities $\overline{p},\overline{q}$. By applying the definition and rearranging terms it follows:
 \begin{equation*}
-    \begin{array}{cc}
+    \begin{aligned}
         C^{hom}_{ijrs}(\overline{p}) - C^{hom}_{ijrs}(\overline{q}) = & \int_{\mathbf{Y}} \mathbf{C}(\overline{p}):m_{rs} + \mathbf{e}(N^{rs}(\overline{p})):m_{ij} - \int_{\mathbf{Y}} \mathbf{C}(\overline{q}):m_{rs} + \mathbf{e}(N^{rs}(\overline{q})):m_{ij}\\
-        = & \int_{\mathbf{Y}} \mathbf{C}(\overline{p}) - \mathbf{C}(\overline{q}):m_{rs} + \mathbf{e}(N^{rs}(\overline{p}):m_{ij} + \int_{\mathbf{Y}} \mathbf{C}(q):\mathbf{e}(N^{rs}(\overline{p})) - \mathbf{e}(N^{rs}(\overline{q})):m_{ij} 
-    \end{array}
+        = & \int_{\mathbf{Y}} \mathbf{C}(\overline{p}) - \mathbf{C}(\overline{q}):m_{rs} + \mathbf{e}(N^{rs}(\overline{p})):m_{ij} \\
+        & + \int_{\mathbf{Y}} \mathbf{C}(q):\mathbf{e}(N^{rs}(\overline{p})) - \mathbf{e}(N^{rs}(\overline{q})):m_{ij} 
+    \end{aligned}
 \end{equation*}
 and by applying the H\"{o}lder inequality and using (\ref{eq:ineq_diff_N}) we obtain that:
 \begin{equation}
     \label{eq:diff-HomCoeffs}
-    \begin{array}{cc}
-        \vert C^{hom}_{ijrs}(\overline{p}) - C^{hom}_{ijrs}(\overline{q})\vert \leq & \Vert \mathbf{C}(p)-\mathbf{C}(q) \Vert_{\mathcal{L}(M(\mathbf{Y})} \Vert m_{rs}+e(N^{rs}(\overline{p}) \Vert_{M(\mathbf{Y}} \\
+    \begin{aligned}
+        \vert C^{hom}_{ijrs}(\overline{p}) - C^{hom}_{ijrs}(\overline{q})\vert \leq & \, \Vert \mathbf{C}(p)-\mathbf{C}(q) \Vert_{\mathcal{L}(M(\mathbf{Y})} \Vert m_{rs}+e(N^{rs}(\overline{p}) \Vert_{M(\mathbf{Y}} \\
          & +  \frac{\beta}{\alpha} \Vert \mathbf{C}(p)-\mathbf{C}(q) \Vert_{M(\mathbf{Y})} \Vert m_{rs}+\mathbf{e}(N^{rs}) \Vert_{M(\mathbf{Y})} 
-    \end{array}
+    \end{aligned}
 \end{equation}
 
 Applying finally the estimation (\ref{eq:Estimate-Nrs}) over (\ref{eq:diff-HomCoeffs}) it follows the continuity property for the coefficients in the form:
@@ -1062,7 +1038,7 @@ which after applying the estimate (\ref{eq:Estimate-Nrs}) we obtain the inequali
 Finally, with the above estimates we are able to obtain a bound for the difference of the homogenized elastic tensors. As before, let $\overline{p}, \overline{q}$ be two porosity level on $(0,1)$.
 By applying the equality (\ref{eq:DerivHomCoeff}),rearranging terms and applying directly H\"{o}lder inequality, it follows:
 \begin{align*}
-    \vert \partial_p C_{ijrs}(\overline{p}) - \partial_p C_{ijrs}(\overline{q}) \vert \leq & \Vert \partial_p \mathbf{C}(\overline{p}) - \partial_p \mathbf{C}(\overline{q}) \Vert \Vert m_{rs} + \mathbf{e}(N^{rs}(\overline{p}) \Vert_{M(\mathbf{Y})} \Vert m_{ji} + \mathbf{e}(N^{ij}(\overline{p}))\Vert_{M(\mathbf{Y})} \\
+    \vert \partial_p C_{ijrs}(\overline{p}) - \partial_p C_{ijrs}(\overline{q}) \vert \leq & \,\Vert \partial_p \mathbf{C}(\overline{p}) - \partial_p \mathbf{C}(\overline{q}) \Vert \Vert m_{rs} + \mathbf{e}(N^{rs}(\overline{p}) \Vert_{M(\mathbf{Y})} \Vert m_{ji} + \mathbf{e}(N^{ij}(\overline{p}))\Vert_{M(\mathbf{Y})} \\
     & + \Vert \partial_p \mathbf{C}(\overline{q}) \Vert \Vert \mathbf{e}(N^{rs}(\overline{p}) -\mathbf{e}(N^{rs}(\overline{q})) \Vert_{M(\mathbf{Y})} \Vert m_{ij} + \mathbf{e}(N^{ij}(\overline{q}) \Vert_{M(\mathbf{Y})}  \\
     & + \Vert \partial_p \mathbf{C}(\overline{q}) \Vert \Vert m_{rs} + \mathbf{e}(N^{rs}(\overline{p})) \Vert_{M(\mathbf{Y})} \Vert \mathbf{e}(N^{ij}(\overline{p})) - \mathbf{e}(N^{ij}(\overline{q})) \Vert_{M(\mathbf{Y})}
 \end{align*}

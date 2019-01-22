@@ -18,9 +18,9 @@ Let $\{\mathbf{V}_h \}_{0 \leq h \leq 1}$ be a family of finite-dimensional subs
 \begin{equation*}
     \Vert v - \Pi_h v \Vert_{\mathcal{L}(\mathbf{W};\mathbf{V}_h} \leq h^{k+1} \Vert v \Vert_{\mathbf{W}} \quad \forall v \in \mathbf{W}
 \end{equation*}
-In particular, the above assumptions are assured in REFERENCE: HUDGENDS PAPER.
+%In particular, the above assumptions are assured in REFERENCE: HUDGENDS PAPER.
 \begin{rem}
-In our case the interest will considering $\mathbf{V} = \mathbb{L}^2(\Omega, \Gamma_D)$ and $\mathbf{W} = \mathbf{H}^1(\Omega, \Gamma_D)$ being $\mathbf{V}_h$ the $\mathbf{H}^1$-conformal finite element spaces using as reference element $\{ \hat{K}, \hat{P}, \hat{\sigma}$ of \textit{Lagrange} type with typical order $k \in \{1,2\}$, such that $\mathbb{P}_k \subset \hat{P}$ with $\mathbf{W} := \mathbf{H}^{k+1}(\Omega) \cap \mathbf{H}^1(\Omega, \Gamma_D$
+In our case the interest will considering $\mathbf{V} = \mathbb{L}^2(\Omega)$ and $\mathbf{W} = \mathbf{H}^1(\Omega, \Gamma_D)$ being $\mathbf{V}_h$ the $\mathbf{H}^1$-conformal finite element spaces using as reference element $\{ \hat{K}, \hat{P}, \hat{\sigma} \}$ of \textit{Lagrange} type with typical order $k \in \{1,2\}$, such that $\mathbb{P}_k \subset \hat{P}$ with $\mathbf{W} := \mathbf{H}^{k+1}(\Omega) \cap \mathbf{H}^1(\Omega, \Gamma_D)$
 \end{rem}
 
 Let us then consider the approximate problem:
@@ -58,8 +58,7 @@ With such notation, it follows the matrix form formulation for the problem in sp
     \end{array}
     \right.
 \end{equation}
-
-MENTION FENICS PROJECT (AS A FOOTNOTE?)
+\footnote{The implementation of such space discretization is done in Python using a state-of-art open-source project called \texttt{FEniCS}, defined as a set of specific core component such as\texttt{DOLFIN}, \textit{UFL},  \textit{UFC}, etc. It enables the automatic solution of differential forms implementing the Theory of Finite Elements with numerically optimized libraries for arithmetic computations. The project is an international collaboration initiated in 2003 between the University of Chicago and Chalmers University of Technology currently under development from a variety of institutions.}
 
 \subsection{Time Discretization}
 Let us note first that (\ref{MatrixFormulation}) is an standard \textit{Cauchy} ODE problem, To solve numerically such system, we will introduce an uniform time-step in the form $\Delta t = T/N$ with a discretization of the interval $[0, T]$ in the form:

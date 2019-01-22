@@ -7,7 +7,7 @@ Such a PDE problem is characterized by a unique vector valued solution $\mathbf{
     \left \{
     \begin{array}{cc}
         - \partial_{y_j} \big[C_{ijkl}(\mathbf{y}) \mathbf{e}_{kl,y} \big( \mathbf{N}^{rs}(\mathbf{y}) \big)  \big] = \partial_{y_j} \big( C_{ijrs} (\mathbf{y}) \big)& \text{ in } \mathbf{Y} \\
-        \big[ C_{ijkl}(\mathbf{y}) \epsilon_{kl,\mathbf{y}}\big( N^{rs}(\mathbf{y}) \big) \big]n_j = 0 &  \forall \mathbf{y} \in \partial Y
+        \big[ C_{ijkl}(\mathbf{y}) \mathbf{e}_{kl,\mathbf{y}}\big( N^{rs}(\mathbf{y}) \big) \big]n_j = 0 &  \forall \mathbf{y} \in \partial Y
     \end{array}
     \right.
 \end{equation*}
@@ -60,22 +60,38 @@ for increasing values of $n \in \mathbb{N}$, knowing $\mathcal{K}_n = \mathcal{K
 \end{equation*}
 At each iteration, its computed the residual by least squares, where under reasonable assumptions of symmetry of the matrix, the residual will be sufficiently small for $n \ll m$.} with preconditioner given by \textit{iLU} (incomplete LU factorization). Such consideration where done to obtain convergence with stable results.
 
-The results are then compared with the approximation of the homogenized coefficients for cortical bone using the same input coefficient data of \cite{Parnell2008}
+The results are then compared with the approximation of the homogenized coefficients for cortical bone using the same input coefficient data of \cite{Parnell2008}.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/CellsProb/CellProb_MainHomCoeffsCircular.pdf}
-	\caption{Logo de la Facultad}
-	\label{kldmuytu}
+	\caption{Main Diagonal Coefficients from the \textit{Voigt} elastic tensor with transverse isotropy symmetry.}
+	\label{MainHomCoeffs}
 \end{figure}
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/CellsProb/CellProb_OthersHomCoeffsCircular.pdf}
-	\caption{Logo de la Facultad}
-	\label{kldfgdmalsda}
+	\caption{Shear type elastic coefficients from the \textit{Voigt} matrix, in the case of transverse isotropy.}
+	\label{OtherHomCoeffs}
 \end{figure}
-ADD TABLE OF RELATIVE ERROR WRT PG APPROX SOLUTIONS
+
+\begin{center}
+\begin{tabular}{ |p{2.5cm}||p{2cm}|p{2cm}|p{2cm}|p{2cm}| }
+ \hline
+ \multicolumn{5}{|c|}{Homogenized Coefficients} \\
+ \hline
+ Per. Error & $\phi = 5 \%$ & $\phi = 10 \%$ & $\phi = 15 \%$ & $\phi = 20 \%$ \\
+ \hline
+ $C^{hom}_{22}$ & 0.6 \% & 1.3 \% & 1.3 \% & 1.5 \% \\
+ $C^{hom}_{33}$ & 0.1 \% & 0.1 \% & 0.1 \% & 0.1 \% \\
+ $C^{hom}_{55}$ & 0.1 \% & 0.1 \% & 0.1 \% & 0.1 \% \\
+ $C^{hom}_{66}$ & 1.4 \& & 3.3 \% & 6.3 \% & 9.0 \% \\
+ $C^{hom}_{12}$ & 0.8 \% & 1.5 \% & 3.3 \% & 5.9 \% \\
+ $C^{hom}_{23}$ & 0.4 \& & 0.1 \% & 0.3 \% & 1.0 \% \\
+ \hline
+\end{tabular}
+\end{center}
 
 \begin{rem}
 It's important to note also the periodic microstructure idealization being used in \cite{Parnell2008} since it corresponds to an hexagonal structure defining the mesoscale, while the idealization proposed here is a square microstructure.
@@ -117,29 +133,29 @@ In particular, the presence of a closed domain implies reflection with different
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TimeMultSous/2DTimeS8P12ElasticFK10M780_y.pdf}
-	\caption{Logo de la Facultad}
-	\label{kldmalsda}
+	\caption{Numerically Simulated $(f,k)$-diagram of 2D Transverse Elastodynamic Model: Setting of 8 sources with $12\%$ porosity and thickness of $1.0 [mm]$.}
+	\label{FK-DiagramS8P12M10}
 \end{figure}
 EXPLAINS THE SV FIGURES!
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/TimeMultSous/2DTimeS8P12Elastic10_SV.pdf}
-	\caption{Logo de la Facultad}
-	\label{k765lsda}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-DiagramS8P12M10}}
+	\label{SVD-S8P12M10}
 \end{figure}
 OTHER PAIR OF TH, PO SIMULATIONS
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TimeMultSous/2DTimeS8P3ElasticFK28M780_y.pdf}
-	\caption{Logo de la Facultad}
-	\label{klyhu6sda}
+	\caption{Numerically Simulated $(f,k)$-diagram of 2D Transverse Elastodynamic Model: Setting of 8 sources with $3\%$ porosity and thickness of $2.8 [mm]$.}
+	\label{FK-DiagramS8P3M28}
 \end{figure}
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/TimeMultSous/2DTimeS8P3Elastic28_SV.pdf}
-	\caption{Logo de la Facultad}
-	\label{k765lsda}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-DiagramS8P3M28}}
+	\label{SVD-S8P3M28}
 \end{figure}
 
 
@@ -148,17 +164,17 @@ OTHER PAIR OF TH, PO SIMULATIONS
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=.5]{images/TimeSingSous/2DTime_P7ElasticFK30M1460_y.pdf}
-	\caption{Logo de la Facultad}
-	\label{kldmalgdfgdsda}
+	\includegraphics[width=\textwidth]{images/TimeSingSous/2DTime_P7ElasticFK30M1460_y.pdf}
+	\caption{Numerically Simulated $(f,k)$-diagram of 2D Transverse Elastodynamic Model: Setting of 1 source with $3\%$ porosity and thickness of $2.8 [mm]$.}
+	\label{FK-DiagramS1P7M30}
 \end{figure}
 
 ADD CONSIDERATION OF USING A SINGLE SOURCE WITH DIFFERENT COMPUTATIONAL COST!!
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/TimeSingSous/2DTime_P7Elastic30_SV.pdf}
-	\caption{Logo de la Facultad}
-	\label{kldmalsda}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-DiagramS1P7M30}}
+	\label{SVD-S1P7M30}
 \end{figure}
 
 MENTION OBSERVED SINGULAR VALUES! GENERATE IMAGES!
@@ -183,37 +199,38 @@ Applying then such a projection filter we obtain the results qualitatively and q
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=.5]{images/TimeSingSous/2DTimeHilb_P7ElasticFK30M1460_y.pdf}
-	\caption{Logo de la Facultad}
-	\label{kdasldgdgf}
+	\includegraphics[width=\textwidth]{images/TimeSingSous/2DTimeHilb_P7ElasticFK30M1460_y.pdf}
+	\caption{Numerically Simulated $(f,k)$-diagram of 2D Elastodynamic Model: Setting of 1 source with $7\%$ porosity and thickness of $3.0 [mm]$ appplying Hilbert transform to delete reflexions.}
+	\label{FK-Hil-DiagramS1P7M30}
 \end{figure} 
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/TimeSingSous/2DTimeHilb_P7Elastic30_SV.pdf}
-	\caption{Logo de la Facultad}
-	\label{klbvcsda}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-Hil-DiagramS1P7M30}}
+	\label{SVD-Hil-S1P7M30}
 \end{figure}
 
 \subsection{Case on Frequency Domain}
 
 The time-domain simulation given results which represent qualitatively the model with enough fidelity, nevertheless such simulation requires a relatively small time step in such a way that the full simulation take considerable time. Thus, it is necessary to consider a model which reduces the computational cost.
 To this end, taking into account that the signal processing involves the application of \texttt{FFT} over the sensors data, a straightforward method is to consider the simulations now in the time-domain over the arrays of frequencies that are of interest.
+
 \subsubsection{Solutions without Attenuation}
 In this case, using the schemes proposed in the section before showed results in which Lamb-Waves and also $dB$ figures where affected by distortions FIGURE BELOW. Such kind of behavior repeated over different pairs of porosity level and thickness associated to the simulations, in such a way that was necessary to study the spectrum of the elastic operator.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/FreqRes/2DFreqS8P10ElasticFK09M300_y.pdf}
-	\caption{Logo de la Facultad}
-	\label{kdasl6t}
+	\caption{Numerically Simulated $(f,k)$-diagram of 2D Elastic Model on Frequency Domain: Setting of 8 sources with $10\%$ porosity and thickness of $0.9 [mm]$}
+	\label{FK-Freq-DiagramS8P10M09}
 \end{figure} 
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/FreqRes/2DFreqS810Elastic09_SV.pdf}
-	\caption{Logo de la Facultad}
-	\label{kdahjgjh}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-Freq-DiagramS8P10M09}}
+	\label{SVD-Freq-S8P10M09}
 \end{figure} 
 
 Such a study corresponds to the formulation of an eigenvalue problem associated to the elastic operator, defined as finding the pairs $\{(\lambda_k, u_k) \, : \, k \in \mathbb{N} \} \subset \mathbb{R}_+ \times \mathbf{H}^1(\Omega, \Gamma_D)$ solution to the following variational form:
@@ -235,15 +252,15 @@ Ket us note in particular that the existence of such pairs is obtained from a cl
 
 It was found numerically a spectrum with abundant eigen-frequencies in bounded intervals of frequency (predicted from the theory), nevertheless the experimental frequency array which was necessary to use for further studies in connection with the real data, showed a neighborhood of at least eigen-frequencies over each experimentally selected frequency. 
 
-The FIGURE BELOW shown the frequencies used in the experimental setting used for the simulations in the frequency domain and the eigen-frequencies associated to the operator under study.
+In (\ref{EigenValuesComparison}) is shown the frequencies used in the experimental setting used for the simulations in the frequency domain and the eigen-frequencies associated to the operator under study.
 
 \begin{figure}%
     \centering
-    \subfloat[label 1]{{\includegraphics[width=7cm]{images/FreqRes/SingValues-EigenFreqs05-10.pdf} }}%
+    \subfloat[Start Bandwidth]{{\includegraphics[width=7cm]{images/FreqRes/SingValues-EigenFreqs05-10.pdf} }}%
     \qquad
-    \subfloat[label 2]{{\includegraphics[width=7cm]{images/FreqRes/SingValues-EigenFreqs15-20.pdf} }}%
-    \caption{2 Figures side by side}%
-    \label{fig:example}%
+    \subfloat[End Bandwith]{{\includegraphics[width=7cm]{images/FreqRes/SingValues-EigenFreqs15-20.pdf} }}%
+    \caption{Comparison between Singular Values and Eigen-frequencies: Experimentally its found a increasing sequence of eigenvalues that intersects the experimentally chosen array frequencies.}%
+    \label{EigenValuesComparison}%
 \end{figure}
 
 

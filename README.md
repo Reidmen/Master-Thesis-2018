@@ -1,16 +1,10 @@
-# Clase umemoria v1.3 - Manual de Instrucciones
+# Clase umemoria v1.4 - Instructions
 
-21-06-2012
+22-01-2019
 
-## Requisitos
-El requisito principal para instalar esta clase es, por supuesto, una distribución de LaTeX funcionando.
-En Windows se recomienda MiKTeX 2.8 o superior y TeXLive 2009 o superior en Linux u OS X. Dado que esta es la
-configuración recomendada, las instrucciones siguientes estarán centradas en estas distribuciones. De todas formas,
-la instalación de esta clase es posible en cualquier distribución relativamente reciente de LaTeX pero
-los métodos de instalación podrían variar.
-
-Para el correcto funcionamiento de la clase, adicionalmente a la distribución de LaTeX, deberán estar
-instalados los siguientes packages:
+## Requirements
+This setup is currently being used with overleaf.com
+The required packages to run sucessfully the template:
 * geometry
 * amsmath, amssymb, amsthm
 * graphicx
@@ -18,23 +12,9 @@ instalados los siguientes packages:
 * hyperref
 * parskip
 
-Para instrucciones de como instalar estos packages en su distribución, por favor consulte el manual de la misma.
-Esta clase se encuentra en fase de desarrollo, así que estos requisitos podrían variar a futuro. Se está
-realizando el máximo esfuerzo posible para tener el mínimo de dependencias, de forma que esta clase
-pueda ser utilizada en un ambiente minimal.
+## Instalation
+Fully running of ``Overleaf.com``
 
-## Instalación
-La instalación de la clase depende del sistema operativo y la distribución de LaTeX en uso.
-
-### Windows/MiKTeX 2.8 o superior
-Basta con los archivos umemoria.cls y escudou.pdf a la carpeta %MiKTeX%\tex\latex\base y ejecutar el comando
-	```initexmf --update-fndb```
-en la línea de comandos. Como alternativa a este último paso, se puede ir al menú Inicio y bajo el apartado
-de MiKTeX iniciar el programa "Settings", y hacer click en el botón "Refresh FNDB".
-
-### Linux/TeXLive 2009 o superior
-Es necesarior copiar los archivos umemoria.cls y escudou.pdf al directorio $TEXLIVE/texmf-local/tex/latex/base y ejecutar
-el comando ```maketexlsr```
 
 ### Alternativa
 Otra alternativa es copiar los archivos umemoria.cls y escudou.pdf a la misma carpeta donde se encuentra el archivo fuente
@@ -85,17 +65,16 @@ Se definen además entornos que ayudan a dar un formateo adecuado a cada parte d
 * \begin{intro} \end{intro}: Introducción. Es un capítulo no numerado, que se agrega al índice.
 * \begin{conclusion} \end{conclusion}: Conclusion. Es un capítulo no numerado, que se agrega al índice.
 
-#### Entornos matemáticos
-Además, se definen entornos 'matemáticos' que permiten agergar teoremas, definiciónes, etc. de manera ordenada y coherente con el estilo del texto. Estos entornos son
+#### Mathematical Environments
 
-* defn: Definicion.
-* teo: Teorema.
-* cor: Corolario.
-* lema: Lema.
-* prop: Proposicion.
-* ej: Ejemplo.
-* obs: Observacion.
-* proof: Demostración. Se agrega automáticamente el símbolo de término de la demostración al final de esta.
+* defn: Definition.
+* theo: Theorem.
+* cor: Corollary.
+* lemma: Lemma.
+* prop: Proposition.
+* ex: Example.
+* rem: Remark,
+* proof: Proof, automatically added the ending black square.
 
 Por defecto, cada uno de estos entornos tiene una numeración correlativa e intercapítulos, es decir, escribir un teorema, una definición y luego otro teorema
 en el capítulo 1 y luego otro teorema en el capítulo 2 tendrá como resultado lo siguiente:

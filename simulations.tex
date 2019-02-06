@@ -43,7 +43,7 @@ which is given by the symmetries of the transverse isotropy of the material comp
 
 We consider then simulations of the homogenized coefficients in function of the porosity level, i.e., setting the circular inclusion with radious $r(p)$ being $p \in (0,1)$ the set of admissible porosity levels, in the form 
 \begin{equation*}
-    p := \frac{\vert \mathbf{Y}_f \Vert }{\vert \mathbf{Y}\vert} = \pi r(p)^2 \implies r(p) := \sqrt{\frac{p}{\pi}}
+    p := \frac{\vert \mathbf{Y}_f \vert }{\vert \mathbf{Y}\vert} = \pi r(p)^2 \implies r(p) := \sqrt{\frac{p}{\pi}}
 \end{equation*}
 
 Explicitly, we consider an increasing array of possible porosity levels associated limited to the clinical interest intervals, i.e. we limit ourselves to the interval $[0, 0.3]$ of possible porosities. The numerical solution to the model is done using the UFL language implemented within the library FEniCS\footnote{The FEniCS project is an international initiative, started in 2013 with the objective to automate the solution of mathematical models based of Partial Differential Equations, for example of the type elliptic as the heat equation, hyperbolic as the wave equation, quasi-hyperbolic equations, etc., using the Finite Element theory and formalism to find such solution. More in general, its capable to find an approximate solution by means of a well-posed general variational formulation. \\
@@ -65,15 +65,15 @@ The results are then compared with the approximation of the homogenized coeffici
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/CellsProb/CellProb_MainHomCoeffsCircular.pdf}
-	\caption{Main Diagonal Coefficients from the \textit{Voigt} elastic tensor with transverse isotropy symmetry.}
-	\label{MainHomCoeffs}
+	\caption{Main diagonal elastic homogenized coefficients in \textit{Voigt} notation. They describe an transverse isotropic behavior, spanned in the figure on the biomedical range of $(1,30) [\%]$ cortical porosity. The characteristic microstructure in this case is of unitary square.}
+	\label{MainHomCoeffsSquare}
 \end{figure}
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/CellsProb/CellProb_OthersHomCoeffsCircular.pdf}
-	\caption{Shear type elastic coefficients from the \textit{Voigt} matrix, in the case of transverse isotropy.}
-	\label{OtherHomCoeffs}
+	\caption{Other diagonal elastic homogenized coefficients in \textit{Voigt} notation. They describe an transverse isotropic behavior, spanned in the figure on the biomedical range of $(1,30) [\%]$ cortical porosity with unitary square characteristic microstructure.}
+	\label{OtherHomCoeffsSquare}
 \end{figure}
 
 \begin{center}
@@ -102,15 +102,15 @@ Nevertheless, if we consider now a model using a microstructure as the one defin
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/CellsProb/CellProb_MainHomCoeffsCircularHexa.pdf}
-	\caption{Logo de la Facultad}
-	\label{kloiuouda}
+	\caption{Main diagonal elastic tensor coefficients in \textit{Voigt} notation. The figure shows the prediction values over the range $(1,30) [\%]$ of porosity with characteristic microstructure defined by an hexagonal 2-dimensional polygon.}
+	\label{MainHomCoeffsHexagonal}
 \end{figure}
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/CellsProb/CellProb_OthersHomCoeffsCircularHexa.pdf}
-	\caption{Logo de la Facultad}
-	\label{klojhgjha}
+	\caption{Shear type elastic homogenized coeffs. in \textit{Voigt} notation. The figure shows the behavior over the range $(1,30) [\%]$ porosity with characteristic microstructure described by a hexagonal 2-dimensional polygon.}
+	\label{OtherHomCoeffsHexagonal}
 \end{figure}
 
 \subsection{Simulations of Wave Propagation}
@@ -121,35 +121,45 @@ The experimental measurement procedure consist in the following steps:
     \item Each source associated to the emission transductor is placed approximately at a distance of $0.5 \, [mm]$ from one another, being together a set of 8-12 different sources. 
     \item The detection is obtained by placing approximately from 24-72 sensors depending on the configuration used, where each one is placed at a distance approximately of $0.4 \, [mm]$ from one another.
 \end{itemize}
-Explicitly, the force acting is modeled in vertical direction associated to the horizontal plane of the skin pointing to the center of the cortical bone with a central time $t_0 > 0$ and oscillation speed $\tau_0 > 0$ defined by:
+Explicitly, the force acting is modeled in vertical direction associated to the horizontal plane of the skin pointing to the center of the cortical bone with a central time $t_0 > 0$ and oscillation speed $\tau_0 > 0$, i.e., described in the form:
 \begin{equation}
     \mathbf{F}(\mathbf{x},t) = - e^{\frac{(t-t_0)^2}{2\sigma^2}} cos( 2 \pi t \tau_0 ) \mathbb{I}_{\mathbf{x} \in \Gamma_i} \hat{j} \quad \text{ on } \Gamma_N
 \end{equation}
 where $\{ \Gamma_i\}_{ i \in \{1,\dots, 8\}} \subset \Gamma_N$ denotes a disjoint subset of boundaries where the force is applied. 
-Such kind of configuration produce empirically and can be probed theoretically the existence of the so-called \textit{Lamb}-waves that describe the particular propagation of the guided wave associated to the elastic coefficients and density of the model being used.
-In particular, the presence of a closed domain implies reflection with different directions associated to the \textit{Neumann} or \textit{Dirichlet} respectively.
+Over such kind of configuration it can be proved theoretically the existence of the so-called \textit{Lamb}-waves that describe the particular propagation of guided waves associated to the elastic coefficients and density of the model being used.
+In particular, the presence of a closed domain implies reflection with different directions related to the \textit{Neumann} or \textit{Dirichlet} respectively.
 
 \subsubsection{Case of Multiple Sources}
+Its simulated under the setting of 8 force sources positioned at equal distances of one to another. It defines then 8 different experiment thus wave-guided propagation with its recordings.
+The figure \ref{FK-DiagramS8P12M10} describes the \textit{Lamb}-waves curves with the numerically simulated $(f,k)$-diagram. It shows the validation of the numerical model with respect to the theoretical prediction curves, observing clear correspondence between symmetrical and anti-symmetrical modes.
+
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TimeMultSous/2DTimeS8P12ElasticFK10M780_y.pdf}
 	\caption{Numerically Simulated $(f,k)$-diagram of 2D Transverse Elastodynamic Model: Setting of 8 sources with $12\%$ porosity and thickness of $1.0 [mm]$.}
 	\label{FK-DiagramS8P12M10}
 \end{figure}
-EXPLAINS THE SV FIGURES!
+
+Similarly \ref{SVD-S8P12M10} describes the modes in $[dB]$ from the singular value decomposition of the recording array. It shows the preponderance of the first three modes describing the wave-front.
+
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/TimeMultSous/2DTimeS8P12Elastic10_SV.pdf}
 	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-DiagramS8P12M10}}
 	\label{SVD-S8P12M10}
 \end{figure}
-OTHER PAIR OF TH, PO SIMULATIONS
+
+The presence of several symmetric and antisymmetric modes expressed by the \textit{Lamb} waves is related experimentally with higher thickness values, since in this case the range of horizontal propagation is bigger.
+Under such consideration, its shown on figure \ref{FK-DiagramS8P3M28} the wave-front simulations for a different pair $(Th., Po.)$, displaying a greater number of prediction curves.
+
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TimeMultSous/2DTimeS8P3ElasticFK28M780_y.pdf}
 	\caption{Numerically Simulated $(f,k)$-diagram of 2D Transverse Elastodynamic Model: Setting of 8 sources with $3\%$ porosity and thickness of $2.8 [mm]$.}
 	\label{FK-DiagramS8P3M28}
 \end{figure}
+
+Similarly, the corresponding modes in $[dB]$ from the singular value decomposition of the recording signal is shown on \ref{SVD-S8P3M28}, that compares naturally to the experimental reference literature.
 
 \begin{figure}[!h]
 	\centering
@@ -161,27 +171,28 @@ OTHER PAIR OF TH, PO SIMULATIONS
 
 
 \subsubsection{Case of a Single Source}
+The above study of 8-source simulations to generate one sample of data introduces the problems of computational simulation under limited resources and time. 
+To tackle such problem, its used the space invariance of the elastic wave since the recording to generate the output data array corresponds to just a space translation of the input signal for each one of the 8 propagation, thus such setting can be exchanged for one source with a higher number of sensors lowering the time-cost of the full simulation to 1/8 of the initial time.
 
+Its shown then on figure \ref{FK-DiagramS1P6M33} the $(f,k)$-diagram associated to the 1-source simulations setting. It presents natural reflections related to the rectangular 2-dimensional domain used with mixed boundary conditions.
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=\textwidth]{images/TimeSingSous/2DTime_P7ElasticFK30M1460_y.pdf}
-	\caption{Numerically Simulated $(f,k)$-diagram of 2D Transverse Elastodynamic Model: Setting of 1 source with $3\%$ porosity and thickness of $2.8 [mm]$.}
-	\label{FK-DiagramS1P7M30}
+	\includegraphics[width=\textwidth]{images/TimeSingSous/2DTime_P6ElasticFK33M1460_y.pdf}
+	\caption{Numerically Simulated $(f,k)$-diagram of 2D Transverse Elastodynamic Model: Setting of 1 source with $6\%$ porosity and thickness of $3.3 [mm]$.}
+	\label{FK-DiagramS1P6M33}
 \end{figure}
 
-ADD CONSIDERATION OF USING A SINGLE SOURCE WITH DIFFERENT COMPUTATIONAL COST!!
+Its shown moreover on figure \ref{SVD-S1P6M33} the main modes $[dB]$ associated to the recorded signal.
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=.5]{images/TimeSingSous/2DTime_P7Elastic30_SV.pdf}
-	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-DiagramS1P7M30}}
-	\label{SVD-S1P7M30}
+	\includegraphics[scale=.5]{images/TimeSingSous/2DTime_P6Elastic33_SV.pdf}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-DiagramS1P6M33}}
+	\label{SVD-S1P6M33}
 \end{figure}
 
-MENTION OBSERVED SINGULAR VALUES! GENERATE IMAGES!
-
-The effect of reflections shown in the image above produced from the simulations corresponds to an aliasing effect in the input signal $S(f, \mathbf{x}_r, e)_{(r,e) \in R\times E}$ after applying FFT over the space $R \times E$. Such aliasing express the folding of the $k$-variable \footnote{Associated to the wavenumber} by the conjugation property on \texttt{FFT}, i.e., 
+The reflections shown in the image above produced from the simulations corresponds to an aliasing effect in the input signal $S(f_n, e_m, \mathbf{x}_p)_{(m,p) \in [N^E]\times [N^R]}$ after applying FFT over the space $[N^E] \times [N^R]$. Such aliasing express the folding of the $k$-variable \footnote{Associated to the wavenumber} by the conjugation property on \texttt{FFT}, i.e., 
 \begin{equation*}
-    \overline{\texttt{FFT}(S(f, \cdot, e))(k)} := \sum_{m=0}^M S(f, m, e) \overline{e^{-2 \pi i \frac{m k}{M}}} = \texttt{FFT}(S(f, \cdot, e))(-k)
+    \overline{\texttt{FFT}(S(f_n, \cdot, e_m))(k)} := \sum_{m=0}^M S(f_n, \mathbf{x}_p, e_m) \overline{e^{-2 \pi i \frac{p k}{M}}} = \texttt{FFT}(S(f_n, \cdot, e_m))(-k)
 \end{equation*}
 in such a way that the norm associated is the same. Moreover since we consider a finite wavenumber interval denoted $[0, k_{max}]$, such a reflected wavenumber is given by $k_{max}-k$ as observed in the figure.
 
@@ -191,24 +202,21 @@ Given such a symmetry, its considered the application of the analytic projector 
 \end{equation*}
 being $\mathcal{H}$ the Hilbert transform. Such a projector defines the analytic signal of $s$ by constructing its real and imaginary parts.
 
-ADD THE FORMULAS ASSOCIATED IN THE ANNEXED
-
-
 Since the behavior observed in the $(f,k)$-diagrams are of symmetry, a natural idea is to use the \textit{Hilbert} transform on the input signal, obtaining a analytic signal which maintains the structure of the \textit{Lamb} modes and moreover recreates experimentally obtained results \textit{in-vivo} and \textit{ex-vivo}.
 Applying then such a projection filter we obtain the results qualitatively and quantitatively similar with respect to the real experimental data.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=\textwidth]{images/TimeSingSous/2DTimeHilb_P7ElasticFK30M1460_y.pdf}
-	\caption{Numerically Simulated $(f,k)$-diagram of 2D Elastodynamic Model: Setting of 1 source with $7\%$ porosity and thickness of $3.0 [mm]$ appplying Hilbert transform to delete reflexions.}
-	\label{FK-Hil-DiagramS1P7M30}
+	\includegraphics[width=\textwidth]{images/TimeSingSous/2DTimeHilb_P6ElasticFK33M1460_y.pdf}
+	\caption{Numerically Simulated $(f,k)$-diagram of 2D Elastodynamic Model: Setting of 1 source with $6\%$ porosity and thickness of $3.3 [mm]$ appplying Hilbert transform to delete reflexions.}
+	\label{FK-Hil-DiagramS1P6M33}
 \end{figure} 
 
-\begin{figure}[!h]
+\begin{figure}[!h]  
 	\centering
-	\includegraphics[scale=.5]{images/TimeSingSous/2DTimeHilb_P7Elastic30_SV.pdf}
-	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-Hil-DiagramS1P7M30}}
-	\label{SVD-Hil-S1P7M30}
+	\includegraphics[scale=.5]{images/TimeSingSous/2DTimeHilb_P6Elastic33_SV.pdf}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-Hil-DiagramS1P6M33}}
+	\label{SVD-Hil-S1P7M33}
 \end{figure}
 
 \subsection{Case on Frequency Domain}
@@ -265,27 +273,65 @@ In (\ref{EigenValuesComparison}) is shown the frequencies used in the experiment
 
 
 \subsubsection{Solution using Attenuation.}
-To fix the oscillation observed in the frequency-domain problem we consider adding a $\epsilon$ viscous-like term associated to the governing equation obtaining the PDE system proposed in EPS-ATT-PDE REF, so that natural eigen-frequencies of the elastic operator are now displaced to the complex plane. In such a way, we are avoiding the ill-conditioned matrix system associated to the FEM space discretization.
+To fix the oscillation observed in the frequency-domain problem we consider adding a $\epsilon$ viscous-like term, such model in particular defines a translation of the eigenfrequencies from the elastic operator to the complex plane thus avoiding the real plane resonances. This implies moreover that we are avoiding the ill-conditioned matrix system from the FEM space discretization.
 
 Fixing a frequency $\omega \in \mathbb{R}$, let us consider solutions in the form: $u(\mathbf{x},t) = e^{2 \pi i \omega t}\hat{u}(\mathbf{x})$, so that $\hat{u}(\mathbf{x})$ solves the equivalent problem in the frequency domain
 \begin{equation*}
     \left \{
     \begin{array}{ccc}
-        -(2\pi \omega)^2 \rho^0 \hat{u}(\mathbf{x}) - 2 \pi i \epsilon \hat{u}(\mathbf{x}) - \nabla \cdot \sigma(\hat{u}) = \mathbf{0} & \text{ in } \Omega \times [0,T] \\
+        -(2\pi \omega)^2 \rho^0 \hat{u}(\mathbf{x}) - i \epsilon \hat{u}(\mathbf{x}) - \nabla \cdot \sigma(\hat{u}) = \mathbf{0} & \text{ in } \Omega \times [0,T] \\
         \hat{u} = \mathbf{0} & \text{ on } \Gamma_D\\
         \sigma(\hat{u}) \cdot n = \mathbf{F}(\mathbf{x}, \omega) & \text{ on }\Gamma_N \times [0,T]
     \end{array}
     \right .
 \end{equation*}
-Taking into account that \texttt{FEniCS} don't fully support the usage of a complex coefficient formulation in the variational formulation, we decompose the solution in its real and complex part as $\hat{u} = \hat{u}_R + i \hat{u}_I$. It follow then the coupled system satisfied for the pair $(\hat{u}_R, \hat{u}_I)$ given by:
+Taking into account that the current \texttt{FEniCS} version doesn't support the usage of a complex coefficient formulation in the variational form, we decompose the solution in its real and complex part as $\hat{u} = \hat{u}_R + i \hat{u}_I$. It follow then the coupled system satisfied for the pair $(\hat{u}_R, \hat{u}_I)$ given by:
 \begin{equation*}
     \left \{
     \begin{array}{cc}
-        -(2\pi \omega)^2 \rho^0 \hat{u}_R + 2\pi \omega \epsilon \hat{u}_I - \nabla \cdot \sigma (\hat{u}_R) = \mathbf{0} & \text{ in }\Omega \times [0,T] \\
-        -(2\pi \omega)^2 \rho^0 \hat{u}_I - 2\pi \omega \epsilon \hat{u}_R - \nabla \cdot \sigma (\hat{u}_I) = \mathbf{0} & \text{ in }\Omega \times [0, T] \\
+        -(2\pi \omega)^2 \rho^0 \hat{u}_R +  \omega \epsilon \hat{u}_I - \nabla \cdot \sigma (\hat{u}_R) = \mathbf{0} & \text{ in }\Omega \times [0,T] \\
+        -(2\pi \omega)^2 \rho^0 \hat{u}_I - \omega \epsilon \hat{u}_R - \nabla \cdot \sigma (\hat{u}_I) = \mathbf{0} & \text{ in }\Omega \times [0, T] \\
         \hat{u}_R, \hat{u}_I = \mathbf{0} & \text{ on } \Gamma_D \\
         \sigma(\hat{u}_R)\cdot n, \sigma(\hat{u}_I)\cdot n = \hat{\mathbf{F}}_R, \hat{\mathbf{F}}_I & \text{ on }\Gamma_N
     \end{array}
     \right.
 \end{equation*}
 which can be solved with the standard tools of \texttt{FEniCS} by the usage of a mixed element for the couple system.
+
+Its shown then on figure \ref{FK-DiagramFreqS8P12M28} the $(f,k)$-diagram associated to the 8-sources simulations setting. It presents natural reflections related to the rectangular 2-dimensional domain used with mixed boundary conditions.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{images/FreqMultSous/2DMixedP12TransIsoFKW28M400_y.pdf}
+	\caption{Numerically Simulated $(f,k)$-diagram of 2D Transverse Elastodynamic Model: Setting of 1 source with $3\%$ porosity and thickness of $3.0 [mm]$.}
+	\label{FK-DiagramFreqS8P12M28}
+\end{figure}
+
+Nevertheless, from the figure \ref{SVD-S1P7M30} of main modes $[dB]$ associated to the recorded signal, its observed vanishing oscillation of the modes, thus numerically avoiding the eigenfrequencies, the main resonance cause.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/FreqMultSous/2D-FreqSimP12W28eKV_SV.pdf}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-DiagramFreqS8P12M28}}
+	\label{SVD-FreqS8P12M28}
+\end{figure}
+
+
+\subsection{Simulation of Wave Propagation on 3-dimension}
+Following the 2-dimensional case, its now studied the effect of radial wave behavior on the recorded signal, validating in particular the experimentally obtained results that neglect the non-axial wave-guide propagation. 
+Such procedures imply the creation of adaptive meshes to the complex cortical bone geometry, where open-source software such as \texttt{iso2mesh}, \texttt{CGAL} is used for its generation and in particular a created a pipeline of mesh generation from $\mu$-CT images.
+
+\subsubsection{Half-Cylinder Case}
+A half-cylinder mesh is proposed as first approximation to the 3-dimensional real cortical bone sample from the $\mu$-CT images. In this case, avoiding the non-uniformity characteristic of the bone surface, its tested the waveguide propagation and distortion generated by the natural curvature of the mesh.
+
+
+\subsubsection{Rugous Exterior}
+The mesh generation is done, using the following pipeline dataflow:
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.5]{images/ImgExt/DiagramMeshGeneration.png}
+	\caption{Pipeline: The mesh generation involves a sequence of different softwares that generates the desired domain where the simulations takes place.}
+	\label{DiagramMeshGeneration}
+\end{figure} 
+
+\subsubsection{Fully Porous Material}
+The save Pipeline (\ref{DiagramMeshGeneration}) is used for the mesh generation, now without homogenized coefficients and therefore taking into account the variation on the elastic coefficients depending on the presence of mesoscale structure and cavities.

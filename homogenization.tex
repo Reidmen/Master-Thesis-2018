@@ -1,8 +1,8 @@
 \chapter{Homogenization and Justification}
 
-Given the assumptions proposed of multiscale elastodynamic model for the mechanical behavior of the cortical bone, the objective here will be to rigorously give a justification of the existence of such multiscale model, derive the schematic procedure to obtain the so-called macroscopic (or effective) behavior involved of bone model which is clear and keeps the mechanical behavior explicitly in the formulation (with respect to other literature \cite{Parnell2008}) which will be then used in the numerical simulations and finally give a convergence result of the solution between the multiscale model and the homogenized one.
+Given the assumptions for the multiscale elastodynamic model of the cortical bone, the objective here will be to rigorously give a justification of the existence of such multiscale PDE system, then show the schematic procedure to obtain the so-called macroscopic (or effective) mechanical behavior of bone (which is clear and keeps the mechanical behavior explicitly in the formulation with respect to other literature \cite{Parnell2008}) which will be used for the numerical simulations and finally give a convergence result of the solution between the multiscale model and the homogenized one.
 
-First, let us define the adequate spaces for our problem. Given the domain $\Omega$, it will be denoted by $\mathbf{L}^2(\Omega)$ the $d$-dimensional vector functions, being each component on $L^2(\Omega)$. Similarly, its defined the space $\mathbf{H}^1(\Omega)$ of d-dimensional vector functions, where as before, each component belongs to $H^1(\Omega)$ defined as usual in the literature \cite{evans2010partial}. 
+First, let us define the adequate spaces for our problem. Given the domain $\Omega \subset \mathbb{R}^d$, it will be denoted by $\mathbf{L}^2(\Omega)$ the $d$-dimensional vector functions, being each component on $L^2(\Omega)$. Similarly, its defined the space $\mathbf{H}^1(\Omega)$ of d-dimensional vector functions, where as before, each component belongs to $H^1(\Omega)$ defined as usual in the literature \cite{evans2010partial}. 
 In particular, denoting the vector trace operator by $\gamma: \mathbf{H}^1(\Omega) \rightarrow \mathbf{L}^2(\partial \Omega)$, we can define the space:
 \begin{equation*}
     \mathbf{H}^1(\Omega, \Gamma_D) = \big \{ v \in \mathbf{H}^1(\Omega) \, \vert \, \gamma (v) \vert_{\Gamma_D} = \mathbf{0} \big \}
@@ -32,7 +32,7 @@ Assuming $0 < \rho_0 \leq \rho\big( \frac{\mathbf{x}}{\epsilon} \big) < + \infty
 \end{prop}
 
 \begin{rem}
-\footnote{The formulation of the elastodynamic problem with Dirichlet boundary conditions had been studied in various literatures, in particular on the multiscale works from \cite{panasenko2005multi-scale}, \cite{bakhvalov1989homogenisation:}. On the other hand, the formal study of Neumann boundary conditions has been done mainly on \cite{oleinik1992mathematical}.} In the following, inspired from \cite{raviart1983introduction}, a constructive proof is given based in the spectral decomposition of the elastic operator on $\mathbf{H}^1(\Omega, \Gamma_D)$ and solutions of the reduced ODE's associated to each each eigenvalue from such decomposition.
+\footnote{The formulation of the elastodynamic problem with Dirichlet boundary conditions had been studied in various literatures, in particular on the multiscale works from \cite{panasenko2005multi-scale}, \cite{bakhvalov1989homogenisation:}. On the other hand, the formal study of Neumann boundary conditions has been done mainly on \cite{oleinik1992mathematical}.} In the following, inspired from \cite{raviart1983introduction}, a constructive proof is given based in the spectral decomposition of the elastic operator on $\mathbf{H}^1(\Omega, \Gamma_D)$ and solutions of the reduced ODE's associated to each eigenvalue. % of the elastic operator.
 \end{rem}
 
 
@@ -237,7 +237,7 @@ in such a way that the term $G_{tt}$ in bounded.
 %%%%% THE ABOVE ADDED 21/10/2018
 %%%%%
 
-\section{Homogenization in Fourier Domain}
+\section{Homogenization Procedure}
 
  In this section, its described the procedure to obtain the effective (or macroscopic) equation derived from the multiscale model (\ref{MainPDE}) by means of the asymptotic approximation of the displacement $u^{\epsilon}(\mathbf{x},t)$ proposed by the two-scale homogenization theory.\footnote{The notation is inspired from \cite{altenbach2018generalized} which keeps the mechanical behavior explicitly stated in all the derivation of the homogenized model, thus keeping its physical interpretation in the context of solid mechanics.} This framework enables us to obtain an effective PDE model governing the overall macroscopic mechanical behavior that incorporates the highly oscillatory microstructural variation by means of cell problems. It provides moreover an algorithmic procedure suitable for numerical implementation.
 
@@ -268,59 +268,39 @@ We take also, additional conditions:
     \item The stress tensor $C_{ijkl}$ satisfies that $\mathbf{C}^{\epsilon} (\mathbf{x}) = \mathbf{C}(\mathbf{x}/\epsilon)$ being Y-periodic (related to the fast variable microstructure length).
 \end{enumerate}
 
-With the time-domain formulation (\ref{VectorPDE-Elasticity}) our interest is related in study the elastic operator. To this end, it will be changed the formulation by applying the \textit{Fourier} transform and study frequency-wise.
-
-Let us take Fourier transform to the problem, in such a way that we consider particular solutions for a frequency $\omega \in \mathbb{R}$ in the form:
-\begin{equation}
-    \label{FreqAnsatz}
-    u^{\epsilon}(\mathbf{x},t) = \hat{u}^{\epsilon}(\mathbf{x},\omega) e^{i \omega t}
-\end{equation}
-In this case, the problem defined in (\ref{VectorPDE-Elasticity}),( \ref{ConstituteEq}), (\ref{StrainEq}) with initial conditions becomes then:
-\begin{equation}
-    \label{VectorPDE-Freq}
-    \left \{
-    \begin{array}{cc}
-        -\rho^{\epsilon} (\mathbf{x}) \omega^2 \hat{u}^{\epsilon}(\mathbf{x}) - \text{div }\sigma (\hat{u}^{\epsilon}(\mathbf{x})) = \hat{F}(\mathbf{x})  & \text{ in }  \Omega \\
-        \sigma^{\epsilon} (\hat{u}(\mathbf{x})) = \mathbf{C}^{\epsilon}(\mathbf{x}): \mathbf{e} (\hat{u}^{\epsilon}(\mathbf{x})) & \text{ in } \Omega  \\
-        \hat{u}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D\\
-        \sigma (\hat{u}(\mathbf{x}))\cdot n = \hat{\mathbf{F}}(\mathbf{x}) & \text{ on } \Gamma_N \\
-    \end{array}
-    \right .
-\end{equation}
-where it was omitted the frequency dependency on the solution $\hat{u}^{\epsilon}$ for easiness of exposure and used $\Hat{F}(\omega, \mathbf{x})$ as the Fourier transform at frequency $\omega$ of $F(t, \mathbf{x})$%, i.e. it is used the equality $F(\mathbf{x}) = \Hat{F}(\mathbf{x})e^{i \omega t}$.
-
+Within the time-domain formulation (\ref{VectorPDE-Elasticity}) our interest is related in study the elastic operator. 
 
 
 \subsection{Two-Scale Asymptotic Homogenization}
-Its assumed that the displacement solution for problem (\ref{VectorPDE-Freq}) can be expressed as an expansion at different $\epsilon$ scales. Thus, the solution is found by an asymptotic expression at each fixed frequency $\omega \in \mathbb{R}$ in the form:
+Its assumed that the displacement solution for problem (\ref{VectorPDE-Elasticity}) can be expressed as an expansion at different $\epsilon$ scales. Thus, the solution is found by an asymptotic expression at each time $t \in \mathbb{R}_+$ in the form:
 \begin{equation*}
     \label{AsymptoticExpansion}
-    \hat{u}(\mathbf{x},\epsilon) = \sum_{a=0}^{\infty} \epsilon^a \hat{u}^{(a)}(\mathbf{x},\mathbf{y}) 
+    u(t, \mathbf{x},\epsilon) = \sum_{a=0}^{\infty} \epsilon^a u^{(a)}(t, \mathbf{x},\mathbf{y}) 
 \end{equation*}
-where the vector functions $\hat{u}^{(a)}(\mathbf{x}, \cdot)$ are assumed Y-periodic for each $a>0$, since the microstructure is assumed periodically distributed, spanning the full domain $\Omega$. More explicitly, its assumed throughout, regularity in the form:
+where the vector functions $u^{(a)}(\mathbf{x}, \cdot)$ are assumed Y-periodic for each $a>0$, since the microstructure is assumed periodically distributed, spanning the full domain $\Omega$. More explicitly, its assumed throughout, regularity in the form:
 \begin{equation*}
-    \hat{u}^{(a)}(\mathbf{x},\mathbf{y}) \in \mathbf{H}^1\big(\Omega; \, \mathbf{H}^1_{\#}(\mathbf{Y})\big) \quad \forall a \in \mathbb{N}
+    u^{(a)}(t, \mathbf{x},\mathbf{y}) \in \mathbf{H}^1\big(\Omega; \, \mathbf{H}^1_{\#}(\mathbf{Y})\big) \quad \forall a \in \mathbb{N}
 \end{equation*}
-In what follows, it will be imposed several restrictions for the proposed solution (\ref{AsymptoticExpansion}) to effectively satisfy the problem (\ref{VectorPDE-Freq}). In particular, the regularity assumption will naturally be obtained from the restrictions that must be satisfied for each element $\hat{u}^{(a)}$.
+In what follows, it will be imposed several restrictions for the proposed solution (\ref{AsymptoticExpansion}) to effectively satisfy the problem (\ref{VectorPDE-Elasticity}). In particular, the regularity assumption will naturally arise from the equalities satisfied for each $u^{(a)}$.
 
-Since we have an explicit relation between the slow and fast variable, its considered a natural expressions of strain rate dependent on the variable. Let us define for $\Phi \in \mathcal{C}^{\infty}(\Omega \times \mathbf{Y})$ the expressions related to the strain rate dependent on the variable:
+Since we have an explicit relation between the slow and fast variables, its considered expressions of strain rate dependent on each one. Let us define for $\Phi \in \mathcal{C}^{\infty}(\Omega \times \mathbf{Y})$ the expressions related to the strain rate dependent on the variable:
 \begin{equation*}
     \mathbf{e}_{kl,\alpha} (\Phi(\alpha)) = \frac{1}{2}(\partial_{\alpha_l} \Phi_k (\alpha) + \partial_{x_k} \Phi_l (\alpha)) \quad \forall \alpha \in \{\mathbf{x}, \mathbf{y}\}
 \end{equation*}
 thus, after applying such expression over the strain tensor $\mathbf{e}(\cdot)$ it satisfies the relation at components $k,l$ given in the form:
 \begin{equation}
     \label{Multiscale-Strain}
-    \mathbf{e}_{kl} ( \hat{u}^{(a)}(\mathbf{x}, \frac{\mathbf{x}}{\epsilon})) = \mathbf{e}_{kl,x}( \hat{u}^{(a)} (\mathbf{x},\mathbf{y})) + \epsilon^{-1} \mathbf{e}_{kl,y} (\hat{u}^{(a)}(\mathbf{x},\mathbf{y}))
+    \mathbf{e}_{kl} ( u^{(a)}(\mathbf{x}, \frac{\mathbf{x}}{\epsilon})) = \mathbf{e}_{kl,x}( u^{(a)} (\mathbf{x},\mathbf{y})) + \epsilon^{-1} \mathbf{e}_{kl,y} (u^{(a)}(\mathbf{x},\mathbf{y}))
 \end{equation}
 %%%%%%%%%%%%
 In the following, its used a separation of scales to obtain the so-called homogenized coefficients, approximating the overall macroscopic (effective) behavior by applying the asymptotic approximation, i.e.,
 \begin{equation*}
-    -\rho^{\epsilon}(\mathbf{x}) \omega^2 \hat{u}^{(0)}(\mathbf{x}) + P^{(\epsilon)}(\hat{u}^{(0)}, \hat{u}^{(1)}) \sim \mathcal{O}(\epsilon^{\gamma}) \quad \gamma \geq 0
+    \rho^{\epsilon}(\mathbf{x}) u(\mathbf{x}, \epsilon) + P^{(\epsilon)}(u(\mathbf{x},\epsilon) \sim \mathcal{O}(\epsilon^{\gamma}) \quad \gamma \geq 0
 \end{equation*}
-where the operator $P^{(\epsilon)}$ the elasticity operator is defined by:
+where the elasticity operator $P^{(\epsilon)}$ is expected to satisfy:
 \begin{equation}
     \label{P-Operator}
-    P^{(\epsilon)}(\hat{u}^{(0)}, \hat{u}^{(1)}) \sim - div \, (\mathbf{C}^{hom}(\mathbf{x}): \mathbf{e}(\hat{u}^{(0)}(\mathbf{x},\epsilon)))
+    P^{(\epsilon)}(u(\mathbf{x},\epsilon) \sim - div \, (\mathbf{C}^{hom}(\mathbf{x}): \mathbf{e}(u^{(0)}(\mathbf{x}))) + \mathcal{O}(\epsilon)
 \end{equation}
 where $\mathbf{C}^{hom}(\mathbf{x})$ is some four-order tensor to be found and the right-hand side $\mathcal{O}(\epsilon^{\gamma})$ denotes the error expected from such an approximation. 
 
@@ -333,53 +313,53 @@ And recall that, by the chain rule we have $\forall \, \Phi(\mathbf{x},\mathbf{y
     \partial_{x_j} (\Phi (\mathbf{x}, \frac{\mathbf{x}}{\epsilon})) = \big \{ \partial_{x_j} \Phi (\mathbf{x}, \mathbf{y}) + \frac{1}{\epsilon} \partial_{y_j} \Phi(\mathbf{x},\mathbf{y}) \big \}_{\mathbf{y}= \epsilon^{-1}\mathbf{x}}
 \end{equation*}
 
-Now, using (\ref{AsymptoticExpansion}), (\ref{Multiscale-Strain}) we would like to regroup in powers of $\epsilon$, thus impose constrains over each term $\epsilon^{(a)}$ to satisfy the main formulation (\ref{VectorPDE-Freq}). To this end, note that by (\ref{P-Operator}) it follows:
+Now, using (\ref{AsymptoticExpansion}), (\ref{Multiscale-Strain}) we would like to regroup in powers of $\epsilon$ thus impose constrains over each term $\epsilon^{(a)}$ to satisfy the main formulation (\ref{VectorPDE-Elasticity}). To this end, note that by (\ref{P-Operator}) it follows:
 \begin{equation*}
-    P^{(\epsilon)}(\hat{u}(\mathbf{x},\epsilon)) = A + B + C + \mathcal{O}(\epsilon^3)
+    P^{(\epsilon)}(u(\mathbf{x},\epsilon)) = A + B + C + \mathcal{O}(\epsilon)
 \end{equation*}
 where 
 \begin{equation*}
     \begin{array}{cc}
-        A &= P^{(\epsilon)}(\hat{u}^{(0)}(\mathbf{x},\xi)) \\
-        B &= \epsilon P^{(\epsilon)}(\hat{u}^{(1)}(\mathbf{x},\epsilon)) \\
-        C &= \epsilon^2 P^{(\epsilon)}(\hat{u}^{(2)}(\mathbf{x},\epsilon)) \\
+        A &= P^{(\epsilon)}(u^{(0)}(\mathbf{x},\xi)) \\
+        B &= \epsilon P^{(\epsilon)}(u^{(1)}(\mathbf{x},\epsilon)) \\
+        C &= \epsilon^2 P^{(\epsilon)}(u^{(2)}(\mathbf{x},\epsilon)) \\
     \end{array}
 \end{equation*}
 Expanding every term, then using (\ref{Multiscale-Strain}) we have that:
 \begin{align*}
-    A &= - \partial_{x_j} \big( C_{ijkl}\mathbf{e}(\hat{u}^{(0)}) \big) \\
-    &=- \partial_{x_j} \big( C_{ijkl} \mathbf{e}_{kl,x} (\hat{u}^{(0)}) + \frac{1}{\epsilon}C_{ijkl}\mathbf{e}_{kl,y}(\hat{u}^{(0)} \big)\\
-    &= - L_{xx}\hat{u}^{(0)} - \frac{1}{\epsilon} L_{yx}\hat{u}^{(0)} - \frac{1}{\epsilon} L_{xy}\hat{u}^{(0)} - \frac{1}{\epsilon^2}L_{yy}\hat{u}^{(0)}
+    A &= - \partial_{x_j} \big( C_{ijkl}\mathbf{e}(u^{(0)}) \big) \\
+    &=- \partial_{x_j} \big( C_{ijkl} \mathbf{e}_{kl,x} (u^{(0)}) + \frac{1}{\epsilon}C_{ijkl}\mathbf{e}_{kl,y}(u^{(0)} \big)\\
+    &= - L_{xx}u^{(0)} - \frac{1}{\epsilon} L_{yx}u^{(0)} - \frac{1}{\epsilon} L_{xy}u^{(0)} - \frac{1}{\epsilon^2}L_{yy}u^{(0)}
 \end{align*}
 Similarly, for the other terms we have that:
 \begin{align*}
-    B &= -\epsilon L_{xx} \hat{u}^{(1)} - L_{yx}\hat{u}^{(1)} - L_{xy} \hat{u}^{(1)} - \frac{1}{\epsilon} L_{yy}\hat{u}^{(1)} \\
-    C &= -\epsilon^2 L_{xx} \hat{u}^{(2)} - \epsilon L_{yx}\hat{u}^{(2)} - \epsilon L_{xy} \hat{u}^{(2)} - L_{yy}\hat{u}^{(2)} 
+    B &= -\epsilon L_{xx} u^{(1)} - L_{yx}u^{(1)} - L_{xy} u^{(1)} - \frac{1}{\epsilon} L_{yy}u^{(1)} \\
+    C &= -\epsilon^2 L_{xx} u^{(2)} - \epsilon L_{yx}u^{(2)} - \epsilon L_{xy} u^{(2)} - L_{yy}u^{(2)} 
 \end{align*}
 So, we obtain that for powers of $\epsilon$ the necessary conditions:
 \begin{equation}
     \label{Epsilon-Separation}
     \begin{array}{ccc}
-        \epsilon^{-2} \longrightarrow & L_{yy} \hat{u}^{(0)} &= \mathbf{0} \\
-        \epsilon^{-1} \longrightarrow & L_{xy}\hat{u}^{(0)} + L_{yx}\hat{u}^{(0)} + L_{yy}\hat{u}^{(1)} &= \mathbf{0} \\
-        \epsilon^{0} \longrightarrow & L_{xx}\hat{u}^{(0)} + L_{xy} \hat{u}^{(1)} + L_{yx}\hat{u}^{(1)} + L_{yy}^{(2)} + \rho(\mathbf{x}) \hat{u}^{(0)} &= \mathbf{0}
+        \epsilon^{-2} \longrightarrow & L_{yy} u^{(0)} &= \mathbf{0} \\
+        \epsilon^{-1} \longrightarrow & L_{xy}u^{(0)} + L_{yx} u^{(0)} + L_{yy} u^{(1)} &= \mathbf{0} \\
+        \epsilon^{0} \longrightarrow & L_{xx} u^{(0)} + L_{xy} u^{(1)} + L_{yx} u^{(1)} + L_{yy}^{(2)} + \rho(\mathbf{x}) u^{(0)} &= \mathbf{0}
     \end{array}
 \end{equation}
 
-Let us consider the asymptotic expansion (\ref{AsymptoticExpansion}) as an approximation for the exact solution of the original problem (\ref{VectorPDE-Freq}) where their boundary conditions had been replaced to the behavior at $\mathcal{O}(1)$.
+Let us consider the asymptotic expansion (\ref{AsymptoticExpansion}) as an approximation for the exact solution of the original problem (\ref{VectorPDE-Elasticity}) where their boundary conditions had been replaced to the behavior at $\mathcal{O}(1)$.
 \begin{equation*}
     \left \{
     \begin{array}{cc}   
-        \hat{u}^{(0)}(\mathbf{x},\mathbf{y}) = \mathbf{0} & \forall \mathbf{x} \in \Gamma_D\\
-        \big(\mathbf{C}(\mathbf{y}): \epsilon (\hat{u}^{(0)}(\mathbf{x}, \mathbf{y}) \big) \cdot n = \hat{\mathbf{F}}(\mathbf{x}) & \forall (\mathbf{x},\mathbf{y}) \in \Gamma_N \times \partial \mathbf{Y}
+        u^{(0)}(\mathbf{x},\mathbf{y}) = \mathbf{0} & \forall \mathbf{x} \in \Gamma_D\\
+        \big(\mathbf{C}(\mathbf{y}): \epsilon (u^{(0)}(\mathbf{x}, \mathbf{y}) \big) \cdot n = \hat{\mathbf{F}}(\mathbf{x}) & \forall (\mathbf{x},\mathbf{y}) \in \Gamma_N \times \partial \mathbf{Y}
     \end{array}
     \right .
 \end{equation*}
 and the remaining terms for each $a \in \mathbb{N}$ in the expansion are assigned by
 \begin{equation*}
     \begin{array}{cc}
-        \hat{u}^{(a)}(\mathbf{x},\mathbf{y}) = \mathbf{0} & \forall (\mathbf{x}, \mathbf{y}) \in \Gamma_D\times \partial \mathbf{Y} \\
-        \big( \mathbf{C}(\mathbf{y}): \epsilon(\hat{u}^{(a)}(\mathbf{x},\mathbf{y}) \big) \cdot n = 0 & \forall  (\mathbf{x}, \mathbf{y}) \in \Gamma_D\times \partial \mathbf{Y} 
+        u^{(a)}(\mathbf{x},\mathbf{y}) = \mathbf{0} & \forall (\mathbf{x}, \mathbf{y}) \in \Gamma_D\times \partial \mathbf{Y} \\
+        \big( \mathbf{C}(\mathbf{y}): \epsilon(u^{(a)}(\mathbf{x},\mathbf{y}) \big) \cdot n = 0 & \forall  (\mathbf{x}, \mathbf{y}) \in \Gamma_D\times \partial \mathbf{Y} 
     \end{array}
 \end{equation*}
 
@@ -405,71 +385,71 @@ We are considering the notation
 where $\vert Y \vert$ denotes the measure of the set $\mathbf{Y}$.
 \end{rem}
 
-\subsection{Contribution at order $\epsilon^{-2}$}
-Recall that, the problem \ref{VectorPDE-Freq} with their boundary conditions states:
+\subsection{Contribution at Second Order}
+For the contribution at order $\mathcal{O}(\epsilon^{-2})$ recall that, the problem \ref{VectorPDE-Elasticity} with their boundary conditions states:
 \begin{equation}
     \label{Order-2VectorPDE}
     \left \{
     \begin{array}{cc}
-        L_{yy} \hat{u}^{(0)}( \mathbf{x},\mathbf{y}) = \mathbf{0} & \text{ in } \Omega \times \mathbf{Y}\\
-        \hat{u}^{(0)} (\mathbf{x},\mathbf{y}) = \mathbf{0} & \text{ in } \Gamma_D \times \mathbf{Y} \\
-        \big( \mathbf{C}(\mathbf{y}) :\mathbf{e}(\hat{u}^{(0)}(\mathbf{x},\mathbf{y}) \big) \cdot n = \hat{\mathbf{F}}(\mathbf{x}) & \text{ in } \Gamma_N \times \mathbf{Y} \\
+        L_{yy} u^{(0)}( \mathbf{x},\mathbf{y}) = \mathbf{0} & \text{ in } \Omega \times \mathbf{Y}\\
+        u^{(0)} (\mathbf{x},\mathbf{y}) = \mathbf{0} & \text{ in } \Gamma_D \times \mathbf{Y} \\
+        \big( \mathbf{C}(\mathbf{y}) :\mathbf{e}(u^{(0)}(\mathbf{x},\mathbf{y}) \big) \cdot n = \mathbf{F}(t, \mathbf{x}) & \text{ in } \Gamma_N \times \mathbf{Y} \\
     \end{array}
     \right .
 \end{equation}
-By the Lemma (\ref{ExistenceLemma}) we have $\hat{u}(\mathbf{x},\mathbf{y})$ is solution of \ref{Order-2VectorPDE} iff it's constant w.r.t the $\mathbf{y}$-variable. It implies that:
+By the Lemma (\ref{ExistenceLemma}) we have $u(\mathbf{x},\mathbf{y})$ is solution of \ref{Order-2VectorPDE} iff it's constant w.r.t the $\mathbf{y}$-variable. It implies then:
 \begin{equation}
     \label{IndepencyofY}
-    \hat{u}^{(0)}(\mathbf{x},\mathbf{y}) = \hat{v}(\mathbf{x})
+    u^{(0)}(t, \mathbf{x},\mathbf{y}) = v(t, \mathbf{x})
 \end{equation}
-i.e. being independent with respect to the microstructure $\mathbf{Y}$. Moreover, the boundary conditions applied are the ones in the macroscopic variable:
+i.e. being independent with respect to the microstructure (or fast variable) $\mathbf{Y}$. Moreover, the boundary conditions applied are the ones in the macroscopic variable:
 \begin{equation*}
     \left \{
     \begin{array}{cc}
-        \hat{v}^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D\\
-        \big(\mathbf{C}(\mathbf{y}):\mathbf{e}(\hat{v}(\mathbf{x})) \big) \cdot n = \hat{\mathbf{F}}(\mathbf{x}) & \text{ on } \Gamma_N \times \mathbf{Y}
+        v^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D\\
+        \big(\mathbf{C}(\mathbf{y}):\mathbf{e}(v(\mathbf{x})) \big) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } \Gamma_N \times \mathbf{Y}
     \end{array}
     \right .
 \end{equation*}
 
-\subsection{Contributions at order $\epsilon^{-1}$}
-Since by (\ref{IndepencyofY}) we have $\hat{u}^{(0)}(\mathbf{x},\mathbf{y}) = \hat{v}(\mathbf{x})$ then we can deduce by definition that:
+\subsection{Contributions at First Order}
+For the contribution at order $\mathcal{O}(\epsilon^{-1})$ since by (\ref{IndepencyofY}) we have $u^{(0)}(\mathbf{x},\mathbf{y}) = \hat{v}(\mathbf{x})$ then we can deduce by definition:
 \begin{equation*}
-    L_{xy} \hat{v}(\mathbf{x}) = 0
+    L_{xy} v(\mathbf{x}) = 0
 \end{equation*}
 So, the problem formulation in (\ref{Epsilon-Separation}) is reduced to
 \begin{equation*}
     \label{Order-1VectorPDE}
     \begin{array}{cc}
-        L_{yy} \hat{u}^{(1)}(\mathbf{x},\mathbf{y}) = - L_{yx} \hat{v}(\mathbf{x}) & \text{ in } \Omega \times \mathbf{Y}
+        L_{yy} u^{(1)}(\mathbf{x},\mathbf{y}) = - L_{yx} v(\mathbf{x}) & \text{ in } \Omega \times \mathbf{Y}
     \end{array}
 \end{equation*}
 Now, using the Lemma (\ref{ExistenceLemma}) on (\ref{Order-1VectorPDE}) taking into account (\ref{IndepencyofY}), the $Y$-periodicity of $\mathbf{C}(\mathbf{y})$ and the diverge theorem, it follows:
 \begin{equation*}
-    \big\langle - L_{yx} \hat{u}^{(0)}(\mathbf{x}, \cdot) \big\rangle = \mathbf{0}
+    \big\langle - L_{yx} u^{(0)}(\mathbf{x}, \cdot) \big\rangle = \mathbf{0}
 \end{equation*}
 then the existence of solution for problem \ref{Order-1VectorPDE} it's satisfied.
 
 Now, by separation of variables and the second condition of lemma (\ref{ExistenceLemma}), a general solution to the system of equations \ref{Order-1VectorPDE} can be given by:
 \begin{equation}
     \label{Order-1Ansatz}
-    \hat{u}^{(1)}(\mathbf{x},\mathbf{y}) = \mathbf{N}^{rs}(\mathbf{y}) \mathbf{e}_{rs,x}(\hat{v}(\mathbf{x})) + \hat{w}(\mathbf{x}) \quad (10.42)
+    u^{(1)}(\mathbf{x},\mathbf{y}) = \mathbf{N}^{rs}(\mathbf{y}) \mathbf{e}_{rs,x}(v(\mathbf{x})) + \hat{w}(\mathbf{x}) \quad (10.42)
 \end{equation}
-where $\hat{\mathbf{N}}^{rs} \in \mathbf{H}^1_{\#}(\mathbf{Y})$ it's called the local vector function and $\hat{\mathbf{w}}$ infinitely differentiable vector function.
+where $N^{rs} \in \mathbf{H}^1_{\#}(\mathbf{Y})$ it's called the local vector function and $\mathbf{w}$ infinitely differentiable vector function.
 
 Then replacing \ref{IndepencyofY}, \ref{Order-1Ansatz} into \ref{Order-1VectorPDE} to obtain the so called cell problems. Explicitly, note that applying the above we obtain the following:
 \begin{align*}
-    &\,L_{yy} \big( \hat{\mathbf{N}}^{rs} (\mathbf{y}) \mathbf{e}_{rs,x} (\hat{v}(\mathbf{x})) \big) + L_{yx}(\hat{v}(\mathbf{x}) ) = \mathbf{0} \\
-    \implies& -\partial_{y_j} \big( C_{ijkl}\mathbf{e}_{kl,y}(\hat{\mathbf{N}}^{rs}(\mathbf{y}) ) \mathbf{e}_{rs,x}(\hat{v}(\mathbf{x})) = \partial_{y_j} \big( C_{ijrs}\mathbf{e}_{rs,x}(\hat{v}(\mathbf{x})) \big) \\
-    \implies& - \partial_{y_j} \big( C_{ijkl} \mathbf{e}_{kl,y} (\hat{\mathbf{N}}^{rs}(\mathbf{y})) \big) = \partial_{y_j} (C_{ijrs})
+    &\,L_{yy} \big( \mathbf{N}^{rs} (\mathbf{y}) \mathbf{e}_{rs,x} (v(\mathbf{x})) \big) + L_{yx}(v(\mathbf{x}) ) = \mathbf{0} \\
+    \implies& -\partial_{y_j} \big( C_{ijkl}\mathbf{e}_{kl,y}(\mathbf{N}^{rs}(\mathbf{y}) ) \mathbf{e}_{rs,x}(v(\mathbf{x})) = \partial_{y_j} \big( C_{ijrs}\mathbf{e}_{rs,x}(v(\mathbf{x})) \big) \\
+    \implies& - \partial_{y_j} \big( C_{ijkl} \mathbf{e}_{kl,y} (\mathbf{N}^{rs}(\mathbf{y})) \big) = \partial_{y_j} (C_{ijrs})
 \end{align*}
-and applying lemma \ref{ExistenceLemma}, it follows that $\hat{\mathbf{N}}^{rs}$ is $Y$-periodic, where we add the boundary conditions taken from \ref{Order-1VectorPDE} obtaining:
+and applying lemma \ref{ExistenceLemma}, it follows that $\hat{\mathbf{N}}^{rs}$ is $Y$-periodic where we add the boundary conditions taken from \ref{Order-1VectorPDE}, obtaining:
 \begin{equation*}
     \left \{
     \begin{array}{cc}
-        \hat{\mathbf{N}}^{rs}(\mathbf{y}, \omega) = \mathbf{0} & \text{ in } \mathbf{Y} \times \mathbb{R} \\
-        \big( \mathbf{C}(\mathbf{y}) : \mathbf{e}(\hat{\mathbf{N}}^{rs}(\mathbf{y}, \omega)) \big) \cdot n = \mathbf{0} & \text{ on } \mathbf{Y}\times \mathbb{R}  \\
-        \hat{\mathbf{N}}^{rs} (\mathbf{y},0) = \mathbf{0} &  \text{ in } \mathbf{Y}
+        \mathbf{N}^{rs}(\mathbf{y}, \omega) = \mathbf{0} & \text{ in } \mathbf{Y} \times \mathbb{R} \\
+        \big( \mathbf{C}(\mathbf{y}) : \mathbf{e}(\mathbf{N}^{rs}(\mathbf{y}, \omega)) \big) \cdot n = \mathbf{0} & \text{ on } \mathbf{Y}\times \mathbb{R}  \\
+        \mathbf{N}^{rs} (\mathbf{y},0) = \mathbf{0} &  \text{ in } \mathbf{Y}
     \end{array}
     \right.
 \end{equation*}
@@ -477,43 +457,43 @@ and applying lemma \ref{ExistenceLemma}, it follows that $\hat{\mathbf{N}}^{rs}$
 where the above by construction using the ansatz \ref{Order-1Ansatz} define a solution to the PDE system \ref{Order-1VectorPDE}.
 
 
-\subsection{Contribution to the order $\epsilon^{0}$}
-In this case, problem (\ref{VectorPDE-Freq}) after regrouping the terms at $\mathcal{O}(1)$ becomes:
+\subsection{Contribution at the zero order}
+For the contribution at order $\mathcal{O}(\epsilon^0)$ problem (\ref{VectorPDE-Elasticity}) after regrouping the terms at $\mathcal{O}(1)$ becomes:
 \begin{equation}
     \label{Order-0VectorPDE}
     \begin{array}{cc}
-        L_{yy} \hat{u}^{(2)} =-\rho^{\epsilon}(\mathbf{x})\omega^2 \hat{v}(\mathbf{x}) - \tilde{P}(\hat{u}^{(1)},\hat{u}^{(2)}) (\mathbf{x},\mathbf{y}) & \text{ in } \Omega \times \mathbf{Y}
+        L_{yy} u^{(2)} = \rho^{\epsilon}(\mathbf{x})\partial_{tt} v(\mathbf{x}) - \tilde{P}(u^{(1)},u^{(2)}) (\mathbf{x},\mathbf{y}) & \text{ in } \Omega \times \mathbf{Y}
     \end{array}
 \end{equation}
 where we have denoted 
 \begin{equation*}
-    \tilde{P}(\hat{u}^{(0)}, \hat{u}^{(1)}) (\mathbf{x},\mathbf{y}) :=  L_{xx} \hat{u}^{(0)} + L_{xy} \hat{u}^{(1)} + L_{yx} \hat{u}^{(1)}
+    \tilde{P}(u^{(0)}, u^{(1)}) (\mathbf{x},\mathbf{y}) :=  L_{xx} u^{(0)} + L_{xy} u^{(1)} + L_{yx} u^{(1)}
 \end{equation*}
 then by Lemma \ref{ExistenceLemma}, we have existence of one $Y$-periodic solution of (\ref{Order-0VectorPDE}) iff 
 \begin{equation}
     \label{Order-0ExistenceCond}
-    \big \langle \rho(\mathbf{y}) \omega^2 \hat{v}(\mathbf{x}) - L_{xx} \hat{u}^{(1)} (\mathbf{x},\mathbf{y}) - L_{xy} \hat{u}^{(1)}(\mathbf{x},\mathbf{y}) - L_{yx}\hat{u}^{(1)}(\mathbf{x},\mathbf{y}) \big \rangle = \mathbf{0}
+    \big \langle \rho(\mathbf{y}) \partial_{tt} v(\mathbf{x}) - L_{xx} u^{(1)} (\mathbf{x},\mathbf{y}) - L_{xy} u^{(1)}(\mathbf{x},\mathbf{y}) - L_{yx} u^{(1)}(\mathbf{x},\mathbf{y}) \big \rangle = \mathbf{0}
 \end{equation}
 From \ref{Order-0ExistenceCond} the homogenized equation is obtained, which can be deduced explicitly in the form:
 \begin{align*}
-    &-\langle \rho(\mathbf{y}) \rangle \omega^2 \hat{v}(\mathbf{x}) + \langle L_{xx} \hat{u}^{(0)}(\mathbf{x},\mathbf{y}) +L_{xy} \hat{u}^{(1)}(\mathbf{x},\mathbf{y}) \rangle = \mathbf{0} \\
-    \Leftrightarrow & -\langle \rho(\mathbf{y}) \rangle \omega^2 \hat{v}(\mathbf{x}) + \langle L_{xx}\hat{u}^{(0)}(\mathbf{x}, \mathbf{y}) + L_{xy}\big( \hat{\mathbf{N}}^{rs}(\mathbf{y})\mathbf{e}_{rs,x}(\hat{v}(\mathbf{x})) + \hat{w}(\mathbf{x})\big) = \mathbf{0} \\
-    \Leftrightarrow & -\langle \rho\rangle \omega^2 \hat{v}_i(\mathbf{x}) - \partial_{x_j}\big \langle \big(\hat{C}_{ijrs}^{hom}(\mathbf{N}^{rs})\big) \mathbf{e}_{rs,x}(\hat{v}(\mathbf{x})) \big \rangle  = \mathbf{0} \quad \forall i \in \{1,\dots, d\}\\
-    \Leftrightarrow& -\langle \rho \rangle \omega^2 \hat{v}_i(\mathbf{x}) - \hat{C}_{ijkl}^{hom} \partial_{x_j} \mathbf{e}_{rs,x} (\hat{v}(\mathbf{x})) = \mathbf{0} \quad \forall i \in \{1,\dots,d\}
+    &\langle \rho(\mathbf{y}) \rangle \partial_{tt} v(\mathbf{x}) + \langle L_{xx} u^{(0)}(\mathbf{x},\mathbf{y}) +L_{xy} u^{(1)}(\mathbf{x},\mathbf{y}) \rangle = \mathbf{0} \\
+    \Leftrightarrow & \langle \rho(\mathbf{y}) \rangle \partial_{tt} v(\mathbf{x}) + \langle L_{xx} u^{(0)}(\mathbf{x}, \mathbf{y}) + L_{xy}\big( \mathbf{N}^{rs}(\mathbf{y})\mathbf{e}_{rs,x}(v(\mathbf{x})) + \hat{w}(\mathbf{x})\big) = \mathbf{0} \\
+    \Leftrightarrow & \langle \rho\rangle \partial_{tt} v_i(\mathbf{x}) - \partial_{x_j}\big \langle \big(C_{ijrs}^{hom}(\mathbf{N}^{rs})\big) \mathbf{e}_{rs,x}(\hat{v}(\mathbf{x})) \big \rangle  = \mathbf{0} \quad \forall i \in \{1,\dots, d\}\\
+    \Leftrightarrow& \langle \rho \rangle \partial_{tt} v_i(\mathbf{x}) - C_{ijkl}^{hom} \partial_{x_j} \mathbf{e}_{rs,x} (v(\mathbf{x})) = \mathbf{0} \quad \forall i \in \{1,\dots,d\}
 \end{align*}
-where we have denoted $\hat{C}_{ijrs}^{hom}$ the so-called homogenized elastic coefficients defined by 
+where we have denoted $C_{ijrs}^{hom}$ the so-called homogenized elastic coefficients defined by 
 \begin{equation*}
-    \hat{C}_{ijrs}^{hom} = \big \langle C_{ijrs}(\mathbf{y}) + C_{ijkl}\mathbf{e}_{kl,y}\big(\hat{\mathbf{N}}^{rs}(\mathbf{y})\big) \big \rangle 
+    C_{ijrs}^{hom} = \big \langle C_{ijrs}(\mathbf{y}) + C_{ijkl}\mathbf{e}_{kl,y}\big(\mathbf{N}^{rs}(\mathbf{y})\big) \big \rangle 
 \end{equation*}
 With the above definition and the homogenized equation obtained from (\ref{Order-0VectorPDE}) we obtain the effective behavior of the system defined by:
 \begin{equation}
     \label{HomogenizedPDE}
     \left \{
     \begin{array}{cc}
-        - \langle \rho \rangle \omega^2 \hat{v}(\mathbf{x}) (\mathbf{x}) - \nabla \cdot \sigma^{hom} (\hat{v}(\mathbf{x}) ) = \mathbf{0} & \text{ in } \Omega \\
+        \langle \rho \rangle \partial_{tt} v(\mathbf{x}) (\mathbf{x}) - \nabla \cdot \sigma^{hom} (v(\mathbf{x}) ) = \mathbf{0} & \text{ in } \Omega \\
         \sigma^{hom}_{ij}(\hat{v}(\mathbf{x})) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(\hat{v}(\mathbf{x})) & \text{ in } \Omega \\
-        \hat{v}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D \\
-        \sigma^{hom}(\hat{v}(\mathbf{x})) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } \Gamma_N
+        v(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D \\
+        \sigma^{hom}(v(\mathbf{x})) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } \Gamma_N
     \end{array}
     \right .
 \end{equation}
@@ -677,7 +657,7 @@ where each term is defined by:
         F^0_k = & - A^{kj} \partial_{y_j} N^{pq} \partial_{x_p x_q} u^0 
     \end{aligned}
 \end{equation}
-Let us now obtain a expression for the \textbf{Neumann} condition at $\Gamma_N$. To this end, applying $\sigma_{\epsilon}$ to the difference $u^{\epsilon} - \tilde{u}$ it follows that:
+Let us now obtain a expression for the \textit{Neumann} condition at $\Gamma_N$. To this end, applying $\sigma_{\epsilon}$ to the difference $u^{\epsilon} - \tilde{u}$ it follows that:
 \begin{align*}
     \sigma_{\epsilon} (u^{\epsilon} - \tilde{u}) & =  \sigma_{\epsilon}(u^{\epsilon}) - \sigma_{\epsilon} (\tilde{u}) \\
     & = F_h(t) n_h - A^{hk} \partial_{x_k} \big( u^0 + \epsilon N^s \partial_{x_s}u^0 \big) \\
@@ -831,7 +811,7 @@ More explicitly, its given estimations for the such effective coefficients, and 
 \section{Definition and Estimates}
 In this section, its given the main definition to formalize the presence of a factor $p \in (0,1)$ that defined a highly oscillating coefficient $C_{ijkl}(\cdot)$ on the cell domain $\mathbf{Y}$.
 \begin{defn}
-Let us define the set of operators from the feasible porosity interval $(0,1$, associated to a cell-domain $\mathbf{Y}$ by:
+Let us define the set of operators from the feasible porosity interval $(0,1)$, associated to a cell-domain $\mathbf{Y}$ by:
 \begin{equation}
     \label{T-definition}
     \mathbf{T}((0,1) \times \mathbf{Y}) := \big \{ \mathbf{C}(\cdot, \mathbf{y}) \in L^{\infty}([0,1]; \, \text{lin}(\textbf{Sym}^d))\, : \mathbf{C}(\mathbf{y}, p)^* = \mathbf{C}(\mathbf{y}, p) \, \forall \mathbf{y} \in \mathbf{Y}\big \}

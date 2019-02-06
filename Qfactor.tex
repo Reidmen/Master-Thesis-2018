@@ -5,17 +5,16 @@
 
 \subsection{Ideas}
 %The ultrasound method \cite{Foiret2014} enables the simultaneous measurement of cortical thickness and tissue elastic properties where previous techniques such as DXA (the \textit{de facto} method) could archieve.
-As studied before, factors of risk fracture are the thickness, porosity and particular quality elements of the extracelular matrix as explained in \cite{Bernard2015}. The QUS method from \cite{Foiret2014}, \cite{Minonzio2018} of axial transmission technique based on recording from the propagation of guided waves to obtain such factors in particular contains damping elements associated to a viscoelastic behavior of the cortical bone arrising mainly from the presence of collagen fibers, specifically treated with Resonant Ultrasound Spectroscopy techniques (RUS). Its is natural then to study the correspondence between such damping elements and their preponderance on the resulting homogenized coefficients by the two-scale homogenization theory.
+As studied before, factors of risk fracture are the thickness, porosity and particular quality elements of the extracelular matrix as explained in \cite{Bernard2015}. The QUS method \cite{Foiret2014}, \cite{Minonzio2018} of axial transmission technique is based on recording from the propagation of guided waves over the media, were damping factors affect the signal. This is associated to a viscoelastic behavior of the cortical bone arrising mainly from the presence of collagen fibers, specifically treated with Resonant Ultrasound Spectroscopy techniques. Thus, its natural to study the correspondence between such damping elements and their preponderance on the resulting homogenized coefficients by the two-scale homogenization theory
 
-\textit{Bernard} \textit{et al. }\cite{Bernard2015} studied in a viscoelastic frequency domain formulation of bone their results, in which adding a imaginary component to the tensor in the form
-
+\textit{Bernard} \textit{et al. }\cite{Bernard2015} studied in a viscoelastic behavior on a frequency domain model of bone their results, in which he modelled the elastic tensor $C^*_{ij}$ with damping effect given by:
 \begin{equation*}
 C^*_{ij} = C_{ij} + i C_{ij}^{'} = C_{ij} (1+ iQ_{ij}^{-1})
 \end{equation*}
 
 where the $Q^{-1}_{ij}$ are defined as ratios of the imaginary part ($C_{ij}'$) to the real part ($C_{ij}$), denoting the so-called quality factors.
 
-In this section, it will be formulated such quality factors following the two-scale homogenization formalism, recovering the homogenized elastic coefficients at different porosity levels and particularly obtaining prediction for the quality factors at some interval. Under the actual literature, such coefficients are yet to be validated since at current time there isn't enough experimental literature to confirm our predictions.
+In this section, I shall formulate such quality factors following the two-scale homogenization formalism, recovering the homogenized coefficients in the elastic case at different porosity levels and particularly obtaining prediction for the quality factors at some interval. Under the actual literature, such coefficients are yet to be validated since there isn't enough experimental literature to confirm our predictions.
 
 
 \section{Workflow for the Q-factor}
@@ -24,15 +23,15 @@ In this case, we will give a definition for the Q-factor from a elastodynamic Ke
 More specifically, we define the mechanical behavior of bone as a multiphase viscoelastic material composed of two-phases with cell unit in the form $\mathbf{Y} = Y_{m} \cup Y_{f}$ being the matrix and fluid parts respectively.
 For the bone matrix, we associate an elastic behavior defined by the elastic coefficient:
 \begin{equation*}
-    C_{ijkl}(\mathbf{y}) = C_{ijkl}^m \mathbb{I}_{Y_f}(\mathbf{y}) + C_{ijkl}^f \mathbb{I}_{Y_m}(\mathbf{y})
+    C_{ijkl}(\mathbf{y}) = C_{ijkl}^m \mathbb{I}_{Y_m}(\mathbf{y}) + C_{ijkl}^f \mathbb{I}_{Y_f}(\mathbf{y})
 \end{equation*}
 while the bone marrow is defined modelled as the viscous part, associated to a coefficient given in the form:
 \begin{equation*}
-    D_{ijkl}(\mathbf{y}) =  D_{ijkl}^m \mathbb{I}_{Y_m}(\mathbf{y}) + D_{ijkl}^w \mathbb{I}_{Y_w}(\mathbf{y})
+    D_{ijkl}(\mathbf{y}) =  D_{ijkl}^m \mathbb{I}_{Y_m}(\mathbf{y}) + D_{ijkl}^f \mathbb{I}_{Y_f}(\mathbf{y})
 \end{equation*}
-Moreover, the relations between both coefficients is given as an attenuation specified by parameters $\epsilon^b, \epsilon^w >0$ associated to the bone matrix and marrow respectively. Explicitely, we assume then:
+Moreover, the relations between both coefficients is given as an attenuation specified by parameters $\epsilon^{(m)}, \epsilon^{(f)} >0$ associated to the bone matrix and marrow respectively. Explicitely, we assume then:
 \begin{equation*}
-    D_{ijkl}^m(\mathbf{y}) = \epsilon^m C_{ijkl}^m(\mathbf{y}) , \quad D_{ijkl}^w (\mathbf{y}) = \epsilon^w C_{ijkl}^w(\mathbf{y})
+    D_{ijkl}^m(\mathbf{y}) = \epsilon^{(m)} C_{ijkl}^m(\mathbf{y}) , \quad D_{ijkl}^f (\mathbf{y}) = \epsilon^{(f)} C_{ijkl}^f(\mathbf{y})
 \end{equation*}
 
 
@@ -42,7 +41,7 @@ By fixing this kind of relation, the idea is to obtain a model of viscoelasticit
 
 \subsection{Workflow}
 \begin{rem}
-For the case of 2D modelling of transverse isotropic material, the simulation solutions are close enough to \textit{Parnel and Grimal} prediction solutions with their approximation method.
+For the case of 2D modelling of transverse isotropic material, the simulated solutions are close enough to \textit{Parnel and Grimal} prediction with their approximation method.
 \end{rem}
 In time domain, we consider an elastodynamic model of Kelvin-Voigt type behavior with mixed boundary conditions, described in the form:
 \begin{equation*}

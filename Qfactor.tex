@@ -1,11 +1,7 @@
-\chapter{Q-Factor}
-\section{Reference Ideas}
-
-
-
-\subsection{Ideas}
+\chapter{Predictions}
+\section{Viscoelasticity}
 %The ultrasound method \cite{Foiret2014} enables the simultaneous measurement of cortical thickness and tissue elastic properties where previous techniques such as DXA (the \textit{de facto} method) could archieve.
-As studied before, factors of risk fracture are the thickness, porosity and particular quality elements of the extracelular matrix as explained in \cite{Bernard2015}. The QUS method \cite{Foiret2014}, \cite{Minonzio2018} of axial transmission technique is based on recording from the propagation of guided waves over the media, were damping factors affect the signal. This is associated to a viscoelastic behavior of the cortical bone arrising mainly from the presence of collagen fibers, specifically treated with Resonant Ultrasound Spectroscopy techniques. Thus, its natural to study the correspondence between such damping elements and their preponderance on the resulting homogenized coefficients by the two-scale homogenization theory
+As studied before, factors of risk fracture are the thickness, porosity and particular quality elements of the extracelular matrix as explained in \cite{Bernard2015}. The QUS method \cite{Foiret2014}, \cite{Minonzio2018} of axial transmission technique is based on recording from the propagation of guided waves over the media, were damping factors affect the signal. This is associated to a viscoelastic behavior of the cortical bone arising mainly from the presence of collagen fibers, specifically treated with Resonant Ultrasound Spectroscopy techniques. Thus, its natural to study the correspondence between such damping elements and their preponderance on the resulting homogenized coefficients by the two-scale homogenization theory
 
 \textit{Bernard} \textit{et al. }\cite{Bernard2015} studied in a viscoelastic behavior on a frequency domain model of bone their results, in which he modelled the elastic tensor $C^*_{ij}$ with damping effect given by:
 \begin{equation*}
@@ -17,7 +13,7 @@ where the $Q^{-1}_{ij}$ are defined as ratios of the imaginary part ($C_{ij}'$) 
 In this section, I shall formulate such quality factors following the two-scale homogenization formalism, recovering the homogenized coefficients in the elastic case at different porosity levels and particularly obtaining prediction for the quality factors at some interval. Under the actual literature, such coefficients are yet to be validated since there isn't enough experimental literature to confirm our predictions.
 
 
-\section{Workflow for the Q-factor}
+\section{Formalization of Q-factors}
 The idea for this section is to formalize the Q-factor in the framework of homogenized equations.
 In this case, we will give a definition for the Q-factor from a elastodynamic Kelvin-Voigt model of bone.\\
 More specifically, we define the mechanical behavior of bone as a multiphase viscoelastic material composed of two-phases with cell unit in the form $\mathbf{Y} = Y_{m} \cup Y_{f}$ being the matrix and fluid parts respectively.
@@ -155,10 +151,25 @@ and the nonlinear terms with respect to $p \in [0,1]$ associated to the solution
     \end{array}
 \end{equation*}
 
+\subsection{Predictions}
+
+PREDICTIONS WITH RESPECT TO BERNARD PAPER
+VARIATIONS USING DIFFERENT EPSILON VALUE.
+
+INDEPENDENCE WITH RESPECT TO THE FREQUENCY.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/Qfactors/CellProb_QfactorCircular5E-2_Relations.pdf}
 	\caption{Predicted Behavior for the Viscoelastic Model: Its shown on the left figure the predicted quality factors for a \textit{Kelvin-Voigt} model; the center figure a prediction of homogenized coefficient ratios, and on the right figure some homogenized shear ratios behaves as in \cite{Bernard2015} }
 	\label{PredictionHomCoeffs-Qfactor}
 \end{figure} 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{images/Qfactors/QfactorsFreqsEPS5-2.pdf}
+	\caption{Predicted Behavior for the Viscoelastic Model: Its shown on the left figure the predicted quality factors for a \textit{Kelvin-Voigt} model; the center figure a prediction of homogenized coefficient ratios, and on the right figure some homogenized shear ratios behaves as in \cite{Bernard2015} }
+	\label{PredictionHomCoeffs-Qfactor}
+\end{figure} 
+
+
+
 

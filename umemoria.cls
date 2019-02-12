@@ -42,7 +42,7 @@
 % Other packages added:
 % Check: https://tex.stackexchange.com/questions/37581/latex-figures-side-by-side
 \RequirePackage{subfig} % To add multiple images support
-
+\RequirePackage{booktabs} % For tabular and table support
 
 %% Language
 %\addto\captionsspanish{\renewcommand\tablename{Table}}
@@ -88,7 +88,7 @@ PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
 \newenvironment{intro}{\addcontentsline{toc}{chapter}{\protect\numberline{}Introduction}\chapter*{Introduction}}{\vfill\null}
 \newenvironment{conclusion}{\addcontentsline{toc}{chapter}{\protect\numberline{}Conclusion}\chapter*{Conclusion}}{\vfill\null}
 
-%% Teoremas, proofs, etc
+%% Theorems, proofs, etc
 \renewenvironment{proof}[1][\proofname] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\scshape\footnotesize#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse}
 
 \newtheoremstyle{miestilo}{\baselineskip}{3pt}{\itshape}{}{\bfseries}{}{.5em}{}

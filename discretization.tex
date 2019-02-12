@@ -4,13 +4,13 @@
 
 \section{The Elastodynamic Model}
 \subsection{Approximation by Finite Spaces}
-To discretize the elastodynamic model, we consider the elastic operator defined on a \textit{Banach} space $\mathbf{V}$ with elasticity tensor $\mathbf{C} = (C_{ijkl})_{ijkl}$ by:
+To discretize the elastodynamic model, we consider the elastic operator defined on a \textit{Banach} space $\mathbf{V}$ with elasticity tensor $\mathbf{C}^{hom} = (C^{hom}_{ijkl})_{ijkl}$ by:
 \begin{equation*}
-    \mathcal{I}_C (u,v) := \int \limits_{\Omega} C_{ijkl}\mathbf{e}_{kl}(u) \mathbf{e}_{ij}(v) \, dx \quad \forall u,v \in \mathbf{V}
+    \mathcal{I}_C^{hom} (u,v) := \int \limits_{\Omega} C^{hom}_{ijkl}\mathbf{e}_{kl}(u) \mathbf{e}_{ij}(v) \, dx \quad \forall u,v \in \mathbf{V}
 \end{equation*}
-Moreover, by the uniform ellipticity condition on the coefficients $C_{ijkl}$ we have that $\mathcal{I}_{C}(\cdot, \cdot)$ is coercive on $\mathbf{V}$, i.e., there exist $\alpha > 0$ constant, such that:
+Moreover, by the uniform ellipticity condition on the coefficients $C^{hom}_{ijkl}$ we have that $\mathcal{I}_{C^{hom}}(\cdot, \cdot)$ is coercive on $\mathbf{V}$, i.e., there exist $\alpha > 0$ constant, such that:
 \begin{equation*}
-    \mathcal{I}_C (u,u) \geq  \alpha \Vert u \Vert_{\mathbf{V}}
+    \mathcal{I}_{C^{hom}} (u,u) \geq  \alpha \Vert u \Vert_{\mathbf{V}}
 \end{equation*}
 
 The solution of the elastodynamic problem will be found as projection solutions of finite dimensional subspaces that approximate to solution space \footnote{Such workflow is defines the approximation theory of PDE solutions and the so-called finite elements method \cite{ern2004theory}.}, in this case $\mathbf{H}^1(\Omega, \Gamma_D)$.
@@ -29,13 +29,13 @@ Over such finite dimensional subspaces $\{ \mathbf{V}_h\}_{h>0}$ the approximate
     \left \{
     \begin{array}{cc}
         \text{Find } u_h \in \mathcal{C}^2(0,T; \mathbf{V}_h) & \text{ such that } \\
-        (d_{tt} u_h(t), v_h)_{\Omega} + \mathcal{I}_C(u_h(t), v_h) = (\mathbf{F}(t) v_h)_{\Gamma_N} & \forall v_h \in \mathbf{V}_h\\
+        (d_{tt} u_h(t), v_h)_{\Omega} + \mathcal{I}_{C^{hom}}(u_h(t), v_h) = (\mathbf{F}(t), v_h)_{\Gamma_N} & \forall v_h \in \mathbf{V}_h\\
         d_t u_h(0) = u_h(0) = \mathbf{0} & 
     \end{array}
     \right. 
 \end{equation}
 
-Problems (\ref{ODE-Discretized}) corresponds to a finite linear PDE system in time for the variable $u_h(t)$ where the existence can be obtained by application of the spectral theory decomposing the elastic operator in its spectrum. The treatment is similar to the procedure proposed in the above section \cite{raviart1983introduction}.
+Problem (\ref{ODE-Discretized}) corresponds to a finite linear PDE system in time for the variable $u_h(t)$ where the existence can be obtained by application of the spectral theory decomposing the elastic operator in its spectrum. The treatment is similar to the procedure proposed in the above section \cite{raviart1983introduction}.
 
 The space discretization then is obtained from (\ref{ODE-Discretized}) which corresponds to a system of ODE's. Indeed, let $\{ \varphi_1, \dots, \varphi_{N(h)} \}$ denote a basis for the finite dimensional space $\mathbf{V}_h$ or so-called global shape functions for $\mathbf{V}_h$, then for all $t \in [0,T]$ the approximate solution $u_h(t) \in \mathbf{V}_h$ can be expanded as
 \begin{equation*}
@@ -43,18 +43,19 @@ The space discretization then is obtained from (\ref{ODE-Discretized}) which cor
 \end{equation*}
 where for each $t \in [0,T]$ its used the notation $\mathbf{U}(t) = (U_i(t))_{1 \leq i \leq N} \in \mathbb{R}^N$.
 
-Now, introducing also $\mathbf{F}_h(t) = \big( (\mathbf{F}(t), \varphi_i)_{\Omega} \big)_{1 \leq i \leq N} \big) \in \mathbb{R}^N$ with the so-called stiffness $\mathcal{A}(t) \in \mathbb{R}^{N \times N}$ and stress $\mathcal{M} \in \mathbb{R}^{N \times N}$ matrices respectively by:
+Now, introducing also $\mathbf{F}_h(t) = \big( (\mathbf{F}(t), \varphi_i)_{\Omega} \big)_{1 \leq i \leq N}\in \mathbb{R}^N$ with the so-called stiffness $\mathcal{A}(t) \in \mathbb{R}^{N \times N}$ and stress $\mathcal{M} \in \mathbb{R}^{N \times N}$ matrices respectively by:
 \begin{equation*}
     \mathcal{A}_{ij}(t) = \mathcal{I}_C(\varphi_j, \varphi_i), \, \mathcal{M}_{ij} = (\sqrt{\rho^0} \varphi_i , \sqrt{\rho^0}\varphi_j)_{\Omega} \quad 1 \leq i,j \leq N
 \end{equation*}
 
-By the previous assumed hypothesis $\mathcal{A}(t)$ is symmetric and positive-definite whereas $\mathcal{M}_{ij}$ is positive definite, Under such notation, it follows the matrix form formulation time-dependent:
+By the previous hypothesis $\mathcal{A}(t)$ is symmetric and positive-definite whereas $\mathcal{M}_{ij}$ is positive definite. Under such notation, it follows the time-dependent matrix form formulation :
 \begin{equation}
     \label{MatrixFormulation}
     \left \{
     \begin{array}{cc}
         \text{Find } \mathbf{U} \in \mathcal{C}^2(0,T; \mathbb{R}^{N\times N}) & \text{ such that} \\
-        \mathcal{M} d_{tt} \mathbf{U}(t) + \mathcal{A} \\ \mathbf{U}(t) = \mathbf{F}_h (t) & \text{ in }(0,T) \\
+        \mathcal{M} d_{tt} \mathbf{U}(t) + \mathcal{A} = \mathbf{F}_h (t) & \text{ in }(0,T)\\ 
+        \mathbf{U}(t) = \mathbf{0} & \\
         d_{t} \mathbf{U}(0) = \mathbf{U}(0)  = \mathbf{0}&
     \end{array}
     \right.
@@ -133,12 +134,13 @@ Taking into account our homogenized elastodynamic model (\ref{HomogenizedPDE}) d
         \rho^{hom} \partial_{tt} v(\mathbf{x}) (\mathbf{x}) - \nabla \cdot \sigma^{hom} (u^{(0)}(\mathbf{x}) ) = \mathbf{0} & \text{ in } \Omega \\
         \sigma^{hom}_{ij}(u^{(0)}(\mathbf{x})) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(\hat{v}(\mathbf{x})) & \text{ in } \Omega \\
         u^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D \\
-        \sigma^{hom}(u^{(0})(\mathbf{x})) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } \Gamma_N
+        \sigma^{hom}(u^{(0)}(\mathbf{x})) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } \Gamma_N
     \end{array}
     \right .
 \end{equation}
 the discretization procedure over time applied on (\ref{HomPDE-Model}) turn into the update scheme for each $n \in \{1,\dots, N\}$ in the form:
 \begin{equation*}
+    \label{HomPDE-TimeUpdate}
     \frac{\rho^{hom}}{\beta (\Delta t)^2} u_{n+1} - \nabla \cdot \sigma(u_{n+1}) = \frac{\langle\rho\rangle}{\beta (\Delta t)^2} ( u_{n} + (\Delta t) v_n ) + \langle\rho\rangle\frac{(1-2\beta)}{2\beta} a_n
 \end{equation*}
 with fields update (\ref{TwoStage-Update}).
@@ -213,16 +215,18 @@ To this end, let us take Fourier transform to the time-dependent problem in such
     \label{FreqAnsatz}
     u^{\epsilon}(\mathbf{x},t) = \hat{u}^{\epsilon}(\mathbf{x},\omega) e^{i \omega t}
 \end{equation}
-In this case, the homogenized PDE problem (\ref{HomPDE-Model}, with its initial and boundary conditions becomes:
+In this case, the homogenized PDE problem (\ref{HomPDE-Model}), with its initial and boundary conditions becomes:
 \begin{equation}
     \label{VectorPDE-Freq}
     \left \{
     \begin{array}{cc}
-        -\rho^{hom} \omega^2 \hat{u}^{(0)}(\mathbf{x}) - \text{div }\sigma^{hom} (\hat{u}^{(0)}(\mathbf{x}))=\mathbf{0}  & \text{ in }  \Omega \\
+        -\rho^{hom} \omega^2 \hat{u}^{(0)}(\mathbf{x}) - \nabla \cdot \sigma^{hom} (\hat{u}^{(0)}(\mathbf{x}))=\mathbf{0}  & \text{ in }  \Omega \\
         \sigma^{hom} (\hat{u}^{(0)}(\mathbf{x})) = \mathbf{C}^{hom}(\mathbf{x}): \mathbf{e} (\hat{u}^{(0)}(\mathbf{x})) & \text{ in } \Omega  \\
         \hat{u}^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D\\
         \sigma^{hom} (\hat{u}^{(0)}(\mathbf{x}))\cdot n = \hat{\mathbf{F}}(\mathbf{x}) & \text{ on } \Gamma_N \\
     \end{array}
     \right .
 \end{equation}
-where it was omitted the frequency dependency on the solution $\hat{u}^{(0)}$ for easiness of exposure and used $\Hat{F}(\omega, \mathbf{x})$ as the Fourier transform at frequency $\omega$ of $F(t, \mathbf{x})$.
+where it was omitted the frequency dependency on the solution $\hat{u}^{(0)}$ for easiness of exposure and used $\Hat{F}(\omega, \mathbf{x})$ as the Fourier transform at frequency $\omega$ of $F(t, \mathbf{x})$. 
+Finally, the discretization of (\ref{VectorPDE-Freq}) is defined by selecting a particular array of frequencies $(\omega_i)_{i \in [N_{\omega}]}$ associated to the experimental setup, over which the frequency domain simulations takes place.
+

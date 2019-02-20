@@ -1,6 +1,9 @@
 \chapter{Homogenization and Justification}
 
-Given the assumptions for the multiscale elastodynamic model of the cortical bone, the objective here will be to rigorously give a justification of the existence of such multiscale PDE system, then show the schematic procedure to obtain the so-called macroscopic (or effective) mechanical behavior of bone (which is clear and keeps the mechanical behavior explicitly in the formulation with respect to other literature \cite{Parnell2008}) which will be used for the numerical simulations and finally give a convergence result of the solution between the multiscale model and the homogenized one.
+
+It will be studied the cortical bone by the so-called asymptotic homogenization, which corresponds to a multi-scale method for determining the effective moduli of periodic media (\textit{Bakhvalov and Panasenko, 1989}). The approach exploits a separation of scales within the composite material, deriving an leading order homogenized equations governing the effective macroscopic behavior of the material.\\
+
+Given the assumptions for the multiscale elastodynamic model of the cortical bone, the objective here will be to rigorously give a justification of the existence of such multiscale PDE system motivated from (\cite{altenbach2018generalized}, then show the schematic procedure to obtain the so-called macroscopic (or effective) mechanical behavior of bone (which is clear and keeps the mechanical behavior explicitly in the formulation with respect to other literature \cite{Parnell2008}) which will be used for the numerical simulations and finally give a convergence result of the solution between the multiscale model and the homogenized one. 
 
 First, let us define the adequate spaces for our problem. Given the domain $\Omega \subset \mathbb{R}^d$, it will be denoted by $\mathbf{L}^2(\Omega)$ the $d$-dimensional vector functions, being each component on $L^2(\Omega)$. Similarly, its defined the space $\mathbf{H}^1(\Omega)$ of d-dimensional vector functions, where as before, each component belongs to $H^1(\Omega)$ defined as usual in the literature \cite{evans2010partial}. 
 In particular, denoting the vector trace operator by $\gamma: \mathbf{H}^1(\Omega) \rightarrow \mathbf{L}^2(\partial \Omega)$, we can define the space:
@@ -157,7 +160,7 @@ Let us prove the existence and uniqueness of solution for (\ref{MainTimePDE}).
 %%%%% THE ABOVE ADDED 21/10/2018
 %%%%%
 
-Now, the idea is to obtain a reasonable result of time regularity for the solution of the multiscale elastodynamic model. The motivation comes from a result of \textit{Panasenko} who obtain such type of results in a general viscoelastic case.
+Now, the idea is to obtain a reasonable result of time regularity for the solution of the multiscale elastodynamic model. The motivation comes from a result of \textit{Panasenko} who obtained such type of results in a general viscoelastic case with full \textit{Dirichlet} boundary conditions.
 
 In this case, it will be to used a bootstrap type method to obtain the time-regularity for the mixed boundary problem, using the bounds obtained from spectral theory.
 
@@ -378,7 +381,7 @@ where $\Phi$ is $\mathbf{Y}$-periodic function. Then it holds:
 \end{lem}
 
 \begin{rem}
-We are considering the notation
+Its being used as notation
 \begin{equation*}
     \langle f \rangle := \frac{1}{\vert Y \vert} \int_{\mathbf{Y}} f(\mathbf{y}) \, d\mathbf{y}
 \end{equation*}
@@ -386,7 +389,7 @@ where $\vert Y \vert$ denotes the measure of the set $\mathbf{Y}$.
 \end{rem}
 
 \subsection{Contribution at Second Order}
-For the contribution at order $\mathcal{O}(\epsilon^{-2})$ recall that, the problem \ref{VectorPDE-Elasticity} with their boundary conditions states:
+For the contribution at order $\mathcal{O}(\epsilon^{-2})$ recall that, the problem (\ref{VectorPDE-Elasticity}) with their boundary conditions states:
 \begin{equation}
     \label{Order-2VectorPDE}
     \left \{
@@ -397,7 +400,7 @@ For the contribution at order $\mathcal{O}(\epsilon^{-2})$ recall that, the prob
     \end{array}
     \right .
 \end{equation}
-By the Lemma (\ref{ExistenceLemma}) we have $u(\mathbf{x},\mathbf{y})$ is solution of \ref{Order-2VectorPDE} iff it's constant w.r.t the $\mathbf{y}$-variable. It implies then:
+By the Lemma (\ref{ExistenceLemma}) we have $u(\mathbf{x},\mathbf{y})$ is solution of (\ref{Order-2VectorPDE}) iff it's constant w.r.t the $\mathbf{y}$-variable. It implies then:
 \begin{equation}
     \label{IndepencyofY}
     u^{(0)}(t, \mathbf{x},\mathbf{y}) = v(t, \mathbf{x})
@@ -760,7 +763,10 @@ Let us note from the above bound that for each $t \in (0,T)$ we have:
     \Vert u^{\epsilon} - u^0 - \epsilon \varphi \mathbf{N}^s\big( \frac{\mathbf{x}}{\epsilon} \big) \partial_{x_s} u^0 \Vert_{\mathbf{H}^1(\Omega, \Gamma_N)} \lesssim \epsilon^{1/2} \Vert \mathbf{F}\Vert_{L^{\infty}(0,T;\mathbf{L}^{2}(\Gamma_N))}
 \end{equation}
 \end{rem}
+
 \section{Energy and Flow Estimations}
+The convergence results between the solutions of the multiscale and homogenized problems in particular contains information regarding the elasticity operator, thus the convergence of a energy operator as will be expressed in the following. Moreover, the convergence result obtained is of the same order giving consistency to the physical intuition that surrounds the elastodynamic problem.
+
 Let us define the energy operators $E_{\epsilon}$ and $E_{0}$ associated to the multiscale and homogenized problems defined in the form:
 \begin{equation*}
     E_{\epsilon}(u^{\epsilon}) := \int_0^T \int_{\Omega} \frac{1}{2}u_i^{\epsilon}u_i^{\epsilon} + \int_0^T \int_{\Omega} \big( \partial_{x_j} u^{\epsilon}, A^{jk} \big( \frac{\mathbf{x}}{\epsilon}\big) \partial_{x_k} u^{\epsilon} \big)
@@ -810,12 +816,15 @@ since the functions $u^0, \partial_{x_k}u^0, \mathbf{N}^s, \partial_{x_k} \mathb
 \end{proof}
 
 \section{Continuity on the Porosity Level}
+The definition of the homogenized coefficients contains an explicit dependency on the porosity level, since it defines the characteristic microstructure. In this section, it will be studied the continuity of such coefficients with respect to the porosity level addressing the well-posedness of inverse problem-formulation.
+
+More explicitly, its given estimations for the such effective coefficients, and a continuity property under reasonable hypothesis on the porosity\footnote{Such reasonable hypothesis are oriented in a continuity condition on the definition of the multiscale coefficients $C_{ijkl}(\mathbf{y},p)$, for example of Lipschitz type on $p$.}.
+
 Let us recall that our formulation of the elasticity coefficients defined on the fast variable $\mathbf{y} \in \mathbf{Y}$ is given by:
 \begin{equation*}
     C_{ijkl}(\mathbf{y}, p) = C_{ijkl}^{m} \mathbb{I}_{\mathbf{y} \in \mathbf{Y}_m(p)} + C_{ijkl}^{f} \mathbb{I}_{\mathbf{y} \in \mathbf{Y}_f(p)}
 \end{equation*}
 where there is an explicit dependency on the porosity fraction $p \in (0,1)$, which defines \textit{a posteriori} the homogenized coefficient dependent also on $p$. In this section is then studied the natural question of well-posedness, continuity and differentiability of such homogenized coefficients\footnote{A similar study has been done for the multiscale \textit{Calderón} problem by with high-oscillation conductivity coefficients, oriented moreover to the inverse problem of identification of the homogenized coefficients using also the two-scale formalism by \textit{A. Abudlle and A. di Blasio} in CITE MISSING.}, by means of the cell problems and expression (\ref{CellProblems}), (\ref{HomCoeffs}) before obtained.
-More explicitly, its given estimations for the such effective coefficients, and a continuity property under reasonable hypothesis on the porosity\footnote{Such reasonable hypothesis are oriented in a continuity condition on the definition of the multiscale coefficients $C_{ijkl}(\mathbf{y},p)$, for example of Lipschitz type on $p$.}.
 
 \subsection{Definition and Estimates}
 In this section, its given the main definition to formalize the presence of a factor $p \in (0,1)$ that defined a highly oscillating coefficient $C_{ijkl}(\cdot)$ on the cell domain $\mathbf{Y}$.

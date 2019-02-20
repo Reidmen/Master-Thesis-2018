@@ -1,4 +1,5 @@
 \chapter{Simulations}
+The numerical simulations studied in this section define the main tool for evaluation an validation of various aspect under study. They include the assessment of the homogenized coefficient prediction by means of the FEM method under the clinical-range of porosities, the simulation of the elastodynamic formulation proposed in the section before and the simulation of the \textit{Lamb}-modes describing the material behavior recorded on by receivers at the surface of the different meshes under consideration.
 
 \subsection{Numerical Solutions to Cell Problems}
 Following the developments done before to obtain effective equations governing the macroscopic mechanical behavior of cortical bone, one of the main difficulties to solve corresponds to the so-called cell problems, which contains in this case the non-linear component associated to the homogenized coefficients.
@@ -46,8 +47,8 @@ We consider then simulations of the homogenized coefficients in function of the 
     p := \frac{\vert \mathbf{Y}_f \vert }{\vert \mathbf{Y}\vert} = \pi r(p)^2 \implies r(p) := \sqrt{\frac{p}{\pi}}
 \end{equation*}
 
-Explicitly, we consider an increasing array of possible porosity levels associated limited to the clinical interest intervals, i.e. we limit ourselves to the interval $[0, 0.3]$ of possible porosities. The numerical solution to the model is done using the UFL language implemented within the library FEniCS\footnote{The FEniCS project is an international initiative, started in 2013 with the objective to automate the solution of mathematical models based of Partial Differential Equations, for example of the type elliptic as the heat equation, hyperbolic as the wave equation, quasi-hyperbolic equations, etc., using the Finite Element theory and formalism to find such solution. More in general, its capable to find an approximate solution by means of a well-posed general variational formulation. \\
-Defined as a set of interdependent base \texttt{C++} libraries such as \texttt{DOLFIN}, \texttt{FIAT}, \texttt{SFC} to just mention some, FEniCS implements an close-to-abstract coding and procedure to solve PDE problems on interface languages such as the native \texttt{C++} or via wrappers \texttt{Python}. Moreover, such base libraries rely on high-performance libraries for the algebra computations necessary in the FEM, such as \texttt{PETSc} which implements iterative solver of \textit{Krylov} type and a range of preconditioner to find an approximate solution $x \in \mathbb{R}^m$ of $Ax = b$ for $\mathcal{M}_{m \times m}(\mathbb{R})$, $b \in \mathbb{R}^m$ for $m \gg 1$.} to solve PDE in variational formulation.
+Explicitly, we consider an increasing array of possible porosity levels associated limited to the clinical interest intervals, i.e. we limit ourselves to the interval $[0, 0.3]$ of possible porosities. The numerical solution to the model is done using the UFL language implemented within the library FEniCS\footnote{The FEniCS project \cite{logg2012automated} is an international initiative, started in 2013 with the objective to automate the solution of mathematical models based of Partial Differential Equations of the type elliptic as the heat equation, hyperbolic as the wave equation, quasi-hyperbolic equations, etc., using the Finite Element theory and formalism to find such solution. More in general, its capable to find an approximate solution by means of a well-posed general variational formulation. Different use scenarios can be seen at \cite{abali2016computational}.\\
+Defined as a set of interdependent base \texttt{C++} libraries such as \texttt{DOLFIN} \cite{LoggWells2010a}, \texttt{FIAT}, \texttt{SFC} to just mention some. FEniCS implements a close-to-abstract coding and procedure to solve PDE problems on interface languages such as the native \texttt{C++} or via wrappers \texttt{Python}. Moreover, such base libraries rely on high-performance libraries for the algebra computations necessary in the FEM, such as \texttt{PETSc} which implements iterative solver of \textit{Krylov} type and a range of preconditioner to find an approximate solution $x \in \mathbb{R}^m$ of $Ax = b$ for $\mathcal{M}_{m \times m}(\mathbb{R})$, $b \in \mathbb{R}^m$ for $m \gg 1$.} to solve PDE in variational formulation.
 
 In particular, it's used the \texttt{PETScKrylov} solver to solve the matrix system obtained after discretize the variational formulation by FEM, and over such solver we used the \texttt{GMRES} (Generalized Minimal Residual Method)\footnote{The \texttt{GMRES} method is an efficient algorithm to solve large linear systems. It uses an iterative method associated to the Theory of Krylov subspaces to approximate the solution of the system by reducing the high dimensional problem to a sequence of low dimensional, solved each one by least squares.
 Explicitly, given $A \in \mathcal{M}_{m\times m} (\mathbb{R})$, $b \in \mathbb{R}^m$ for $m\gg 1$, the \texttt{GMRES} algorithm solves the problem $A x = b$ by solving the problems 
@@ -77,11 +78,11 @@ The results are then compared with the approximation of the homogenized coeffici
 \end{figure}
 
 \begin{center}
-\begin{tabular}{ |p{2.5cm}||p{2cm}|p{2cm}|p{2cm}|p{2cm}| }
+\begin{tabular}{ |p{2.2cm}||p{2cm}|p{2cm}|p{2cm}|p{2cm}| }
  \hline
- \multicolumn{5}{|c|}{Homogenized Coefficients} \\
+ \multicolumn{5}{|c|}{\textbf{Homogenized Coefficients}} \\
  \hline
- Error [\%] & $\phi = 5 \%$ & $\phi = 10 \%$ & $\phi = 15 \%$ & $\phi = 20 \%$ \\
+ \textbf{Error} [\%] & $\phi = 5 \%$ & $\phi = 10 \%$ & $\phi = 15 \%$ & $\phi = 20 \%$ \\
  \hline
  $C^{hom}_{22}$ & 0.6 \% & 1.3 \% & 1.3 \% & 1.5 \% \\
  $C^{hom}_{33}$ & <0.1 \% & <0.1 \% & <0.1 \% & <0.1 \% \\
@@ -92,6 +93,7 @@ The results are then compared with the approximation of the homogenized coeffici
  \hline
 \end{tabular}
 \end{center}
+
 
 \begin{rem}
 It's important to note also the periodic microstructure idealization being used in \cite{Parnell2008} since it corresponds to an hexagonal structure defining the mesoscale, while the idealization proposed here is a square microstructure.
@@ -112,13 +114,13 @@ Nevertheless, if we consider now a model using a microstructure as the one defin
 	\caption{Shear type elastic homogenized coeffs. in \textit{Voigt} notation. The figure shows the behavior over the range $(1,30) [\%]$ porosity with characteristic microstructure described by a hexagonal 2-dimensional polygon.}
 	\label{OtherHomCoeffsHexagonal}
 \end{figure}
-
+f
 \begin{center}
-\begin{tabular}{ |p{2.5cm}||p{2cm}|p{2cm}|p{2cm}|p{2cm}| }
+\begin{tabular}{ |p{2.2cm}||p{2cm}|p{2cm}|p{2cm}|p{2cm}| }
  \hline
- \multicolumn{5}{|c|}{Homogenized Coefficients} \\
+ \multicolumn{5}{|c|}{\textbf{Homogenized Coefficients}} \\
  \hline
- Error [\%] & $\phi = 5 \%$ & $\phi = 10 \%$ & $\phi = 15 \%$ & $\phi = 20 \%$ \\
+ \textbf{Error} [\%] & $\phi = 5 \%$ & $\phi = 10 \%$ & $\phi = 15 \%$ & $\phi = 20 \%$ \\
  \hline
  $C^{hom}_{22}$ & <0.1 \% & <0.1 \% & <0.1 \% & 0.3 \% \\
  $C^{hom}_{33}$ & 0.2 \% & 0.3 \% & 0.1 \% & 0.7 \% \\
@@ -130,31 +132,48 @@ Nevertheless, if we consider now a model using a microstructure as the one defin
 \end{tabular}
 \end{center}
 
+
 \subsection{Simulations of Wave Propagation}
 
 The simulation setting associated to the experimental measurements is defined by a 2-dimensional rectangular array imitating the frontal plane associated to the cortical bone. The transducer excitation source is defined at the upper surface where the omit the interaction between the human skin with bone structure itself. 
 The experimental measurement procedure consist in the following steps:
-\begin{itemize}
+\begin{enumerate}
     \item Each source associated to the emission transductor is placed approximately at a distance of $0.5 \, [mm]$ from one another, being together a set of 8-12 different sources. 
     \item The detection is obtained by placing approximately from 24-72 sensors depending on the configuration used, where each one is placed at a distance approximately of $0.4 \, [mm]$ from one another.
-\end{itemize}
+\end{enumerate}
 Explicitly, the force acting is modeled in vertical direction associated to the horizontal plane of the skin pointing to the center of the cortical bone with a central time $t_0 > 0$ and oscillation speed $\tau_0 > 0$, i.e., described in the form:
 \begin{equation}
+    \label{Force-eq}
     \mathbf{F}(\mathbf{x},t) = - e^{\frac{(t-t_0)^2}{2\sigma^2}} cos( 2 \pi t \tau_0 ) \mathbb{I}_{\mathbf{x} \in \Gamma_i} \hat{j} \quad \text{ on } \Gamma_N
 \end{equation}
 where $\{ \Gamma_i\}_{ i \in \{1,\dots, 8\}} \subset \Gamma_N$ denotes a disjoint subset of boundaries where the force is applied. 
+
+Thus, formally the PDE system simulated is defined by
+by finding the solution to (\ref{HomPDE-Simulation}) under the $\beta$-Newmark (\ref{HomPDE-TimeUpdate}) time scheme with parameters $\beta = 0.3$ and $\gamma = 0.7$.
+
+\begin{equation}
+    \label{HomPDE-Simulation}
+    \left \{
+    \begin{array}{cc}
+        \rho^{hom} \partial_{tt} u^{(0)}(\mathbf{x}) (\mathbf{x}) - \nabla \cdot \sigma^{hom} (u^{(0)}(\mathbf{x}) ) = \mathbf{0} & \text{ in } \Omega \times(0,T) \\
+        \sigma^{hom}_{ij}(u^{(0)}(\mathbf{x})) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(\hat{v}(\mathbf{x})) & \text{ in } \Omega\times(0,T) \\
+        u^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_l \cup \Gamma_r \times(0,T) \\
+        \sigma^{hom}(u^{(0)}(\mathbf{x})) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } \Gamma_u \cup \Gamma_d \times (0,T)
+    \end{array}
+    \right .
+\end{equation}
+
 Over such kind of configuration it can be proved theoretically the existence of the so-called \textit{Lamb}-waves that describe the particular propagation of guided waves associated to the elastic coefficients and density of the model being used.
 In particular, the presence of a closed domain implies reflection with different directions related to the \textit{Neumann} or \textit{Dirichlet} respectively.
 
 
 From a computational points of view, its observed the dependence of the mesh discretization with respect to the inverse problem prediction, thus inducing greater computational costs for fidelity prediction. Given such restriction, the 2-dimensional model is given by:
 \begin{enumerate}
-    \item A rectangular tetrahedral meshed domain using \texttt{CGALs} library. With tetrahedral cells with mean diameters of $\sim 20 [\mu m]$. The number of points used where $\sim 90.000$ being the triangle cells $\sim 450.000$.
+    \item A rectangular tetrahedral meshed domain using \texttt{CGALs} library. With tetrahedral cells with optimal mean diameters of $\sim 20 [\mu m]$ used for the one-source type simulations and $\sim 40 [\mu m]$ for the multiple-source simulations. For a reference mesh, number of points used where $\sim 30.000$ being the triangle cells $\sim 60.000$ at $40 [\mu m]$ and $\sim 90$ points with $\sim 300.000$ cells at $20 [\mu m]$.
     \item Its simulated the homogenized elastodynamic model for given set of $(th, po)$ pairs. The elasticity tensor is of transverse isotropy type.
-    \item The recording from the wavefront propagation is done by point measurements from which is then applied the signal processing to recover the \textit{Lamb}-modes.
+    \item The recording from the wave-front propagation is done by point measurements from which is then applied the signal processing to recover the \textit{Lamb}-modes.
 \end{enumerate}
 
-Thus, formally the PDE system simulated is defined by (\ref{HomPDE-Model}) under the $\beta$-Newmark (\ref{HomPDE-TimeUpdate}) time scheme with parameters $\beta = 0.3$ and $\gamma = 0.7$.
 The figure (\ref{MeshFile2D}) contains a schematic description of the simulation setting:
 \begin{figure}[!h]
 	\centering
@@ -172,17 +191,23 @@ The figure (\ref{MeshFile2D}) contains a schematic description of the simulation
 
 
 \subsubsection{Case of Multiple Sources}
-Its simulated under the setting of 8 force sources positioned at equal distances of one to another. It defines then 8 different experiment thus wave-guided propagation with its recordings.
-The figure \ref{FK-DiagramS8P12M10} describes the \textit{Lamb}-waves curves with the numerically simulated $(f,k)$-diagram. It shows the validation of the numerical model with respect to the theoretical prediction curves, observing clear correspondence between symmetrical and anti-symmetrical modes.
+Its simulated under the setting of 8 force sources activated independently, i.e., one at each experimental simulation, thus defining 8 different wave-guided propagation solutions to the model (\ref{HomPDE-Simulation}).
+
+\begin{rem}
+The computation times associated to the multiple-cases setting vary according to the thickness parameter, since it defines the mesh size. Using a test size of $40 \, [\mu m]$ for the diameter of the cells within the mesh, the simulation times for different cases varies between $\sim 16-28$ hrs in the range of thicknesses $1-3 \, [mm]$. Moreover, it is found experimentally a quadratic time increment depending on the mesh size, for which a testing case at $20 [\mu m]$ takes $\sim 5-7$ days. 
+Therefore it was necessary to consider particular properties of the wave propagation to reduce the computational times for each simulation.
+\end{rem}
+
+The figure (\ref{FK-DiagramS8P12M10}) describes the \textit{Lamb}-curves with the numerically simulated $(f,k)$-diagram. It shows the validation of the numerical model with respect to the theoretical prediction curves, observing clear correspondence between symmetrical and anti-symmetrical modes.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TimeMultSous/2DTimeS8P12ElasticFK10M780_y.pdf}
-	\caption{Numerically Simulated $(f,k)$-diagram of 2D Transverse Elastodynamic Model: Setting of 8 sources with $12\%$ porosity and thickness of $1.0 [mm]$.}
+	\caption{Numerically Simulated $(f,k)$-diagram of a 2D Transverse Elastodynamic Model: Setting of 8 sources with $12\%$ porosity and thickness of $1.0 [mm]$, with the mesh at $40 \, [\mu m]$ of cell inner diameter.}
 	\label{FK-DiagramS8P12M10}
 \end{figure}
 
-Similarly \ref{SVD-S8P12M10} describes the modes in $[dB]$ from the singular value decomposition of the recording array. It shows the preponderance of the first three modes describing the wave-front.
+Similarly (\ref{SVD-S8P12M10}) describes the modes in $[dB]$ from the singular value decomposition of the recording array. It shows the preponderance of the first three modes describing the wave-front.
 
 \begin{figure}[!h]
 	\centering
@@ -191,7 +216,7 @@ Similarly \ref{SVD-S8P12M10} describes the modes in $[dB]$ from the singular val
 	\label{SVD-S8P12M10}
 \end{figure}
 
-The presence of several symmetric and antisymmetric modes expressed by the \textit{Lamb} waves is related experimentally with higher thickness values, since in this case the range of horizontal propagation is bigger.
+The presence of several symmetric and anti-symmetric modes expressed by the \textit{Lamb} waves is related experimentally with higher thickness values, since in this case the range of horizontal propagation is bigger.
 Under such consideration, its shown on figure \ref{FK-DiagramS8P3M28} the wave-front simulations for a different pair $(Th., Po.)$, displaying a greater number of prediction curves.
 
 \begin{figure}[!h]
@@ -216,7 +241,10 @@ Similarly, the corresponding modes in $[dB]$ from the singular value decompositi
 The above study of 8-source simulations to generate one sample of data introduces the problems of computational simulation under limited resources and time. 
 To tackle such problem, its used the space invariance of the elastic wave since the recording to generate the output data array corresponds to just a space translation of the input signal for each one of the 8 propagation, thus such setting can be exchanged for one source with a higher number of sensors lowering the time-cost of the full simulation to 1/8 of the initial time.
 
-Its shown then on figure \ref{FK-DiagramS1P6M33} the $(f,k)$-diagram associated to the 1-source simulations setting. It presents natural reflections related to the rectangular 2-dimensional domain used with mixed boundary conditions.
+\begin{rem}
+Under this setting of one-source force, it is simulated for the mesh with cell diameters of $\sim 20 \, [\mu m]$ describing high-fidelity results with respect to the inverse problem prediction. The simulation times range with respect to the thickness describing the mesh, in which under a cores of a Xeon E5-2660 v2 processor with 4 Gb. DRR3 RAM requiring $\sim 18-26$ to describe a full simulation using $1024$ time step associated to $51.2 [\mu s]$ of real-time experimentation.
+\end{rem}
+It's shown then on figure (\ref{FK-DiagramS1P6M33}) the $(f,k)$-diagram associated to the 1-source simulations setting. It presents natural reflections related to the rectangular 2-dimensional domain used with mixed boundary conditions.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TimeSingSous/2DTime_P6ElasticFK33M1460_y.pdf}
@@ -224,11 +252,11 @@ Its shown then on figure \ref{FK-DiagramS1P6M33} the $(f,k)$-diagram associated 
 	\label{FK-DiagramS1P6M33}
 \end{figure}
 
-Its shown moreover on figure \ref{SVD-S1P6M33} the main modes $[dB]$ associated to the recorded signal.
+Its shown moreover on figure (\ref{SVD-S1P6M33}) the main modes $[dB]$ associated to the recorded signal.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/TimeSingSous/2DTime_P6Elastic33_SV.pdf}
-	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-DiagramS1P6M33}}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation (\ref{FK-DiagramS1P6M33})}
 	\label{SVD-S1P6M33}
 \end{figure}
 
@@ -261,29 +289,46 @@ Applying then such a projection filter we obtain the results qualitatively and q
 	\label{SVD-Hil-S1P7M33}
 \end{figure}
 
+To give statistical results, using uniformly distributed pairs in the parameters space of biomedical interest it is simulated under the above setting, obtaining the following results in terms of Root Mean Square Error (RMSE), validating the model used and the simulations being done.
+
+\begin{center}
+\vspace{2ex}
+\begin{tabular}{l l l}
+\toprule
+\textbf{RMSE} & \textbf{Porosity} (0-30 \%) & \textbf{Thickness} (1-4) [mm]\\
+\midrule
+Axial Meas. & 0.87 \% & 0,02  [mm]\\
+Anti-Axial Meas. & 0.47 \%  & 4.16 [mm]\\
+Composed & 1.2 \% & 0.03 [mm] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
 \subsection{Case on Frequency Domain}
 
 The time-domain simulation given results which represent qualitatively the model with enough fidelity, nevertheless such simulation requires a relatively small time step in such a way that the full simulation take considerable time. Thus, it is necessary to consider a model which reduces the computational cost.
 To this end, taking into account that the signal processing involves the application of \texttt{FFT} over the sensors data, a straightforward method is to consider the simulations now in the time-domain over the arrays of frequencies that are of interest.
 
 \subsubsection{Solutions without Attenuation}
-In this case, using the schemes proposed in the section before show results in which \textit{Lamb}-Waves contained unnatural discontinuities passing from a symmetric mode to an anti-symmetric one, also $dB$ values ranging with over $10$ orders of magnitude. Such distorsion shown on (\ref{FK-Freq-DiagramS8P10M09}) and (\ref{SVD-Freq-S8P10M09}) respectively. This kind of behavior repeated over different pairs of porosity level under study ranging the full domain of biomedical interest associated to the simulations thus becoming and intrinsic aspect of the elastic operator under study.
+In this case, using the schemes proposed in the section before, its show results in which \textit{Lamb}-waves contained unnatural discontinuities passing from a symmetric mode to an anti-symmetric one, also $dB$ values ranging with over $10$ orders of magnitude. Such distortion are shown in (\ref{FK-Freq-DiagramS8P10M09}) and (\ref{SVD-Freq-S8P10M09}) respectively. This kind of behavior repeated over different pairs of porosity level under study ranging the full domain of biomedical interest associated to the simulations thus becoming an intrinsic aspect of the elastic operator under study.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/FreqRes/2DFreqS8P10ElasticFK09M300_y.pdf}
-	\caption{Numerically Simulated $(f,k)$-diagram of 2D Elastic Model on Frequency Domain: Setting of 8 sources with $10\%$ porosity and thickness of $0.9 [mm]$}
+	\caption{Numerically simulated $(f,k)$-diagram of 2D Elastic Model on Frequency Domain: Setting of 8 sources with $10\%$ porosity and thickness of $0.9 \,[mm]$}
 	\label{FK-Freq-DiagramS8P10M09}
 \end{figure} 
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/FreqRes/2DFreqS810Elastic09_SV.pdf}
-	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-Freq-DiagramS8P10M09}}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-Freq-DiagramS8P10M09}.}
 	\label{SVD-Freq-S8P10M09}
-\end{figure} 
+\end{figure}
+
 Nevertheless to give statistical analysis using a set of simulations, the RMSE results are obtained associated to the prediction of thickness and porosity:
-\begin{table}
+\begin{center}
 \vspace{2ex}
 \begin{tabular}{l l l}
 \toprule
@@ -291,10 +336,12 @@ Nevertheless to give statistical analysis using a set of simulations, the RMSE r
 \midrule
 Axial Meas. & 1.15 \% & 0,03  [mm]\\
 Anti-Axial Meas. & 1,11 \%  & < 0,001 [mm]\\
+Composed & 0.8 \% & 0.02 [mm] \\
 \bottomrule
 \end{tabular}
-\end{table}
-It shows prediction of the standard inverse algorithm validating the frequency domain formulation even with the discontinuities since the definition of the modes is clear over all the frequency range of clinical interest.
+\end{center}
+
+THE TABLE shows prediction of the standard inverse algorithm \cite{Minonzio2018} validating the frequency domain formulation even with the discontinuities since the definition of the modes is clear over all the frequency range of clinical interest.
 
 ADD CONTEXT 
 
@@ -310,7 +357,7 @@ where we identify each eigenvalue to the eigenfrequency associated to our proble
 \end{equation*}
 
 \begin{rem}
-Ket us note in particular that the existence of such pairs is obtained from a classical result of elliptic theory \cite{raviart1983introduction}, \cite{evans2010partial}. Explicitly, it follows since the homogenized coefficients are elliptic and moreover they are bounded which gives us a well-defined bilinear, bicontinuous and coercive operator $\mathcal{I}_{\mathbf{C}^{hom}}(\cdot, \cdot)$ and a linear continuous operator $b(\cdot) := (u_k, \cdot)$ defined respectively on $\mathbf{H}^1(\Omega, \Gamma_D)^2$ and $\mathbf{H}^1(\Omega, \Gamma_D)$.
+Ket us note in particular that the existence of such pairs is obtained from a classical result of elliptic theory \cite{raviart1983introduction}, \cite{evans2010partial}. Explicitly, it follows since the homogenized coefficients are elliptic and moreover they are bounded which gives us a well-defined bilinear, bicontinuous and coercive operator $\mathcal{I}_{\mathbf{C}^{hom}}(\cdot, \cdot)$ and a linear continuous operator $b(\cdot) := (u_k, \cdot)$ defined respectively on $\mathbf{H}^1(\Omega, \Gamma_D)\times \mathbf{H}^1(\Omega, \Gamma_D)$ and $\mathbf{H}^1(\Omega, \Gamma_D)$.
 \end{rem}
 
 
@@ -319,7 +366,7 @@ It was found numerically a spectrum with abundant eigen-frequencies in bounded i
 
 In (\ref{EigenValuesComparison}) is shown the frequencies used in the experimental setting used for the simulations in the frequency domain and the eigen-frequencies associated to the operator under study.
 
-\begin{figure}%
+\begin{figure}[!h]%
     \centering
     \subfloat[Start Bandwidth]{{\includegraphics[width=7cm]{images/FreqRes/SingValues-EigenFreqs05-10.pdf} }}%
     \qquad
@@ -374,35 +421,56 @@ Nevertheless, from the figure \ref{SVD-FreqS8P12M28} of main modes $[dB]$ associ
 
 \subsection{Simulation of Wave Propagation on 3-dimension}
 Following the 2-dimensional case, its now studied the effect of radial wave behavior on the recorded signal, validating in particular the experimentally obtained results that neglect the non-axial wave-guide propagation. 
-Such procedures imply the creation of adaptive meshes to the complex cortical bone geometry, where open-source software such as \texttt{iso2mesh}, \texttt{CGAL} is used for its generation and in particular a created a pipeline of mesh generation from $\mu$-CT images.
+Such procedures imply the creation of adaptive meshes of the complex cortical bone geometry, where open-source software such as \texttt{iso2mesh}, \texttt{CGAL} is used for its generation and in particular a created a pipeline of mesh generation from $\mu$-CT images.
 
 \subsubsection{Half-Cylinder Case}
-A half-cylinder mesh is proposed as first approximation to the 3-dimensional real cortical bone sample from the $\mu$-CT images. In this case, avoiding the non-uniformity characteristic of the bone surface, its tested the wave-guide propagation and distortion generated by the natural curvature of the mesh.
+A half-cylinder mesh is proposed as first approximation to the 3-dimensional real cortical bone sample from the $\mu$-CT images. In this case, avoiding the non-uniformity characteristic of the bone surface its tested the wave-guide propagation and distortion generated by the natural curvature of the mesh.
 
-Number of points 176144, number of cells 956704
+The setting of the numerical model is proposed in (\ref{HalfCylSubdomainsFile}), resembling the 2-dimensional case (\ref{MeshFile2D}) with variation associated to the input force width and rectangular-type force sensors. As before, the problem is modelled with \textit{Dirichlet} boundary conditions on $\Gamma_l \cup \Gamma_r$ and \textit{Neumann} condition on $\Gamma \cup \Gamma_l$.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=\textwidth]{images/ClusterSim/3DCylTimeP11TransIsoFKW18.png}
+	\includegraphics[width=0.8\textwidth]{images/ImgExt/HalfCyl3d-MeshBoundaries.png}
+	\caption{Half-Cylinder Mesh defining the geometry for the elastodynamic simulation with mean diameter of tetrahedral $\sim 40 [\mu m]$. Number of vertices: $176,144$ and number of cells: $956,704$.}
+	\label{HalfCylSubdomainsFile}
+\end{figure} 
+
+Applying a post-processing analysis at particular time step the visual behavior is obtained in (\ref{HalfCyl-TimeStep}) using the \texttt{ParaView} library.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{images/ImgExt/HalfCyl3d-T160.png}
+	\caption{Wrapping by Vector effect by the input force $\mathbf{F}(\mathbf{x},t)$ at $8 [\mu s]$ of simulation.}
+	\label{HalfCyl-TimeStep}
+\end{figure} 
+
+\begin{rem}
+The total simulation time associated to such half-cylindrical mesh is $\sim 25$ hrs. using 2 cores of a Xeon E5-2660 v2 processor with 5 Gb. RAM DDR3. This mesh at $\sim 40 [\mu m]$ defines \textit{Lamb}-waves requiring 1024 time steps partitioning $51.2 [\mu s]$ of real-time simulation. 
+\end{rem}
+
+The signal recording from the wave-front propagation partially observed from (\ref{HalfCyl-TimeStep}) enables us to observe the first example of numerically generated \textit{Lamb}-modes characteristic of the \textit{Lamb}-wave theory as shown in (\ref{FK-Cyl-DiagramS1P11M18}). In particular, the 3-dimensional curvature effect from the cortical bone doesn't affect the main three symmetrical modes, nevertheless antisymmetrical modes are less clear showing variations respect to the theoretical 2-dimensional theoretical model.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{images/ClusterSim/3DCylTimeP11TransIsoFKW18.pdf}
 	\caption{Numerically Simulated $(f,k)$-diagram of a 3-dimensional Half-cylinder Elastodynamic Model: Setting of 1 source with $11\%$ porosity and thickness of $1.8 [mm]$ applying Hilbert transform to delete reflections.}
 	\label{FK-Cyl-DiagramS1P11M18}
 \end{figure} 
-
+With respect to the singular value decomposition of the recorded signal in figure (\ref{SVD-Cyl-S1P11M18}), the first 3 modes describes a natural behavior in the $(0, 20) \, [dB]$ range associated to the input force currently used.
 \begin{figure}[!h]  
 	\centering
-	\includegraphics[scale=.5]{images/ClusterSim/3DCylTimeP11TransIsoFKW18_SV.png}
+	\includegraphics[scale=.5]{images/ClusterSim/3DCylTimeP11TransIsoFKW18_SV.pdf}
 	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-Cyl-DiagramS1P11M18}}
 	\label{SVD-Cyl-S1P11M18}
 \end{figure}
 
 
 \subsubsection{Rugous Exterior}
-The mesh generation is done, using the data-flow diagram presented in (\ref{DiagramMeshGeneration}). Such procedure using a variety of softwares, creates a complex tetrahedral mesh from a processed volumetric image using as back-end the \texttt{CGAL} library to compute the geometry. 
-The processing of the $\mu-CT$ grayscale images stack is given by:
+The mesh generation is done, using the data-flow diagram presented in (\ref{DiagramMeshGeneration}). Such procedure works by applying several kinds of software's. It creates a complex tetrahedral mesh from a processed volumetric image using as back-end the \texttt{CGAL} library to compute the geometry. 
+The processing of the $\mu$-CT grayscale images stack is defined in the 3 main steps:
 \begin{enumerate}
-    \item A scaling procedure from the input $9 \, [\mu m]$ voxel images is done to restrict the memory consumption of the full stack of $\mu-CT$ images. The output images are obtained with a $56 \, [\mu m]$ voxel, i.e., considering a $40 \%$ scaling factor with cubic interpolator.
+    \item A scaling procedure from the input $9 \, [\mu m]$ voxel images is done to restrict the memory consumption of the full stack of $\mu$-CT images. The output images are obtained with a $56 \, [\mu m]$ voxel, i.e., considering a $40 \%$ scaling factor with cubic interpolator.
     \item The stack is separated between grayscale value ranges, to isolate the different sets of material involved. In this case, the separation of the mesoscale is done, being the porosities and bone matrix voxel labeled.
-    \item Each image labeled set of voxel, is then stacked, defining a volumetric image on \texttt{Octave} then meshed with \texttt{Iso2mesh} software, which is a wrapped application containing the \texttt{CGAL} algorithms.
+    \item Each image labeled set of voxel, is then stacked, defining a volumetric image on \texttt{Octave} then meshed with \texttt{Iso2mesh} library, which is a wrapped application containing the \texttt{CGAL} algorithms.
 \end{enumerate}
 \begin{figure}[!h]
 	\centering
@@ -411,38 +479,57 @@ The processing of the $\mu-CT$ grayscale images stack is given by:
 	\label{DiagramMeshGeneration}
 \end{figure} 
 
-To 3-dimensional elastodynamic study on the homogenized bone is done then by considering the above mesh generation (\ref{DiagramMeshGeneration}) ignoring the labeled sets thus defining and uniform interior mesh being only the irregularities associated to the surfaces.
-Moreover, to keep the distance scaled to the experimental setting, its used $1000$ slices from the stack, thus defining real $56 \, [mm]$ of cortical bone geometry.
-The objective then is to recover the lamb-waves associated to the 2-dimensional model but now incorporating the surface effect from the curvature and irregularities, thus affecting the behavior of the lamb curves definition.
-ADD SIZES OF THE MESH AND COMPUTATIONAL RESTRICTIONS
-
-Number of Points: 432280, Number of Cells: 1393709
+The 3-dimensional elastodynamic study of the homogenized bone is done then by considering the above mesh generation (\ref{DiagramMeshGeneration}) ignoring the labeled sets, thus defining and uniform interior mesh being adaptive to the surface irregularities.
+To keep the scaled distance to the experimental setting, its used $1000$ slices from the stack, thus defining real $56 \, [mm]$ of cortical bone geometry.
+The objective then is to recover the \textit{Lamb}-waves associated to the 2-dimensional model but now incorporating the surface effect from the curvature and irregularities, that are expected to affect the behavior of the \textit{Lamb}-curves and thus recorded signal itself.
+By applying the generation procedure described before it follows the realistic irregular mesh pictured in (\ref{HomBoneMeshFile}). It characterizes a cortical bone sample of $56 \, [mm]$ length in the long direction describing a thickness of $\sim 1.8 [mm]$. 
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{images/ImgExt/CorticalBoneS1000OPT20-View.png}
-	\caption{Mesh Generated from 1000 Slices from $\mu-CT$ images using the mesh-generation diagram (\ref{DiagramMeshGeneration}).}
+	\caption{Mesh Generated from 1000 Slices from $\mu-CT$ images using the mesh-generation diagram (\ref{DiagramMeshGeneration}). It characterizes a cortical bone sample of $56 \, [mm]$ length in the long direction associated to a thickness $\sim 1.8 [mm]$ and experimentally tested porosity of $\sim 11 \%$. Explicitly, the mesh is described by $432,280$ vertices with $1,393,709$ tetrahedras.}
 	\label{HomBoneMeshFile}
 \end{figure} 
 
-The adaptive mesh (\ref{HomBoneMeshFile}) ressembles a real geometry by meshing the irregularities on the surface characteristics of a natural cortical bone sample. Over such geometry is then simulated an elastodynamic model propagating a guided wave and thus generating the guided-waves shown in (\ref{FK-HomBone-DiagramS1P11M18}).
+The configuration is defined similar to the cylindrical case. The figure (\ref{HomBoneSubdomainsFile}) describes explicitly the settings of the rectangular sources and receivers implemented, each one defined by a width of $\sim 0.8 [mm]$ with height $\sim 8 [mm]$ located at the top surface of the mesh.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{images/ImgExt/Cortical3dsc04Mesh1000Fill-MeshBoundaries.png}
+	\caption{The colors markers define the different subdomains associated to the mesh (\ref{HomBoneMeshFile}). It describe $48$ receivers and a transmiter locations in a array-like form ressembling the experimental transducer. Moreover, each subdomain is defined approximately by $\sim 200$ marked tetrahedras.}
+	\label{HomBoneSubdomainsFile}
+\end{figure} 
+The adaptive mesh (\ref{HomBoneMeshFile}) resembles a real geometry by meshing the irregularities on the surface characteristics of a natural cortical bone sample. Over such geometry is then simulated an elastodynamic model propagating a guided wave and thus generating the guided-waves shown in (\ref{FK-HomBone-DiagramS1P11M18}) as shown in figure (\ref{HomBone-TimeStep})
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{images/ImgExt/Cortical3dsc04Mesh1000Fill-T80.png}
+	\caption{}
+	\label{HomBone-TimeStep}
+\end{figure} 
+
+\begin{rem}
+The elastodynamic model simulated over this complex domain at $\sim 80 \, [\mu m]$, requiring 2 cores of a Xeon E5-2660 v2 processor with $\sim 8$ Gb of DDR3 RAM and $\sim 7$ days of computation time enables us to obtain obtain a complex waveguide, affected by the irregularities of the domain, thus generating guided-waves attenuated on the principal modes as shown in (\ref{FK-DiagramS8P12M10}).
+\end{rem}
+
 Its observed moreover a discrepancy from the reconstruction \textit{Lamb}-waves with respect to the reference curves. This produced mainly by the interior irregularities in proximity to the bone marrow.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=\textwidth]{images/ClusterSim/3DCorticalS1000TimeP11TransIsoFKW18.png}
+	\includegraphics[width=\textwidth]{images/ClusterSim/3DCorticalS1000TimeP11TransIsoFKW18.pdf}
 	\caption{Numerically Simulated $(f,k)$-diagram of a 3-dimensional Realistic-geometry: Setting of 1 source with $11\%$ porosity and thickness of $\sim 1.8 [mm]$. The green lines defines the \textit{Lamb} curves created from the recording of the wave-guide being the others associated to the reference model.}
 	\label{FK-HomBone-DiagramS1P11M18}
 \end{figure} 
 
-Similarly, singular values associated to simulation (\ref{FK-HomBone-DiagramS1P11M18}) is given on (\ref{SVD-HomBone-S1P11M18}) ressembling realistic values.
+Similarly, singular values associated to simulation (\ref{FK-HomBone-DiagramS1P11M18}) are given on (\ref{SVD-HomBone-S1P11M18}) which resembles realistic values.
 \begin{figure}[!h]  
 	\centering
-	\includegraphics[scale=.5]{images/ClusterSim/3DCorticalS1000TimeP11TransIsoFKW18_SV.png}
+	\includegraphics[scale=.5]{images/ClusterSim/3DCorticalS1000TimeP11TransIsoFKW18_SV.pdf}
 	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-Cyl-DiagramS1P11M18}}
 	\label{SVD-HomBone-S1P11M18}
 \end{figure}
 DISCUSS THE VARIATIONS WITH RESPECT TO THE CYLINDRICAL CASE
 
-\subsubsection{Fully Porous Material}
-The save Pipeline (\ref{DiagramMeshGeneration}) is used for the mesh generation, now without homogenized coefficients and therefore taking into account the variation on the elastic coefficients depending on the presence of mesoscale structure and cavities.
+ADD FINALLY COMPARATIVE TABLE OF THE THREE CASES UNDER STUDY! 2D-->3D Cylindrical --> 3D HomBone!
+
+%\subsubsection{Fully Porous Material}
+%The save Pipeline (\ref{DiagramMeshGeneration}) is used for the mesh generation, now without homogenized coefficients and therefore taking into account the variation on the elastic coefficients depending on the presence of mesoscale structure and cavities.

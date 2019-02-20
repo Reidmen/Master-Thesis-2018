@@ -1,6 +1,6 @@
 \chapter{Discretization Procedures}
 
-
+Discretization procedures for elastic formulation have been developed since the early $60$'s under diverse setting oriented mainly in civil-engineering fields. In this section, it will be studied following literature such as \cite{ern2004theory}, \cite{raviart1983introduction} a finite-element discretization of the elastic operator in space-domain and it will be presented a standard $\beta$-Newmark time-domain discretization obtaining thus a complete numerical formulation for various models implemented on \texttt{FEniCS}, a state-of-art library for such purposes.
 
 \section{The Elastodynamic Model}
 \subsection{Approximation by Finite Spaces}
@@ -60,7 +60,7 @@ By the previous hypothesis $\mathcal{A}(t)$ is symmetric and positive-definite w
     \end{array}
     \right.
 \end{equation}
-which describes to complete space discretization by means of the FEM method, and enabling the use of time discretization techniques for the resulting ODE problem (\ref{MatrixFormulation}). In particular as will be seen in the next section the so-called $\beta$-Newmark scheme. \footnote{The implementation of such space discretization is done in Python using a state-of-art open-source project called \texttt{FEniCS}, defined as a set of specific core component such as \texttt{DOLFIN}, \texttt{UFL},  \texttt{UFC}, etc. It enables the automatic solution of differential forms implementing the Theory of Finite Elements with numerically optimized libraries for arithmetic computations. The project is an international collaboration initiated in 2003 between the University of Chicago and Chalmers University of Technology currently under development from a variety of institutions.}
+which describes to complete space discretization by means of the FEM method, and enabling the use of time discretization techniques for the resulting ODE problem (\ref{MatrixFormulation}). In particular as will be seen in the next section the so-called $\beta$-Newmark scheme. \footnote{The implementation of such space discretization is done in Python using a state-of-art open-source project called \texttt{FEniCS} \cite{logg2012automated}, defined as a set of specific core component such as \texttt{DOLFIN}, \texttt{UFL},  \texttt{UFC}, etc. It enables the automatic solution of differential forms implementing the Theory of Finite Elements with numerically optimized libraries for arithmetic computations. The project is an international collaboration initiated in 2003 between the University of Chicago and Chalmers University of Technology currently under development from a variety of institutions.}
 
 \subsection{Time Discretization}
 Let us note first that (\ref{MatrixFormulation}) is an standard \textit{Cauchy} ODE problem, To solve numerically such system, we will introduce an uniform time-step in the form $\Delta t = T/N_T$ with a discretization of the interval $[0, T]$ in the form:
@@ -131,8 +131,8 @@ Taking into account our homogenized elastodynamic model (\ref{HomogenizedPDE}) d
     \left \{
     \begin{array}{cc}
         \text{Find $u \in \mathcal{C}^2(0,T;\mathbf{H}^1(\Omega, \Gamma_D))$} & \text{such that} \\
-        \rho^{hom} \partial_{tt} v(\mathbf{x}) (\mathbf{x}) - \nabla \cdot \sigma^{hom} (u^{(0)}(\mathbf{x}) ) = \mathbf{0} & \text{ in } \Omega \\
-        \sigma^{hom}_{ij}(u^{(0)}(\mathbf{x})) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(\hat{v}(\mathbf{x})) & \text{ in } \Omega \\
+        \rho^{hom} \partial_{tt} u^{(0)}(\mathbf{x}) (\mathbf{x}) - \nabla \cdot \sigma^{hom} (u^{(0)}(\mathbf{x}) ) = \mathbf{0} & \text{ in } \Omega \\
+        \sigma^{hom}_{ij}(u^{(0)}(\mathbf{x})) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(u^{(0)}(\mathbf{x})) & \text{ in } \Omega \\
         u^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D \\
         \sigma^{hom}(u^{(0)}(\mathbf{x})) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } \Gamma_N
     \end{array}

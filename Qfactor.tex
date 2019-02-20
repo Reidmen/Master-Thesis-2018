@@ -1,22 +1,21 @@
-\chapter{Predictions}
-\section{Viscoelasticity}
+\chapter{Viscoelastic Predictions}
 %The ultrasound method \cite{Foiret2014} enables the simultaneous measurement of cortical thickness and tissue elastic properties where previous techniques such as DXA (the \textit{de facto} method) could archieve.
-As studied before, factors of risk fracture are the thickness, porosity and particular quality elements of the extracelular matrix as explained in \cite{Bernard2015}. The QUS method \cite{Foiret2014}, \cite{Minonzio2018} of axial transmission technique is based on recording from the propagation of guided waves over the media, were damping factors affect the signal. This is associated to a viscoelastic behavior of the cortical bone arising mainly from the presence of collagen fibers, specifically treated with Resonant Ultrasound Spectroscopy techniques. Thus, its natural to study the correspondence between such damping elements and their preponderance on the resulting homogenized coefficients by the two-scale homogenization theory
+As studied before, factors of risk fracture are the thickness, porosity and particular quality elements of the extracelular matrix as explained in \cite{Bernard2015}. The QUS method \cite{Foiret2014}, \cite{Minonzio2018} of axial transmission technique is based on recording from the propagation of guided waves over the media, were damping factors affect the signal. This is related to a viscoelastic behavior of the cortical bone arising mainly from the presence of collagen fibers, specifically treated with Resonant Ultrasound Spectroscopy (RUS) techniques. Thus, its natural to study the correspondence between such damping elements and their preponderance on the resulting homogenized coefficients by the two-scale homogenization theory
 
-\textit{Bernard} \textit{et al. }\cite{Bernard2015} studied in a viscoelastic behavior on a frequency domain model of bone their results, in which he modelled the elastic tensor $C^*_{ij}$ with damping effect given by:
+\textit{Bernard} \textit{et al. }\cite{Bernard2015} studied in a viscoelastic behavior on a frequency domain bone model in which he modelled the elastic tensor $C^*_{ij}$ with damping effect given by:
 \begin{equation*}
 C^*_{ij} = C_{ij} + i C_{ij}^{'} = C_{ij} (1+ iQ_{ij}^{-1})
 \end{equation*}
-
 where the $Q^{-1}_{ij}$ are defined as ratios of the imaginary part ($C_{ij}'$) to the real part ($C_{ij}$), denoting the so-called quality factors.
 
-In this section, I shall formulate such quality factors following the two-scale homogenization formalism, recovering the homogenized coefficients in the elastic case at different porosity levels and particularly obtaining prediction for the quality factors at some interval. Under the actual literature, such coefficients are yet to be validated since there isn't enough experimental literature to confirm our predictions.
-
+In this section, I shall formulate such quality factors following the two-scale homogenization formalism, recovering the homogenized coefficients in the elastic case at different porosity levels and particularly obtaining prediction for the quality factors at some interval. Using the up-to-date literature, such coefficients are yet to be validated since there isn't enough experimental literature to confirm nor validate the predictions.
 
 \section{Formalization of Q-factors}
-The idea for this section is to formalize the Q-factor in the framework of homogenized equations.
-In this case, we will give a definition for the Q-factor from a elastodynamic Kelvin-Voigt model of bone.\\
-More specifically, we define the mechanical behavior of bone as a multiphase viscoelastic material composed of two-phases with cell unit in the form $\mathbf{Y} = Y_{m} \cup Y_{f}$ being the matrix and fluid parts respectively.
+The quality factors $Q_{ij}$ proposed by \textit{Bernard} in an experimental fashion, provide an interesting description of the ratio between the real and imaginary constitutive coefficients of a full viscoelastic mechanical description of the bone, moreover it gives us a comparison using the existent literature and experimental results.
+
+In the following, I will give a novel description of the so-called Q-factors by means of the two-scale homogenization theory, derived from a Kelvin-Voigt viscoelastic formulation of Bone in frequency domain.
+
+More specifically, its defined the mechanical behavior of bone as a multiphase viscoelastic material composed of two-phases with cell unit in the form $\mathbf{Y} = Y_{m} \cup Y_{f}$ being each the matrix and fluid parts respectively.
 For the bone matrix, we associate an elastic behavior defined by the elastic coefficient:
 \begin{equation*}
     C_{ijkl}(\mathbf{y}) = C_{ijkl}^m \mathbb{I}_{Y_m}(\mathbf{y}) + C_{ijkl}^f \mathbb{I}_{Y_f}(\mathbf{y})
@@ -35,7 +34,7 @@ Moreover, the relations between both coefficients is given as an attenuation spe
 By fixing this kind of relation, the idea is to obtain a model of viscoelasticity in which the viscous part can be modelled by a linear attenuation of the elastic one, so that the overall behavior is transverse isotropic defined with just a pair of parameters $(\epsilon^m, \epsilon^w)$ that mimic closely the experimental behavior of bone.
 \end{rem}
 
-\subsection{Workflow}
+\subsection{Workflow Description}
 \begin{rem}
 For the case of 2D modelling of transverse isotropic material, the simulated solutions are close enough to \textit{Parnel and Grimal} prediction with their approximation method.
 \end{rem}
@@ -130,13 +129,15 @@ It follows in particular, the definition of the $Q_{ij}$ factor, defined directl
 where the homogenized coefficients are defined as above.
 Let us note the preponderant dependency of the frequency associated on the defined factor, which as study above, derives explicitly from the Kelvin-Voigt viscoelastic assumption of the mechanical model. 
 
-An aspect that must be taken into account is the nonlinear effect produced added from the asymtotic asumption on the solution, expressed in the term $N^{rs}$ at the homogenized coefficients definition that can be explicitly stated from (\ref{Qfactor-Def}).
+\subsection{Nonlinear Descomposition}
+
+An aspect that must be taken into account is the nonlinear effect added from the asymptotic assumption on the solution, expressed in the term $N^{rs}$ at the homogenized coefficients definition that can be explicitly stated from (\ref{Qfactor-Def}).
 Its possible to account for that effect by taking a decomposition on the linear part associated to the mean over the coefficient itself and the nonlinear effect produced from the solutions to the cell problems, i.e., from (\ref{Qfactor-Def}) the decomposition in its linear and nonlinear effects its obtained as:
 \begin{equation}
     \label{Expansion-Qfactor}
     \begin{aligned}
         Q_{ijrs}^{-1}  & = \frac{D_{hom}^{(0)} + D_{hom}^{(1)}}{C_{hom}^{(0)} + C_{hom}^{(1)}}  \\
-         & =  \frac{D_{hom}^{(0)}}{C_{hom}^{(0)}} + \frac{1}{C^{(0)}_{hom}( C^{(0)}_{hom} + C^{(1)}_{hom}} \big[C^{(0)}_{hom} \big( D^{(0)}_{hom} + D^{(1)}_{hom}\big) - D^{(0)}\big( C^{(0)}_{hom} + C^{(1)}_{hom} \big) \big]
+         & =  \frac{D_{hom}^{(0)}}{C_{hom}^{(0)}} + \frac{1}{C^{(0)}_{hom}\left( C^{(0)}_{hom} + C^{(1)}_{hom} \right)} \big[C^{(0)}_{hom} \big( D^{(0)}_{hom} + D^{(1)}_{hom}\big) - D^{(0)}\big( C^{(0)}_{hom} + C^{(1)}_{hom} \big) \big]
     \end{aligned}
 \end{equation}
 where its being used the notation for the linear terms in $p \in [0,1]$ (porosity) by:
@@ -151,23 +152,28 @@ and the nonlinear terms with respect to $p \in [0,1]$ associated to the solution
     \end{array}
 \end{equation*}
 
-\subsection{Predictions}
+\section{Predictions}
 
-PREDICTIONS WITH RESPECT TO BERNARD PAPER
-VARIATIONS USING DIFFERENT EPSILON VALUE.
+The explicit dependency on the frequency $\omega$, requires us to consider the frequency range in which the experimental setting take place. In this sense, by considering viscous factors with transverse isotropic behavior of the type:
+\begin{equation*}
+    D^m_{ijkl} (\mathbf{y}) = 1\times10^{-3} C^{m}_{ijkl}(\mathbf{y}), \quad D^f_{ijkl}(\mathbf{y}) = 5 \times 10^{-2} C^{f}_{ijkl}(\mathbf{y})
+\end{equation*}
 
-INDEPENDENCE WITH RESPECT TO THE FREQUENCY.
+Under such considerations, the figure (\ref{BernardPredictionHomCoeffs}) contains the prediction for the homogenized elastic coefficients and Q-factors associated to a fixed frequency $\omega = 0,5 \, [Mhz]$.
+
+
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/Qfactors/CellProb_QfactorCircular5E-2_Relations.pdf}
 	\caption{Predicted Behavior for the Viscoelastic Model: Its shown on the left figure the predicted quality factors for a \textit{Kelvin-Voigt} model; the center figure a prediction of homogenized coefficient ratios, and on the right figure some homogenized shear ratios behaves as in \cite{Bernard2015} }
-	\label{PredictionHomCoeffs-Qfactor}
+	\label{BernardPredictionHomCoeffs}
 \end{figure} 
+Moreover, the frequency dependency is studied, and found that the behavior is independent as shown on (\ref{BernardPrediction-Freq}). Thus, expressing the assumption proposed by \cite{Bernard2015} in which given the frequency range under consideration, the overall Q-elastic behavior is the same, i.e., equal on the elastic and viscous part of the elastodynamic model given a change of the frequency under simulation.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/Qfactors/QfactorsFreqsEPS5-2.pdf}
 	\caption{Predicted Behavior for the Viscoelastic Model: Its shown on the left figure the predicted quality factors for a \textit{Kelvin-Voigt} model; the center figure a prediction of homogenized coefficient ratios, and on the right figure some homogenized shear ratios behaves as in \cite{Bernard2015} }
-	\label{PredictionHomCoeffs-Qfactor}
+	\label{BernardPrediction-Freq}
 \end{figure} 
 
 

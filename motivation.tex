@@ -1,14 +1,7 @@
 \chapter{Clinical Measurements}
-\textit{Extracted from P\&G Paper, 2009} Cortical Bone is a highly organized hard and ligthweight tissue representing approximately 80\% of the skeletal mass in an human adult defined by an clear hiercharchy of microstructures. From a functional description, scaling down to nanometers its observed important structures for the cortical tissue such as Haversian Systems, Osteons, Lamellae, Collagen Fibres, Fibrils, and elementary mineral constituents with water. 
+Cortical Bone is a highly organized, hard and lightweight tissue representing approximately 80\% of the skeletal mass in an human adult defined by an clear hierarchy of micro-structures. From a functional description, scaling down to nanometers its observed important structures for the cortical tissue such as haversian systems, osteons, lamellae, collagen fibres, fibrils, and elementary mineral constituents with water \cite{Parnell2008}.
 
-The standard description associated to a mechanical point of view is defining it as a two-phase composite material: a soft phase mainly of pores, containing organic fluid and soft tissues as cells, blood vessels, and a complex hard matrix phase with nerves distributed inside. Such a matrix consist mainly of hidroxyapatite and collagen. Porosity is distributed over various length scales, nevertheless only the two largest pores types: resorption cavities (with size of approx. $50-200 [\mu m]$ and Haversian canal (size of approx. $50 [ \mu m ]$ contribute to the so-called mesoscale structure thus the mechanical behavior of the cortical bone itself, hence the mesoscale porosity which is characteristic of the higher level of organization in bone. 
-
-Computational modelling of biological tissues (in particular of bone) is a complex multiscale problem, since there are multiple physical phenomena interacting at various scales. Since in a bast majority of clinical applications the material are viewed as continuum, it's important to contribute in a mathematical model and numerical procedure to characterize non-trivial properties arising from the microscopic physical and geometrical structures affecting the overall behavior, in terms of effective compressibility (or viscosity) or elasticity. 
-
-Nowadays, noninvasive resonance technique corresponds a unique and important aspect in the biomedical research and application, as the allow detailed insights of useful properties of bone such as porosity and thickness which corresponds to the primary steps necessary to the diagnosis of several diseases presented in adult human bone.
-
-We'll study the cortical bone by the so-called asymptotic homogenization, which corresponds to a multi-scale method for determining the effective moduli of periodic media (\textit{Bakhvalov and Panasenko, 1989}). The approach exploits a separation of scales within the composite material, deriving an leading order homogenized equations governing the effective macroscopic behavior of the material.\\
-
+The standard description associated to a mechanical point of view is defining it as a two-phase composite material: a soft phase mainly of pores, containing organic fluid and soft tissues as cells, blood vessels, and a complex hard matrix phase with nerves distributed inside, being the matrix consisting mainly of hidroxyapatite and collagen. Porosity is distributed over various length scales, nevertheless only the two largest pores types: resorption cavities (with size of approx. $50-200 [\mu m]$ and haversian canal (size of approx. $50 [ \mu m ]$ contribute to the so-called mesoscale structure thus the mechanical behavior of the cortical bone itself, hence the mesoscale porosity which is characteristic of the higher level of organization in bone. 
 
 \begin{figure}[!h]
 	\centering
@@ -17,16 +10,18 @@ We'll study the cortical bone by the so-called asymptotic homogenization, which 
 	\label{muCT-Image}
 \end{figure}
 
+The study of such tissue gives us insights of various clinical parameters necessary to diagnose and reflect the status and quality of the bone itself, therefore a predict risk factors and possible problem affecting a wide range of patients. Under such setting, modelling and computational simulations of biological tissues enables us to go further and test new procedures, process and validate under specific enviroments the possible outputs becomes an important tool between the scientific study, and validation of new technologies and application devices in this area.
+
 \section{Time-domain Modelling}
 
-Sophisticated quantitative ultrasound (QUS) approaches under study \cite{Foiret2014} \cite{Minonzio2018}, are based on the axial transmission measurements which consist of guided waves recordings that propagate into and through the cortex in response to an ultrasonic excitation produced at the surface and then studying their response in the form of dispersion curves \footnote{From a physical perspective, its represented as the variation of wave number $k = 2 \pi f/c(f)$ as function of the frequency $f \in [0, 2]$ being $c(f)$ the phase velocity of the mode.}, i.e., by means of the Lambs waves nonlinear equations \cite{Rhee2007},
+Sophisticated quantitative ultrasound (QUS) approaches under study \cite{Foiret2014} \cite{Minonzio2018}, are based on the axial transmission measurements which consist of guided waves recordings that propagate into and through the cortex in response to an ultrasonic excitation produced at the surface and then studying their response in the form of dispersion curves \footnote{From a physical perspective, its represented as the variation of wave number $k = 2 \pi f/c(f)$ as function of the frequency $f \in [0, 2]$ being $c(f)$ the phase velocity of the mode.}, i.e., by means of the \textit{Lamb}-waves nonlinear equations \cite{Rhee2007},
 Waveguide characteristics such as thickness and porosity can then be deduced from the dispersion curves by finding the best fitting of theoretical waveguide model to experimental data after a signal processing step. Such procedure define in particular the inverse problem under consideration.
 
 In this section, its described the experimental procedure proposed by \cite{Minonzio2018} used to study two bone mechanical properties by means of a ultrasound transducer.
 It is also given a brief explanation of the setting involved in the clinical procedure and the assumptions being done to model the recorded signal then processed by a spectrum technique. 
 
 \subsection{Experimental Procedure}
-The bone samples studies are subjected to the transmission of the wave-guide, i.e., a wave propagated from the external surface generated by a transducer device. 
+The bone sample studies are subjected to the transmission of the wave-guide, i.e., a wave propagated from the external surface generated by a transducer device. 
 Explicitly such force can be considered in the form:
 \begin{equation*}
     \mathbf{F}(\mathbf{x},t) = A e^{-\frac{(t-t_0)^2}{2\sigma_0^2}} cos(2 \pi \tau_0 (t-t_0)) \text{ on } \Gamma_N
@@ -60,20 +55,28 @@ Such a multi-channel series denoted by $\{ S(t_n, e_m,x_p) \}_{(n,p) \in [N^T]\t
 
 Such Fourier transformed array $\hat{S}(\cdot, e_m, \cdot)$ for each emitter is then decomposed by singular values method (SVD), in the form:
 \begin{equation*}
-    P(e) \hat{D} P(e_m)^T = \hat{S}(e_m) \quad m \in \{1, \dots, N^E \}
+    P(e_m) \hat{D} P(e_m)^T = \hat{S}(e_m) \quad m \in \{1, \dots, N^E \}
 \end{equation*}
-which decomposed the spectral signal in its main singular values thus describing the relevant modes of mechanical behavior.
-So, by applying the function over the first $N^E_*$ resonant modes defined by
+which decompose the spectral signal in its main singular values thus describing the relevant modes of mechanical behavior.
+So, let us define the following function on the first $N^E_*$ resonant modes by: 
 \begin{equation*}
-    L(P(e)) := \sum \limits_{e = 1}^{N^E_*} P(e) \overline{P(e)}
+    L(P) := \sum \limits_{m = 1}^{N^E_*} P(e_m) \overline{P(e_m)}
 \end{equation*}
-it describes the so-called \textit{Lamb} waves (or \textit{Lamb} branches) of propagation \footnote{Several studies consider the usage of this kind of curves, as ones mainly used to describe the material destruction and mechanical behavior, and moreover in a non-invasive form.} of the material \cite{Rhee2007}.
+Such function describes a measurement of the associated to the first $N^E_*$ recorded modes in a norm-like sense, thus describing the so-called \textit{Lamb} waves (or branches) of propagation \footnote{Several studies consider the usage of this kind of curves, as ones mainly used to describe the material destruction and mechanical behavior, and moreover in a non-invasive form.} of the material \cite{Rhee2007}. Experimentally, figure (\ref{RealLM-Image}) shows two particular cases of \textit{Lamb}-waves recordings, each describing the symmetric and anti-symmetric modes characteristic of each material.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/ImgExt/LW-RealCase.png}
+	\caption{On the left side, $L(p)$ real-data plot describing \textit{Lamb}-modes for a case of $1.3 [mm]$ thickness plate whereas on the right side symmetric and anti-symmetric (red and blue respectively) \textit{Lamb}-modes (dashed line) with the experimental points obtained alongside the $L(p)$ functional curves calculate optimized to fit the experimental data characterizing the particular (porosity, thickness) pair \cite{Foiret2014}.}
+	\label{RealLM-Image}
+\end{figure}
+
 
 The inverse problem associated is then formulated as
 \begin{equation*}
     (Th.^*, Po.^*) = \underset{(Th., Po.) \in \mathcal{A}}{\text{argmax}} \int\limits_{f_{min}}^{f_{max}} \frac{1}{M} \sum_{m=1}^M \left \vert \langle \hat{D}(k_m, f_p)\, \vert e^{ik_m(Th., Po., f_p} \rangle \right \vert
 \end{equation*}
-being $M>0$ the number of modes under to consider. Thus, the formulation is re-expressed as the recuperation of $(Th.^*, Po.^*)$, two revelant biomedical parameters describing the quality of cortical bone.
+being $M>0$ the number of modes under to consider. Thus, the formulation is re-expressed as the recuperation of $(Th.^*, Po.^*)$, two relevant biomedical parameters describing the quality of cortical bone.
 
 An important aspect of such \textit{Lamb} curves is the fact that implicitly contain the overall mechanical behavior of the elastodynamical model, so that define a useful tool for validation and comparison of numerical simulation with respect to real data. 
 
@@ -82,9 +85,10 @@ Over such a domain we consider their behaviour of linear elastodynamic type, def
 
 \section{Main assumptions and Multiscale Modelling}
 
+Computational modelling of biological tissues (in particular of bone) is a complex multiscale problem, since there are multiple physical phenomena interacting at various scales. Since in a bast majority of clinical applications the material are viewed as continuum, it's important to contribute in a mathematical model and numerical procedure to characterize non-trivial properties arising from the microscopic physical and geometrical structures affecting the overall behavior, in terms of effective compressibility (or viscosity) or elasticity. 
 
 Formally we consider the following:
-Let a bounded domain $\Omega \subset \mathbb{R}^d$ ($d = 2,3$) represent the composed material under study, modelled by an incompressible, elastic matrix and several inclusion defining the so-called mesoscale being modeled mechanically by an elastic of cylindrical shape periodically distributed.
+Let a bounded domain $\Omega \subset \mathbb{R}^d$ ($d = 2,3$) represent the composed material under study, modeled by an incompressible, elastic matrix and several inclusion defining the so-called mesoscale being described mechanically by an elastic of cylindrical shape periodically distributed.
 For the sake of the experimental setting under consideration, the exterior boundary $\partial \Omega$ is decomposed as
 \begin{equation*}
 	\partial \Omega = \Gamma_D \dot\cup \Gamma_N
@@ -120,8 +124,8 @@ and being $C_{ijkl}(\frac{\mathbf{x}}{\epsilon}) = 0$ if $\mathbf{x} \in \overli
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=.8]{images/HomSchemes/HomBasicScheme.pdf}
-	\caption{Homogenization Scheme of Bone: A composite periodic material at the long direction.}
+	\includegraphics[width=0.8\textwidth]{images/HomSchemes/HomBasicScheme.pdf}
+	\caption{Homogenization Scheme of Bone. A composite periodic material at the long direction.}
 	\label{HomBasicScheme}
 \end{figure}
 
@@ -134,7 +138,7 @@ We define, after scaling, the porosity associated to the material as the fractio
 which will define the material coefficients dependent of such parameters.
 \end{rem}
 
-We denote the displacement $u(\mathbf{x},t) \in H^1(\Omega)$ with behaviour of linear elastic type subjected to surface forces $\mathbf{F}(t) \in L^2 (0, T)$, i.e., the material obeys the following initial boundary value problem:
+We denote the displacement $u(\mathbf{x},t) \in \mathbf{H}^1(\Omega)$ with behaviour of linear elastic type subjected to surface forces $\mathbf{F}(t) \in L^2 (0, T)$, i.e., the material obeys the following initial boundary value problem:
 
 \begin{equation*}
     \left \{
@@ -147,6 +151,6 @@ We denote the displacement $u(\mathbf{x},t) \in H^1(\Omega)$ with behaviour of l
     \right .
 \end{equation*}
 
-where $\mathbf{C}(\mathbf{x})$ denotes the elasticity tensor and $\mathbf{e}(u(\mathbf{x},t)) = \frac{1}{2}\big( \nabla u(\mathbf{x},t) + \nabla u(\mathbf{x},t)^{T}$ denotes the symmetric gradient.
+where $\mathbf{C}(\mathbf{x})$ denotes the elasticity tensor and $\mathbf{e}(u(\mathbf{x},t)) = \frac{1}{2}\big( \nabla u(\mathbf{x},t) + \nabla u(\mathbf{x},t)^{T}\big)$ denotes the symmetric gradient.
 
 

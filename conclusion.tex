@@ -1,21 +1,30 @@
 \begin{conclusion}
-	\lipsum[130-132]
-	\begin{figure}[!h]
-		\centering
-		\includegraphics[scale=.2]{images/fcfm.pdf}
-		\caption{Logo de la Facultad}
-		\label{logofcfm}
-	\end{figure}
-	\lipsum[133-134]
-	\begin{table}[!h]
-		\centering
-		\begin{tabular}{|c||c|}
-			\hline
-			Campo 1& Campo 2\\\hline
-			Valor 1& Valor2\\\hline
-		\end{tabular}
-		\caption{Tabla 1}
-		\label{tabla:1}
-	\end{table}
-	\lipsum[135]
+%Things to mention:
+%* Overview of the current literature work on biomechanical studies
+%* What was done in the current investigation.
+
+%* What was added with the investigation. 
+%** FEM prediction of cell problems comparing them with PG results
+%** Validation of MINONZIO procedure under 2-dimensional models, and study of 3-dimensional model studying the curvature and irregularity effects.
+%** Proposed quality-factors under the homogenization two-scale convergence.
+
+%* What is missing, necessity of greater samples to validate the models. 
+
+%* What are the possible paths to follow or how to expands the current work.
+
+The current advance of QUS devices, capable to record multi-array signal opens-up the study of new techniques to recover clinical-relevant data from which various material properties can be extracted. Nonetheless, it requires the validation and case-study of possible limitations of such devices in wide variety of setting to evaluate fidelity and therefore, assure clinical usage.
+
+This works fills that gap, recreating under simplified configurations the modelling and generation of realistic wave-front recording that reproduce \textit{Lamb}-wave curves describing the material behavior.
+By applying two microstructure types regarding the homogenization assumptions, it is obtained by FEM homogenized tensor that resembles PG predictions with $< 1 \%$ of RMSE errors for axial-related coefficients, while $> 10$ errors on fully anti-axial coefficients at high porosity values. Such error behavior remains similar at change from square to hexagonal type geometries, attributed then to the axial 2-dimensional assumptions of the characteristic microstructure, without regarding possible anti-axial effects.
+
+Modeling, discretization and simulations regarding the novel QUS method are done under 2-dimensional settings, both in time and frequency domains. Validation of the inverse problem predictions are done using test sets, thus ensuring correct \textit{Lamb}-modes identification from the homogenized materials simulated under specific model cases resembling experimental procedures. Similarly, the numerical procedure is generalized to 3-dimension under regular and irregular domain characterizing cortical bone on increasing complexity and simulations are done taking into account the computational and time resources necessary to generate sample data. In this sense, the high cost of the computational simulations to retrieve irregular models with enough fidelity become a bottleneck, and non-physically inspired model must be taken into account such as neural networks in a cost-functional perspective.
+On the other hand, from a device-linked perspective, the time-domain model shows dependence from the directional measurement and therefore the sensibility and lack of robustness toward small changes in directional recordings. Such aspect must be considered in future device development and modeling since describes a fundamental defect that can negatively contribute towards an extensive device usage in standard clinical procedures.
+\\
+
+The presence of viscous-like behavior on experimentally recorded signals becomes an relevant investigation factor, that could echo the processed signal. Several literature have tried to retrieve such contribution to the overall mechanical behavior, nevertheless the difficulty to separate such contribution from the other factors such as domain irregularities have become a challenge from the experimental setting as from the modelling perspective. Under such context, quality-factor are defined from a homogenized \textit{Kelvin-Voigt} viscoelastic model. It represent a first approach, formally validated, that recreates experimentally observed values under specific parameters and moreover, recovers the purely elastic coefficients. 
+Nevertheless, the lack of experimental data lets us conclude partial prediction of quality-factors at high density values of cortical bone. 
+\\
+
+Directions to follow the current work are defined by tacking the numerical model under efficient methods, and study closely the effects of particular irregularity types under the mesh. Similarly, studies regarding the device sensibility can be taken into account such as variation of directional measurements and moreover, effects of device noise over the general setting. 
+In a similar fashion, viscoelastic models fitting experimental data must be taken into consideration since cortical bone-skin interaction must be taken into account to retrieve interaction effects over the recorded signal.
 \end{conclusion}

@@ -15,7 +15,7 @@
 \@swapnumfalse
 \@contnumtrue
 
-%% Declaracion de Opciones
+%% Declaring options
 \DeclareOption{leftnum}{\@swapnumtrue}
 \DeclareOption{rightnum}{\@swapnumfalse}
 \DeclareOption{contnum}{\@contnumtrue}
@@ -25,12 +25,12 @@
 \DeclareOption{uprighti}{\AtEndOfPackage{\DeclareMathSymbol{i}{\mathalpha}{operators}{`i}}}
 \DeclareOption{upright}{\ExecuteOptions{uprightd,uprighte,uprighti}}
 
-%% Pasar Opciones a clase Book
+%% Passing option to book class
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions\relax
 \LoadClass[12pt, openany]{book}
 
-%% Packages necesarios
+%% Necesary packages
 \RequirePackage[utf8]{inputenc} %Encoding
 \RequirePackage[top=2cm, left=3cm, bottom=2cm, right=2cm, paper=letterpaper]{geometry} % Margenes
 \RequirePackage{amsmath, amssymb, amsthm, graphicx} % All
@@ -166,11 +166,11 @@ PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
 
 		\vspace{3cm}
 			\foreach \x [count=\xi] in \@guia {
-				PROFESOR GUÍA\ifnum\xi>1 \ \xi \fi:\\ \MakeUppercase\x\\
+			PROFESOR GUÍA \ifnum\xi>0 \ \xi \fi:\\ \MakeUppercase\x\\
 			}
 
 		\vspace{1cm}
-			MIEMBROS DE LA COMISIÓN:\\
+			COMISION\\
 			\foreach \x in \@comision { \MakeUppercase\x\\ }
 
 		\if\@auspicio\@empty\else

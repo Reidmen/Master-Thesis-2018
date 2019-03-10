@@ -166,7 +166,7 @@ PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
 
 		\vspace{3cm}
 			\foreach \x [count=\xi] in \@guia {
-			PROFESOR GUÍA \ifnum\xi>0 \ \xi \fi:\\ \MakeUppercase\x\\
+			PROFESOR GUÍA \ifnum\xi>1 \ \xi \fi:\\ \MakeUppercase\x\\
 			}
 
 		\vspace{1cm}

@@ -24,12 +24,12 @@ while the porosity is modeled with a viscous contribution, associated to coeffic
 \end{equation*}
 Moreover, the relations between both behaviors are expressed with attenuation specified by parameters $\epsilon^{(m)}, \epsilon^{(f)} >0$ associated to the bone matrix and mesostructure respectively. Explicitly, it's assumed:
 \begin{equation*}
-    D_{ijkl}^m(\mathbf{y}) = \epsilon^{(m)} C_{ijkl}^m(\mathbf{y}) , \quad D_{ijkl}^f (\mathbf{y}) = \epsilon^{(f)} C_{ijkl}^f(\mathbf{y})
+    D_{ijkl}^m(\mathbf{y}) = \alpha^{m} C_{ijkl}^m(\mathbf{y}) , \quad D_{ijkl}^f (\mathbf{y}) = \alpha^{f} C_{ijkl}^f(\mathbf{y})
 \end{equation*}
 
 
 \begin{rem}
-By assuming this kind of relation, the objective is to obtain a viscoelastic model in which the viscous part is modelled by a linear attenuation of the elastic one, so that the overall behavior is of transverse isotropic type defined by pair of parameters $(\epsilon^m, \epsilon^f)$ that mimic closely the experimental behavior of cortical bone.
+By assuming this kind of relation, the objective is to obtain a viscoelastic model in which the viscous part is modelled by a linear attenuation of the elastic one, so that the overall behavior is of transverse isotropic type defined by pair of parameters $(\alpha^m, \alpha^f)$ that mimic closely the experimental behavior of cortical bone.
 \end{rem}
 
 \subsection{Workflow Description}
@@ -37,16 +37,16 @@ Given the requirements of a viscous-like behavior, in time domain it's considere
 \begin{equation*}
     \left \{
     \begin{array}{cc}
-        \rho^{\epsilon}\partial_{tt}u - \nabla \cdot \sigma(u, \partial_t u) = \mathbf{0} & \text{ in }  \Omega \times (0,T)\\
-        \sigma^{\epsilon}(u,\partial_t u)  = \mathbf{C}:\mathbf{e}(u) + \mathbf{D}:\mathbf{e}(\partial_t u) & \text{ in } \Omega \times (0,T) \\
-        \sigma^{\epsilon}(u, \partial_t u)\cdot n = \mathbf{F} & \text{ on } \Gamma_N \times (0,T) \\ 
-        u = \mathbf{0} & \text{ on } \Gamma_D \times (0,T)
+        \rho^{\epsilon}\partial_{tt}u^{\epsilon} - \nabla \cdot \sigma(u^{\epsilon}, \partial_t u^{\epsilon}) = \mathbf{0} & \text{ in } (0,T) \times \Omega\\
+        \sigma^{\epsilon}(u^{\epsilon},\partial_t u^{\epsilon})  = \mathbf{C}:\mathbf{e}(u^{\epsilon}) + \mathbf{D}:\mathbf{e}(\partial_t u^{\epsilon}) & \text{ in } (0,T) \times \Omega\\
+        \sigma^{\epsilon}(u^{\epsilon}, \partial_t u^{\epsilon})\cdot n = \mathbf{F} & \text{ on } (0,T) \times \Gamma_N\\ 
+        u^{\epsilon} = \mathbf{0} & \text{ on } (0,T) \times \Gamma_D
     \end{array}
     \right .
     \label{ViscoElasticModel}
 \end{equation*}
 \begin{rem}
-In the above and the next developments, we assume resting initial conditions, i.e., $\partial_t u = u = \mathbf{0}$, not written explicitly in the models and deduction.
+In the above and the next developments, we assume resting initial conditions, i.e., $\partial_t u^{\epsilon} = u^{\epsilon} = \mathbf{0}$, not written explicitly in the models and deduction.
 \end{rem}
 Existence results can be derived similarly to the elastic case proposed before, by applying spectral decomposition on both: the elastic and viscoelastic operators. Similar mathematical description of viscous models are given by \cite{Abdessamad2009}, \cite{Boughammoura2013} on fully \textit{Dirichlet} boundary condition cases.
 

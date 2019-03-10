@@ -55,7 +55,6 @@ By the previous hypothesis $\mathcal{A}(t)$ is symmetric and positive-definite w
     \begin{array}{cc}
         \text{Find } \mathbf{U} \in \mathcal{C}^2(0,T; \mathbb{R}^{N\times N}) & \text{ such that} \\
         \mathcal{M} d_{tt} \mathbf{U}(t) + \mathcal{A}\mathbf{U}(t) = \mathbf{F}_h (t) & \text{ in }(0,T)\\ 
-        \mathbf{U}(t) = \mathbf{0} & \\
         d_{t} \mathbf{U}(0) = \mathbf{U}(0)  = \mathbf{0}&
     \end{array}
     \right.
@@ -63,15 +62,15 @@ By the previous hypothesis $\mathcal{A}(t)$ is symmetric and positive-definite w
 which describes the full space discretization scheme by means of the FEM method, and enabling the use of time discretization techniques for the resulting ODE problem (\ref{MatrixFormulation}). In particular as will be seen in the next section the so-called $\beta$-Newmark scheme. \footnote{The implementation of such space discretization is done in Python using a state-of-art open-source project called \texttt{FEniCS} \cite{logg2012automated}, defined as a set of specific core component such as \texttt{DOLFIN}, \texttt{UFL},  \texttt{UFC}, etc. It enables the automatic solution of differential forms implementing the Theory of Finite Elements with numerically optimized libraries for arithmetic computations. The project is an international collaboration initiated in 2003 between the University of Chicago and Chalmers University of Technology currently under development from a variety of institutions.}
 
 \subsection{Time Discretization}
-Let us note first that (\ref{MatrixFormulation}) is an standard \textit{Cauchy} ODE problem, To solve numerically such system, we will introduce an uniform time-step in the form $\Delta t = T/N_T$ with a discretization of the interval $[0, T]$ in the form:
+Let us note first that (\ref{MatrixFormulation}) is an standard \textit{Cauchy} ODE problem, To solve numerically such system, it will be introduced an uniform time-step in the form $\Delta t = T/N^T$ with a discretization of the interval $[0, T]$ in the form:
 \begin{equation*}
-    t_n = n \Delta t, \quad 0 \leq n \leq N_T
+    t_n = n \Delta t, \quad 0 \leq n \leq N^T
 \end{equation*}
-being $N_T \in \mathbb{N}^*$ some number of steps.
+being $N_T \in \mathbb{N}^*$ some number of steps as used in the section before.
 
-We will find for each $n \in \{1,\dots, N_T \}$ an approximate sequence tuple $(u_n, v_n, a_n)$ of the pair $(u(t_n), \partial_{t} u(t_n), \partial_{tt} u(t_n))$ being the method chosen the so-called $\beta$-\textit{Newmark}, a well-known scheme to study mechanically driven behavior \cite{raviart1983introduction}.
+It will be found for each $n \in \{1,\dots, N^T \}$ an approximate sequence tuple $(u_n, v_n, a_n)$ of the pair $(u(t_n), \partial_{t} u(t_n), \partial_{tt} u(t_n))$ being the method chosen the so-called $\beta$-\textit{Newmark}, a well-known scheme to study mechanically driven behavior \cite{raviart1983introduction}.
 
-Taking into account the time-domain regularity from the solution of the homogenized PDE problem (results analogous to \ref{BootstrapingProp}) let us note that by using the \textit{Taylor} expansion on the function $u \in \mathcal{C}^{p}(0,T;\mathbf{H}^1(\Omega, \Gamma_D))$ and the mean value theorem that for the displacement at time $t_{n+1}$ we have:
+Taking into account the time-domain regularity from the solution of the homogenized PDE problem (results analogous to \ref{BootstrapingProp}) let us note that by using the \textit{Taylor} expansion on the function $u \in \mathcal{C}^{p}(0,T;\mathbf{H}^1(\Omega, \Gamma_D))$ and the mean value theorem that for the displacement at time $t_{n+1}$ it follows:
 \begin{equation*}
     u(t_{n+1}) = u(t_n) + \Delta t \, \partial_{t} u(t_n) + \Delta t^2 \, \big( \beta \partial_{tt} u(t_{n+1} + (\frac{1}{2} - \beta) \partial_{tt} u(t_{n+1}) \big) + \mathcal{O}(\Delta t^3)    
 \end{equation*}
@@ -86,13 +85,11 @@ The $\beta$-Newmark scheme consist then in a approximation of the above equation
     u_{n+1} &= u_{n} + \Delta t\, v_{n} + \Delta t^2 \, \big( \beta a_{n+1} + (\frac{1}{2} - \beta) a_n \big) \\
     v_{n+1} &= v_n + \Delta t\, \big( \gamma a_{n+1} + (1-\gamma) a_{n} \big)
 \end{align}
-
-From (\ref{TimeDif-Scheme}) its defined the numerical procedure by a two-step update given as follows:
-
+From (\ref{TimeDif-Scheme}) it is defined the numerical procedure by a two-step update given as follows:
 \begin{align}
     \label{TwoStage-Update}
-    \text{(Stage 1)}\longrightarrow  a_{n+1} &= \frac{1}{\beta \Delta t^2} ( u_{n+1}-u_n - \Delta t \, v_n) - \frac{(1-2\beta)}{2 \beta} a_n, \quad \forall \, 0 \leq n \leq N_T-1 \\
-    \text{(Stage 2)}\longrightarrow v_{n+1} &= v_n + \Delta t \, \big( (1-\gamma) a_n + \gamma a_{n+1} \big), \quad \forall \, 0 \leq n \leq N_T-1
+    \text{(Stage 1)}\longrightarrow  a_{n+1} &= \frac{1}{\beta \Delta t^2} ( u_{n+1}-u_n - \Delta t \, v_n) - \frac{(1-2\beta)}{2 \beta} a_n, \quad \forall \, 0 \leq n \leq N^T-1 \\
+    \text{(Stage 2)}\longrightarrow v_{n+1} &= v_n + \Delta t \, \big( (1-\gamma) a_n + \gamma a_{n+1} \big), \quad \forall \, 0 \leq n \leq N^T-1
 \end{align}
 
 Let us now show the precision of the $\beta$-\textit{Newmark} scheme. Note that the elastodynamic equation contains two derivatives in time, so that taking into account the above and applying again \textit{Taylor} expansion and the mean value theorem, it follows as $\Delta t$ tends to zero that:
@@ -112,8 +109,8 @@ so that, the scheme results of precision $\mathcal{O}(\Delta t)$ for $\gamma \ne
 Applying now such two-step scheme (\ref{TwoStage-Update}) over (\ref{MatrixFormulation}) it follows the matrix system update procedure:
 \begin{align}
     \label{MatrixSystemUpdate}
-    \frac{1}{\beta \Delta t} \mathcal{M}(\mathbf{U}_{n+1} - \mathbf{U}_{n} - \Delta t\, \mathbf{V}_n) - \frac{1}{\beta}(\frac{1}{2}- \beta) \mathcal{M}\mathbf{A}_n + \mathcal{A}\mathbf{U}_{n+1} &= \mathbf{F}_h \quad 0 \leq n \leq N-1 \\
-    \frac{1}{\gamma \Delta t} \mathcal{M}(\mathbf{V}_{n+1} - \mathbf{V}_{n}) - \frac{1}{\gamma}(1-\gamma) \mathcal{M}\mathbf{A}_n + \mathcal{A}\mathbf{U}_{n+1} & = \mathbf{F}_h \quad 0 \leq n \leq N-1
+    \frac{1}{\beta \Delta t} \mathcal{M}(\mathbf{U}_{n+1} - \mathbf{U}_{n} - \Delta t\, \mathbf{V}_n) - \frac{1}{\beta}(\frac{1}{2}- \beta) \mathcal{M}\mathbf{A}_n + \mathcal{A}\mathbf{U}_{n+1} &= \mathbf{F}_h \quad 0 \leq n \leq N^T-1 \\
+    \frac{1}{\gamma \Delta t} \mathcal{M}(\mathbf{V}_{n+1} - \mathbf{V}_{n}) - \frac{1}{\gamma}(1-\gamma) \mathcal{M}\mathbf{A}_n + \mathcal{A}\mathbf{U}_{n+1} & = \mathbf{F}_h \quad 0 \leq n \leq N^T-1
 \end{align}
 
 Note then that such a time step iteration (\ref{MatrixSystemUpdate}) corresponds to solve the linear system of equations defined for the function $\mathbf{U}_{n+1}$ in the form:
@@ -130,10 +127,10 @@ Taking into account our homogenized elastodynamic model (\ref{HomogenizedPDE}) d
     \left \{
     \begin{array}{cc}
         \text{Find $u \in \mathcal{C}^2(0,T;\mathbf{H}^1(\Omega, \Gamma_D))$} & \text{such that} \\
-        \rho^{hom} \partial_{tt} u^{(0)}(\mathbf{x}) (\mathbf{x}) - \nabla \cdot \sigma^{hom} (u^{(0)}(\mathbf{x}) ) = \mathbf{0} & \text{ in } \Omega \\
-        \sigma^{hom}_{ij}(u^{(0)}(\mathbf{x})) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(u^{(0)}(\mathbf{x})) & \text{ in } \Omega \\
-        u^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D \\
-        \sigma^{hom}(u^{(0)}(\mathbf{x})) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } \Gamma_N
+        \rho^{hom} \partial_{tt} u^{(0)}(\mathbf{x}) (\mathbf{x}) - \nabla \cdot \sigma^{hom} (u^{(0)}(\mathbf{x}) ) = \mathbf{0} & \text{ in } (0,T)\times \Omega \\
+        \sigma^{hom}_{ij}(u^{(0)}(\mathbf{x})) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(u^{(0)}(\mathbf{x})) & \text{ in } (0,T)\times \Omega \\
+        u^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } (0,T)\times \Gamma_D \\
+        \sigma^{hom}(u^{(0)}(\mathbf{x})) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } (0,T)\times \Gamma_N
     \end{array}
     \right .
 \end{equation}
@@ -157,11 +154,11 @@ Explicitly, the regularized elastic model in defined by:
 \begin{equation*}
     \left \{
     \begin{array}{cc}
-        \rho^{hom} \partial_{tt} u^{(0)} - \epsilon \partial_{t} u^{(0)} - \nabla \cdot \sigma^{hom}(u^{(0)}) = \mathbf{0} & \text{in } \Omega \times (0,T) \\
-        \sigma^{hom}(u^{(0)}(\mathbf{x},t)) =  \mathbf{C}^{hom}:\mathbf{e}(u^{(0)}(\mathbf{x},t))  & \text{in }\Omega \times (0,T)\\ 
-        \sigma^{hom}(u^{(0)})\cdot n = \mathbf{F} & \text{on }\Gamma_N\times (0,T) \\
-        u^{(0)} = \mathbf{0} & \text{on }\Gamma_D \times (0,T) \\
-        u^{(0)} = \partial_t u^{(0)} = \mathbf{0}& \text{ on } \Omega \times \{t=0\}
+        \rho^{hom} \partial_{tt} u^{(0)} - \epsilon \partial_{t} u^{(0)} - \nabla \cdot \sigma^{hom}(u^{(0)}) = \mathbf{0} & \text{in } (0,T)\times \Omega\\
+        \sigma^{hom}(u^{(0)}(\mathbf{x},t)) =  \mathbf{C}^{hom}:\mathbf{e}(u^{(0)}(\mathbf{x},t))  & \text{in }(0,T)\times \Omega\\ 
+        \sigma^{hom}(u^{(0)})\cdot n = \mathbf{F} & \text{on } (0,T)\times \Gamma_N\\
+        u^{(0)} = \mathbf{0} & \text{on }(0,T)\times \Gamma_D \\
+        u^{(0)} = \partial_t u^{(0)} = \mathbf{0}& \text{ on } \{t=0\}\times\Omega
     \end{array}
     \right .
 \end{equation*}
@@ -184,11 +181,11 @@ Thus, after applying the homogenization procedure, the following homogenized mod
 \begin{equation*}
     \left \{
     \begin{array}{cc}
-        \rho^{hom} \partial_{tt} u - \nabla \cdot \sigma^{hom}(u^{(0)}) = 0 & \text{ in } \Omega \times (0,T) \\
-        \sigma^{hom}(u^{(0)}(\mathbf{x},t)) =  \mathbf{C}^{hom}:\mathbf{e}(u^{(0)}) + \epsilon \mathbf{D}^{hom}:\mathbf{e}(\partial_{t}u^{(0)}) & \text{ in }\Omega \times (0,T)\\
-        \sigma^{hom}(u^{(0)})\cdot n = \mathbf{F} & \text{ on }\Gamma_N\times (0,T) \\
-        u^{(0)} = \mathbf{0} & \text{ on }\Gamma_D \times (0,T) \\
-    \partial_t u^{(0)} = u^{(0)} = \mathbf{0} &  \text{ on } \Omega \times \{t=0\}
+        \rho^{hom} \partial_{tt} u - \nabla \cdot \sigma^{hom}(u^{(0)}) = 0 & \text{ in } (0,T)\times\Omega\\
+        \sigma^{hom}(u^{(0)}(\mathbf{x},t)) =  \mathbf{C}^{hom}:\mathbf{e}(u^{(0)}) + \epsilon \mathbf{D}^{hom}:\mathbf{e}(\partial_{t}u^{(0)}) & \text{ in }(0,T)\times \Omega\\
+        \sigma^{hom}(u^{(0)})\cdot n = \mathbf{F} & \text{ on }(0,T)\times\Gamma_N\\
+        u^{(0)} = \mathbf{0} & \text{ on }(0,T)\times\Gamma_D \\
+    \partial_t u^{(0)} = u^{(0)} = \mathbf{0} &  \text{ on } \{t=0\}\times\Omega
     \end{array}
     \right .
 \end{equation*}

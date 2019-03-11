@@ -198,12 +198,20 @@ The experimental measurement and recording procedure consist in the following st
 Each force source acting at the surface is modeled on the vertical direction associated to the horizontal plane of the skin pointing to the mid section of the cortical bone with a central time $t_0 > 0$ and angular velocity $\tau_0 > 0$, i.e., described in the form:
 \begin{equation}
     \label{Force-eq}
-    \mathbf{F}(\mathbf{x},t) = - e^{\frac{(t-t_0)^2}{2\sigma^2}} cos( 2 \pi t \tau_0 ) \mathbb{I}_{\mathbf{x} \in \Gamma_{s}} \hat{j} \quad \text{ on } \Gamma_N
+    \mathbf{F}(\mathbf{x},t) = - e^{\frac{(t-t_0)^2}{2\sigma^2}} cos( 2 \pi t \tau_0 ) \mathbb{I}_{\mathbf{x} \in \Gamma_u} \hat{j} \quad \text{ on } \Gamma_N
 \end{equation}
-where $\{ \Gamma_s\}_{s \in \{u,l\}} \subset \Gamma_N$ denotes a disjoint subset of boundaries where the force is applied, being each subscript denoting a particular segment up (u), down (d) respectively.  
+where $\Gamma_u \subset \Gamma_N$ denotes a subset of the boundaries where the force is applied, being the subscript denoting the upper one (u). Figure (\ref{ForceSource}) shows the explicit form used. In both time and frequency domain simulations, the parameters on the input force are set to $t_0 = 1, \sigma_0 = 0.7, \tau_0 = 1$. An important aspect shown on the singular value decomposition will be the correspondence between the input force type used and the recorded signal, in particular regarding to the real part of the fourier transformed input force.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/ImgExt/ForceSource.pdf}
+	\caption{On the left side, the input force in time domain while on the right side the input force in frequency domain. The implementation is done using $t_0 = 1 [\mu s], \sigma_0 = 0.7 [\mu s], \tau_0 = 1$}
+	\label{ForceSource}
+\end{figure}
+
 
 Formally the PDE system simulated is defined by
-by finding the solution to (\ref{HomPDE-Simulation}) under the $\beta$-Newmark (\ref{HomPDE-TimeUpdate}) time scheme with parameters $\beta = 0.36$ and $\gamma = 0.7$.
+by finding the solution of (\ref{HomPDE-Simulation}) under the $\beta$-Newmark (\ref{HomPDE-TimeUpdate}) time scheme with parameters $\beta = 0.36$ and $\gamma = 0.7$.
 
 \begin{equation}
     \label{HomPDE-Simulation}
@@ -254,18 +262,18 @@ The computation times associated to the multiple-cases setting vary according to
 Therefore it was necessary to consider particular properties of the wave propagation to reduce the computational times for each simulation.
 \end{rem}
 
-The figure (\ref{FK-DiagramS8P3M28}) describes the \textit{Lamb}-curves obtained from the numerically simulated $(f,k)$-diagram. It shows the validation of the implemented model with respect to the theoretical prediction curves, observing clear correspondence between symmetrical and anti-symmetrical modes.
+The figure (\ref{FK-DiagramS8P3M28}) describes the \textit{Lamb}-curves obtained from the numerically simulated $(f,k)$-diagram describing the $L_M(f,k)$ functional at different $M$ values, being tipically the case $M=4$ used in experimental settings. It shows the validation of the implemented model with respect to the theoretical prediction curves, observing clear correspondence between symmetrical and anti-symmetrical modes.
 
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TimeMultSous/2DTimeS8P3ElasticFK28M780_y.pdf}
-	\caption{Numerically Simulated $(f,k)$-diagram of 2D transverse elastodynamic model. Setting of 8 sources with $3\%$ porosity and thickness of $2.8 [mm]$.}
+	\caption{Numerically simulated $(f,k)$-diagram defined by the function $L_M(f,k)$ of a 2D transverse elastodynamic model. Setting of 8 sources with $3\%$ porosity and thickness of $2.8 [mm]$ with different number of modes $M>0$.}
 	\label{FK-DiagramS8P3M28}
 \end{figure}
 
 
-Similarly (\ref{SVD-S8P3M28}) describes the modes in $[dB]$ from the singular value decomposition of the recorded array. It shows the preponderance of the first three modes describing the wave-front that compared naturally to the experimental reference literature.
+Similarly (\ref{SVD-S8P3M28}) describes the modes in $[dB]$ from the singular value decomposition of the recorded array. It shows the preponderance of the first three modes describing the wave-front that compared naturally to the experimental reference literature. The peak is shown to be at $0.5 [Mhz]$ in clear correlation with the input force peak shown on figure (\ref{ForceSource}). Moreover, the width of the recorded signal varies describing interaction of the wave-front wihthin the mesh.
 
 \begin{figure}[!h]
 	\centering
@@ -291,7 +299,7 @@ It's shown then on figure (\ref{FK-DiagramS1P6M33}) the $(f,k)$-diagram associat
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TimeSingSous/2DTime_P6ElasticFK33M1460_y.pdf}
-	\caption{Numerically simulated $(f,k)$-diagram of 2D transverse elastodynamic model. Setting of 1 source with $6\%$ porosity and thickness of $3.3 [mm]$.}
+	\caption{Numerically simulated $(f,k)$-diagram defined by the $L_M(f,k)$ functional of a 2D transverse elastodynamic model. Setting of 1 source with $6\%$ porosity and thickness of $3.3 [mm]$ with different $M$ values.}
 	\label{FK-DiagramS1P6M33}
 \end{figure}
 
@@ -299,7 +307,7 @@ Moreover, figure (\ref{SVD-S1P6M33}) describes the main modes associated to the 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/TimeSingSous/2DTime_P6Elastic33_SV.pdf}
-	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulated diagram (\ref{FK-DiagramS1P6M33}).}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulated diagram (\ref{FK-DiagramS1P6M33}), describing the 8 simulated recording at the receptors.}
 	\label{SVD-S1P6M33}
 \end{figure}
 
@@ -321,14 +329,14 @@ Applying then such a projection filter we obtain the results qualitatively and q
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TimeSingSous/2DTimeHilb_P6ElasticFK33M1460_y.pdf}
-	\caption{Numerically simulated $(f,k)$-diagram of 2D elastodynamic Model: Setting of 1 source with $6\%$ porosity and thickness of $3.3 [mm]$ applying Hilbert transform to delete reflections.}
+	\caption{Numerically simulated $(f,k)$-diagram of 2D elastodynamic Model. Setting of 1 source with $6\%$ porosity and thickness of $3.3 [mm]$ applying Hilbert transform to delete reflections.}
 	\label{FK-Hil-DiagramS1P6M33}
 \end{figure} 
 
 \begin{figure}[!h]  
 	\centering
 	\includegraphics[scale=.5]{images/TimeSingSous/2DTimeHilb_P6Elastic33_SV.pdf}
-	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation (\ref{FK-Hil-DiagramS1P6M33}).}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation (\ref{FK-Hil-DiagramS1P6M33}), describing the 8 different recordings at the receptors.}
 	\label{SVD-Hil-S1P7M33}
 \end{figure}
 
@@ -364,14 +372,14 @@ Using the frequency domain scheme proposed in the section before, the \textit{La
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/FreqRes/2DFreqS8P12ElasticFK28M400_y.pdf}
-	\caption{Numerically simulated $(f,k)$-diagram of 2D Elastic Model on Frequency Domain: Setting of 8 sources with $10\%$ porosity and thickness of $0.8 \,[mm]$}
+	\caption{Numerically simulated $(f,k)$-diagram of the $L_M(f,k)$ functional using a 2D frequency domain elastic model. Setting of 8 sources with $10\%$ porosity and thickness of $0.8 \,[mm]$}
 	\label{FK-Freq-DiagramS8P12M28}
 \end{figure} 
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/FreqRes/2DFreqS812Elastic28_SV.pdf}
-	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation \ref{FK-Freq-DiagramS8P12M28}.}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation (\ref{FK-Freq-DiagramS8P12M28}), describing the 8 different recordings at the receptors containing resonances.}
 	\label{SVD-Freq-S8P12M28}
 \end{figure}
 
@@ -457,7 +465,7 @@ Simulating such system shows on figure (\ref{FK-DiagramFreqS8P12M28}) the $(f,k)
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/FreqMultSous/2DMixedP12TransIsoFKW28M400_y.png}
-	\caption{Numerically simulated $(f,k)$-diagram of 2D transverse elastodynamic Model. Setting of 8 sources with $12\%$ porosity and thickness of $2.8 [mm]$.}
+	\caption{Numerically simulated $(f,k)$-diagram of the $L_M(f,k)$ functional using a 2D transverse elastodynamic model. Setting of 8 sources with $12\%$ porosity and thickness of $2.8 [mm]$ with different $M$ values for signal intensity comparison.}
 	\label{FK-DiagramFreqS8P12M28}
 \end{figure}
 
@@ -465,7 +473,7 @@ Nevertheless, using figure (\ref{SVD-FreqS8P12M28}) of main modes associated to 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/FreqMultSous/2D-FreqSimP12W28eKV_SV.png}
-	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation (\ref{FK-DiagramFreqS8P12M28})}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulation (\ref{FK-DiagramFreqS8P12M28}), describing the 8 recorded attenuated signals.}
 	\label{SVD-FreqS8P12M28}
 \end{figure}
 
@@ -503,7 +511,7 @@ The signal recording from the wave-front propagation partially observed from (\r
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/ClusterSim/3DCylTimeP11TransIsoFKW18.pdf}
-	\caption{Numerically Simulated $(f,k)$-diagram of a 3-dimensional Half-cylinder Elastodynamic Model: Setting of 1 source with $11\%$ porosity and $1.8 [mm]$ thickness applying Hilbert transform to delete reflections. The inverse formulation retrieves $\sim 1.01\%$ of porosity and $\sim 1.801$ thickness.}
+	\caption{Numerically simulated $(f,k)$-diagram of the $L_M(f,k)$ functional using as 3-dimensional Half-cylinder elastodynamic model. Setting of 1 source with $11\%$ porosity and $1.8 [mm]$ thickness applying Hilbert transform to delete reflections. The inverse formulation retrieves $\sim 1.01\%$ of porosity and $\sim 1.801$ thickness.}
 	\label{FK-Cyl-DiagramS1P11M18}
 \end{figure} 
 With respect to the singular value decomposition of the recorded signal, in figure (\ref{SVD-Cyl-S1P11M18}) the first 3 modes describes a natural behavior in the $(0, 20) \, [dB]$ range associated to the input force currently used. The oscillatory effect is attributed to the sine component on the force-source, decaying at outside the maximum signal intensity at $\sim 5 \, [\mu s]$.
@@ -572,7 +580,7 @@ The effect produced on the guided-wave from the interaction with the irregularit
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/ClusterSim/3DCorticalS1000TimeP11TransIsoFKW18.pdf}
-	\caption{Numerically simulated $(f,k)$-diagram of a 3-dimensional realistic-geometry. Setting of one-source with $11\%$ porosity and $\sim 1.8 [mm]$ thickness. The green lines defines \textit{Lamb} curves created from recording of the wave-guide being the others associated to a reference model.}
+	\caption{Numerically simulated $(f,k)$-diagram  of the $L_M(f,k)$ functional using a 3-dimensional realistic-geometry. Setting of one-source with $11\%$ porosity and $\sim 1.8 [mm]$ thickness. The green lines defines \textit{Lamb} curves created from recording of the wave-guide being the others associated to a reference model.}
 	\label{FK-HomBone-DiagramS1P11M18}
 \end{figure} 
 
@@ -580,13 +588,13 @@ Similarly, singular values associated to data recording described by (\ref{FK-Ho
 \begin{figure}[!h]  
 	\centering
 	\includegraphics[scale=.6]{images/ClusterSim/3DCorticalS1000TimeP11TransIsoFKW18_SV.pdf}
-	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulated diagram (\ref{FK-Cyl-DiagramS1P11M18}).}
+	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulated diagram (\ref{FK-Cyl-DiagramS1P11M18}), describing the 8 recordings at the receptors.}
 	\label{SVD-HomBone-S1P11M18}
 \end{figure}
 
 In comparison with the half-cylinder case it's shown a clear variation on the general wavefront behavior, expressed in modes not align with respect to the reference cases for the parameters used in the simulation. Moreover, figure (\ref{FK-HomBone-DiagramS1P11M18}) shows clear signal distortion at the high frequency range of $(1, 2) [Mhz]$ for all the different \textit{Lamb}-curves involved, expressed in color diffusion within the curves. Explicitly, at higher $M$ values, which characterize the amount of receptors information to analyze, shows clear interaction within the domain mesh, thus more error fitting associated to the inverse problem solution.
 
-On the other hand, figure (\ref{FK-Cyl-DiagramS1P11M18}) associated to the half-cylinder setting describes a more regular behavior of the curves in all the frequency range, corresponding to a wave-front in which the curvature effect does not affect the main axial propagation, thus describing at each $M$ values clear \textit{Lamb}-curves, thus fully comparative signal with the 2-dimensional case. The explanation to such behavior relates to missing interaction within the inner irregularities that fully deform the characteristic wave propagation.
+On the other hand, figure (\ref{FK-Cyl-DiagramS1P11M18}) associated to the half-cylinder setting describes a more regular behavior of the curves in all the frequency range, corresponding to a wave-front in which the curvature effect does not affect the main axial propagation, thus describing at each $M$ values clear \textit{Lamb}-curves, thus fully comparative signal with the 2-dimensional case. The explanation to such behavior relates to missing interaction within the inner irregularities that fully deform the characteristic wave propagation. Moreover, the simulations shows concentration of displacement in the interior irregularities being an aspect to further investigate. In this sense, the plausible explanation on the first symmetric and anti-symmetric modes is related to missed damping effects on the bone marrow that are not captured in the simulations, which requires a generalization to a viscoelastic model to capture such effects.
 
 
 %\subsubsection{Fully Porous Material}

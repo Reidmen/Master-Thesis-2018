@@ -24,7 +24,7 @@ The variational formulation is then given by integration by parts, where for $\p
     \int_{Y} C_{ijkl}(\mathbf{y}) \mathbf{e}_{kl,\mathbf{y}}(N^{rs}(\mathbf{y})) \partial_{y_j}\phi_i = - \int_{Y}C_{ijrs}(\mathbf{y}) \partial_{y_j} \phi_i + \int_{\partial Y}C_{ijrs}(\mathbf{y}) n_j \phi_i
 \end{equation*}
 
-Considering the standard biomechanical literature, the bone matrix is mainly made from hydroxyapatite, a material which can be modeled with a linear elastic behavior and inclusion defining the mesoscale composed mainly of saturated fluid, described with viscoelastic type behavior which in this approximation it is considered of static elastic material. Taking axial symmetry along the long axis of bone, the composed material is modeled with transverse isotropy in each component $C^m_{ijkl}$, $C^f_{ijkl}$ of matrix and water phases respectively.
+Considering the standard biomechanical literature \cite{Foiret2014}, the bone matrix is mainly made from hydroxyapatite, a material which can be modeled with a linear elastic behavior and inclusion defining the mesoscale composed mainly of saturated fluid, which in this approximation is assumed of static elastic type. Taking axial symmetry along the long axis of bone, the composed material is modeled with transverse isotropy for each component $C^m_{ijkl}$, $C^f_{ijkl}$ of matrix and water phases respectively.
 It follows then the elastic tensors $C_{ijkl}$ defined on the cell $\mathbf{Y}$ by
 \begin{equation*}
     C_{ijkl} (\mathbf{y}) := C^m_{ijkl} \mathbb{I}_{\{\mathbf{y} \in  \mathbf{Y}_{m}\}} + C^f_{ijkl} \mathbb{I}_{\{ \mathbf{y} \in \mathbf{Y}_{p}\}}
@@ -210,17 +210,17 @@ where $\Gamma_u \subset \Gamma_N$ denotes a subset of the boundaries where the f
 \end{figure}
 
 
-Formally the PDE system simulated is defined by
+Formally the PDE system simulated is defined
 by finding the solution of (\ref{HomPDE-Simulation}) under the $\beta$-Newmark (\ref{HomPDE-TimeUpdate}) time scheme with parameters $\beta = 0.36$ and $\gamma = 0.7$.
 
 \begin{equation}
     \label{HomPDE-Simulation}
     \left \{
     \begin{array}{cc}
-        \rho^{hom} \partial_{tt} u^{(0)}(\mathbf{x}) (\mathbf{x}) - \nabla \cdot \sigma^{hom} (u^{(0)}(\mathbf{x}) ) = \mathbf{0} & \text{ in } \Omega \times(0,T) \\
-        \sigma^{hom}_{ij}(u^{(0)}(\mathbf{x})) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(\hat{v}(\mathbf{x})) & \text{ in } \Omega\times(0,T) \\
-        u^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_l \cup \Gamma_r \times(0,T) \\
-        \sigma^{hom}(u^{(0)}(\mathbf{x})) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } \Gamma_u \cup \Gamma_d \times (0,T)
+        \rho^{hom} \partial_{tt} u^{(0)} - \nabla \cdot \sigma^{hom} (u^{(0)}) = \mathbf{0} & \text{ in } (0,T)\times \Omega \\
+        \sigma^{hom}_{ij}(u^{(0)}) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(u^{(0)}) & \text{ in } (0,T)\times \Omega \\
+        u^{(0)} = \mathbf{0} & \text{ on } (0,T)\times \Gamma_l \cup \Gamma_r \\
+        \sigma^{hom}(u^{(0)}) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } (0,T)\times \Gamma_u \cup \Gamma_d
     \end{array}
     \right .
 \end{equation}
@@ -262,7 +262,7 @@ The computation times associated to the multiple-cases setting vary according to
 Therefore it was necessary to consider particular properties of the wave propagation to reduce the computational times for each simulation.
 \end{rem}
 
-The figure (\ref{FK-DiagramS8P3M28}) describes the \textit{Lamb}-curves obtained from the numerically simulated $(f,k)$-diagram describing the $L_M(f,k)$ functional at different $M$ values, being tipically the case $M=4$ used in experimental settings. It shows the validation of the implemented model with respect to the theoretical prediction curves, observing clear correspondence between symmetrical and anti-symmetrical modes.
+The figure (\ref{FK-DiagramS8P3M28}) describes the \textit{Lamb}-curves obtained from the numerically simulated $(f,k)$-diagram describing the $L_M(f,k)$ functional at different $M$ values, being typically the case $M=4$ used in experimental settings. It shows the validation of the implemented model with respect to the theoretical prediction curves, observing clear correspondence between symmetrical and anti-symmetrical modes.
 
 
 \begin{figure}[!h]
@@ -289,13 +289,13 @@ The presence of several symmetric and anti-symmetric modes expressed by the \tex
 
 
 \subsection{Case of a Single Source}
-The above study of simulations with a 8-source input force to generate one sample of data introduce problems of computation under limited resources and time. 
-To tackle such problem its used the space invariance of the elastic wave, since essentially, the excitation produced by a particular force-source defines a wave-front that propagates throughout the receivers varying only the position of each one of the 8 input forces, thus the recording generated from each force are defined by spatial translation of the wave-front. Therefore by the homogeneity and symmetry of the domain being used, and the parameter independence of the domain, the 8-source setting can be exchanged to a one-source force with a higher number of receivers. This setting produces a lowering of the time require to generate a full simulation, explicitly lowering to 1/8 of the initial time, but introducing reflection effects produced by the boundary conditions that affect the wave-front and modify it.
+The above study of simulations with 8-source force to generate one sample of data introduce problems of computation under limited resources and time. 
+To tackle such problems, it is used the space invariance of the elastic wave, since essentially, the excitation produced by a particular force-source defines a wave-front that propagates throughout the receivers varying only the position of each one of the 8 input forces, thus the recording generated from each one are defined by spatial translation of the wave-front. Therefore by the homogeneity and symmetry of the domain being used nad the parameter independence of the domain, the 8-source setting can be exchanged to a one-source force with a higher number of receivers. This setting produces a decrease of time require to generate a full simulation, explicitly decreasing to 1/8 of the initial time but introducing reflection effects from the boundary conditions that affect the wave-front.
 
 \begin{rem}
-Under this setting of one-source force, it is simulated for the mesh with cell diameters of $\sim 20 \, [\mu m]$ describing high-fidelity results with respect to the inverse problem prediction. The simulation times range with respect to the thickness describing the mesh, in which under a cores of a Xeon E5-2660 v2 processor with 4 Gb. DRR3 RAM requiring $\sim 18-26$ hrs. to describe a full simulation using $1024$ time step associated to $51.2 [\mu s]$ of real-time experimentation.
+In this setting of one-source force, it is simulated for the mesh with cell diameters of $\sim 20 \, [\mu m]$ describing high-fidelity results with respect to the inverse problem prediction. The simulation times range with respect to the mesh thickness, in which under 1 cores of a Xeon E5-2660 v2 processor with 4 Gb. DRR3 RAM, it requires $\sim 18-26$ hrs. to describe a full simulation using $1024$ time step associated to $51.2 [\mu s]$ of real-time experimentation.
 \end{rem}
-It's shown then on figure (\ref{FK-DiagramS1P6M33}) the $(f,k)$-diagram associated to the 1-source simulations of a particular setting. It presents natural reflections related to the rectangular 2-dimensional domain used with mixed boundary conditions.
+It is shown on figure (\ref{FK-DiagramS1P6M33}) the $(f,k)$-diagram associated to the 1-source simulations from such setting described above. It presents natural reflections related to the rectangular 2-dimensional domain with mixed boundary conditions used.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TimeSingSous/2DTime_P6ElasticFK33M1460_y.pdf}
@@ -311,17 +311,17 @@ Moreover, figure (\ref{SVD-S1P6M33}) describes the main modes associated to the 
 	\label{SVD-S1P6M33}
 \end{figure}
 
-The reflections shown in the image (\ref{SVD-S1P6M33}) produced from the simulations corresponds to an aliasing effect in the input signal $S(f_n, e_m, \mathbf{x}_p)_{(m,p) \in [N^E]\times [N^R]}$ after applying FFT over the space $[N^E] \times [N^R]$. Such aliasing express the folding of the $k$-variable \footnote{Associated to the wavenumber} by the conjugation property on \texttt{FFT}, i.e., 
+The reflections shown in the image (\ref{SVD-S1P6M33}) produced from the simulations corresponds to an aliasing effect in the input signal $S_m(f, \mathbf{x})_{m \in [N^E]}$ in frequency domain at fixed frequency $f \in \mathbb{R}_+$ and receiver location $\mathbf{x}$. Such aliasing express the folding of the $k$-variable \footnote{Associated to the wavenumber description in ultrasound jargon.} by the conjugation property on \texttt{FFT}, i.e., 
 \begin{equation*}
-    \overline{\texttt{FFT}(S(f_n, \cdot, e_m))(k)} := \sum_{m=0}^M S(f_n, \mathbf{x}_p, e_m) \overline{e^{-2 \pi i \frac{p k}{M}}} = \texttt{FFT}(S(f_n, \cdot, e_m))(-k)
+    \overline{\texttt{FFT}(S_m(f, \mathbf{x}))(k)} := \sum_{m=0}^M S_m(f, \mathbf{x}) \overline{e^{-2 \pi i \frac{p k}{M}}} = \texttt{FFT}(S_m(f, \mathbf{x}))(-k)
 \end{equation*}
-in such a way that the norm associated is the same. Moreover since we consider a finite wavenumber interval denoted $[0, k_{max}]$, such a reflected wavenumber is given by $k_{max}-k$ as observed in the figure.
+in such a way that the norm associated is the same. Moreover since we consider a finite interval $[0, k_{max}]$, such a reflected wavenumber $k$ is given by $k_{max}-k$ as observed in the figure (\ref{FK-DiagramS1P6M33})
 
-Given such a symmetry, its considered the application of the analytic projector defined for a given signal $s$ regular enough by:
+Given such a symmetry, its considered the application of the analytic projector defined for a given signal $S$ regular enough by:
 \begin{equation*}
-    \mathcal{P}(s) := (I + \mathbf{i}\mathcal{H})(s)
+    \mathcal{P}(S) := (I + \mathbf{i}\mathcal{H})(S)
 \end{equation*}
-being $\mathcal{H}$ the Hilbert transform. Such a projector defines the analytic signal of $s$ by constructing its real and imaginary parts.
+being $\mathcal{H}$ the Hilbert transform. Such a projector defines the analytic signal of $S$ by constructing its real and imaginary parts.
 
 Since the behavior observed in the $(f,k)$-diagram (\ref{FK-DiagramS1P6M33}) shows symmetry with bigger values of $M$, a natural idea is to use the \textit{Hilbert} transform on the input signal, obtaining a analytic signal which maintains the structure of the \textit{Lamb} modes and moreover recreates experimentally obtained results \textit{in-vivo} and \textit{ex-vivo}.
 Applying then such a projection filter we obtain the results qualitatively and quantitatively similar with respect to the real experimental data.
@@ -363,8 +363,27 @@ In this sense, table (\ref{TimeInvTable}) shows explicitly the direction-sensibi
 
 \section{Case on Frequency Domain}
 
-The time-domain simulation given results which represent qualitatively the model with enough fidelity, nevertheless such simulation requires a relatively small time step in such a way that the full simulation take considerable time. Thus, it is necessary to consider a model which reduces the computational cost.
-To this end, taking into account that the signal processing involves the application of \texttt{FFT} over the sensors data, a straightforward method is to consider the simulations now in the time-domain over the arrays of frequencies that are of interest.
+The time-domain simulation give results which represent qualitatively the model with enough fidelity, nevertheless such simulation requires relatively small time step in such a way that for full simulations it takes considerable time. Thus, it is necessary to define a model which reduces such computational cost.
+To this end, let us note that the signal processing involves application of \texttt{FFT} over the sensors data, a straightforward method is to consider simulations directly on the frequency array of interest $(\omega_i)_{i \in [N^F]}$. 
+
+Explicitly, one seek solutions at fixed frequency $\omega \in \mathbb{R}_+$ in the form:
+\begin{equation}
+    \label{FreqAnsatz}
+    u^{\epsilon}(\mathbf{x},t) = \hat{u}^{\epsilon}(\mathbf{x},\omega) e^{i \omega t}
+\end{equation}
+solving the effective elastic formulation 
+\begin{equation}
+    \label{VectorPDE-Freq}
+    \left \{
+    \begin{array}{cc}
+        -\rho^{hom} \omega^2 \hat{u}^{(0)} - \nabla \cdot \sigma^{hom} (\hat{u}^{(0)})=\mathbf{0}  & \text{ in }  \Omega \\
+        \sigma^{hom}_{ij} (\hat{u}^{(0)}) = \mathbf{C}^{hom}_{ijkl} \mathbf{e}_{kl} (\hat{u}^{(0)}) & \text{ in } \Omega  \\
+        \hat{u}^{(0)} = \mathbf{0} & \text{ on } \Gamma_D\\
+        \sigma^{hom} (\hat{u}^{(0)}(\mathbf{x}))\cdot n = \hat{\mathbf{F}} & \text{ on } \Gamma_N \\
+    \end{array}
+    \right .
+\end{equation}
+where it was omitted the frequency dependency on the solution $\hat{u}^{(0)}$ for easiness of exposure and denoted $\Hat{\mathbf{F}}(\omega, \mathbf{x})$ the Fourier transform at frequency $\omega$ of $\mathbf{F}(\cdot, \mathbf{x})$. Moreover, the numerical implementation is done using FEM on the variational formulation associated to (\ref{VectorPDE-Freq}).
 
 \subsection{Solutions without Attenuation}
 Using the frequency domain scheme proposed in the section before, the \textit{Lamb}-waves contained unnatural discontinuities passing from a symmetric mode to an anti-symmetric one, also $dB$ values ranging with over $10$ orders of magnitude. Such distortion are shown in (\ref{FK-Freq-DiagramS8P12M28}) and (\ref{SVD-Freq-S8P12M28}) respectively. This kind of behavior repeated over different pairs of porosity level under study ranging the full domain of biomedical interest associated to the simulations thus becoming an intrinsic aspect of the elastic operator under study.
@@ -372,7 +391,7 @@ Using the frequency domain scheme proposed in the section before, the \textit{La
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/FreqRes/2DFreqS8P12ElasticFK28M400_y.pdf}
-	\caption{Numerically simulated $(f,k)$-diagram of the $L_M(f,k)$ functional using a 2D frequency domain elastic model. Setting of 8 sources with $10\%$ porosity and thickness of $0.8 \,[mm]$}
+	\caption{Numerically simulated $(f,k)$-diagram of the $L_M(f,k)$ functional using a 2D frequency domain elastic model. Setting of 8 sources with $12\%$ porosity and thickness of $2.8 \,[mm]$}
 	\label{FK-Freq-DiagramS8P12M28}
 \end{figure} 
 
@@ -384,7 +403,7 @@ Using the frequency domain scheme proposed in the section before, the \textit{La
 \end{figure}
 
 
-Nevertheless, several sets of simulations are done to study and validate the wave-front generated. The table (\ref{FreqInvTable}) shows the RMSE results where the predictions are done using an optimization algorithm to fit the recorded data to a set of references, i.e., solving the inverse problem \cite{Minonzio2018}. The results shows validation of the frequency domain simulations even with the discontinuities observed both in the $(f,k)$-diagram as in the multiple peaks observed on (\ref{SVD-Freq-S8P12M28}). Such results can be explained from the clear behavior shown even at high-frequencies, thus enabling a clear fitting of the \textit{Lamb}-curves even with discontinuities of the processed signal.
+Nevertheless, several sets of simulations are done to study and validate the wave-front generated. The table (\ref{FreqInvTable}) shows the RMSE results where the predictions are done using an optimization algorithm to fit the recorded data to a set of references, i.e., solving the inverse problem \cite{Minonzio2018}. Results shows validation of the frequency domain simulations even with the discontinuities observed both in the $(f,k)$-diagram as in the multiple peaks observed on (\ref{SVD-Freq-S8P12M28}). It can be explained from the clear behavior shown even at high-frequencies, thus enabling a clear fitting of the \textit{Lamb}-curves even with discontinuities of the processed signal.
 \begin{table}[!h]
 \centering
     \begin{tabular}{l l l}
@@ -400,7 +419,7 @@ Nevertheless, several sets of simulations are done to study and validate the wav
     \label{FreqInvTable}
 \end{table}
 
-The presence of discontinuities observed on the curves from  the $(f,k)$-diagram (\ref{FK-Freq-DiagramS8P12M28}) as in the peaks shown on (\ref{SVD-Freq-S8P12M28}) describes a non-natural behavior of the wave-front. Multiple possible causes can be attributed to such effect, ranging from resonance behavior of the mesh itself, discontinuity effects of the discretization procedure or the bad-possedness of the elastic operator itself.
+The presence of discontinuities observed on the curves from  the $(f,k)$-diagram (\ref{FK-Freq-DiagramS8P12M28}) as in the peaks shown on (\ref{SVD-Freq-S8P12M28}) describes a unnatural behavior of the wave-front. Multiple possible causes can be attributed to such effect, ranging from resonance behavior of the mesh itself, discontinuity effects of the discretization procedure or the bad-possedness of the elastic operator itself.
 
 In this particular case, let us recall from the justification section, that the existence results of the elastodynamic solution is derived from the existence of an increasing sequence of eigenvalues associated to the elastic operator (\ref{EigenValuesProp}). In this context, such eigenvalues will be called eigen-frequencies and they correspond to the main cause of such discontinuities observed before on the simulations as will be studied in what follows.
 
@@ -410,7 +429,7 @@ Such a study corresponds to the formulation of an eigenvalue problem associated 
     \label{VariationalEigenProb}
     \mathcal{I}_{\mathbf{C}^{hom}} (u_k, v) = \lambda_k (u_k, v)_{\Omega} \quad \forall v \in \mathbf{H}^1(\Omega, \Gamma_D)
 \end{equation*}
-where we identify each eigenvalue to the eigenfrequency associated to our problem in the form:
+where we identify each eigenvalue to the eigenfrequency $\omega_k = 2 \pi f_k$ associated to our problem in the form:
 \begin{equation*}
     \lambda_k = \rho^0 (2\pi f_k)^2, \text{ i.e. } f_k = \frac{1}{2\pi} \sqrt{\frac{\lambda_k}{\rho^0}} \quad k \in \mathbb{N}_{*}
 \end{equation*}
@@ -441,10 +460,10 @@ For a fix frequency $\omega \in \mathbb{R}$, let us consider solutions in the fo
 \begin{equation*}
     \left \{
     \begin{array}{cc}
-        -(2\pi \omega)^2 \rho^{hom} \hat{u}(\mathbf{x}) - i \epsilon \hat{u}(\mathbf{x}) - \nabla \cdot \sigma(\hat{u}) = \mathbf{0} & \text{ in } \Omega \times (0,T) \\
-        \sigma^{hom}(\hat{u}(\mathbf{x}))  =  C_{ijkl}^{hom}\mathbf{e}_{kl}(\hat{u}) & \text{ in } \Omega \times (0,T)\\
-        \hat{u} = \mathbf{0} & \text{ on } \Gamma_D\times (0,T)\\
-        \sigma^{hom}(\hat{u}) \cdot n = \mathbf{F}(\mathbf{x}, \omega) & \text{ on }\Gamma_N \times (0,T)
+        -\omega^2 \rho^{hom} \hat{u}(\mathbf{x}) - i \epsilon \hat{u}(\mathbf{x}) - \nabla \cdot \sigma(\hat{u}) = \mathbf{0} & \text{ in } \Omega\\
+        \sigma^{hom}(\hat{u}(\mathbf{x}))  =  C_{ijkl}^{hom}\mathbf{e}_{kl}(\hat{u}) & \text{ in } \Omega \\
+        \hat{u} = \mathbf{0} & \text{ on } \Gamma_D\\
+        \sigma^{hom}(\hat{u}) \cdot n = \mathbf{F}(\mathbf{x}, \omega) & \text{ on } \Gamma_N
     \end{array}
     \right .
 \end{equation*}
@@ -452,8 +471,8 @@ Taking into account that \texttt{FEniCS} version 2017.2.0 doesn't support the us
 \begin{equation*}
     \left \{
     \begin{array}{cc}
-        -(2\pi \omega)^2 \rho^0 \hat{u}_R +  \omega \epsilon \hat{u}_I - \nabla \cdot \sigma (\hat{u}_R) = \mathbf{0} & \text{ in }\Omega \times [0,T] \\
-        -(2\pi \omega)^2 \rho^0 \hat{u}_I - \omega \epsilon \hat{u}_R - \nabla \cdot \sigma (\hat{u}_I) = \mathbf{0} & \text{ in }\Omega \times [0, T] \\
+        -\omega^2 \rho^0 \hat{u}_R +  \omega \epsilon \hat{u}_I - \nabla \cdot \sigma (\hat{u}_R) = \mathbf{0} & \text{ in } \Omega \\
+        -\omega^2 \rho^0 \hat{u}_I - \omega \epsilon \hat{u}_R - \nabla \cdot \sigma (\hat{u}_I) = \mathbf{0} & \text{ in } \Omega \\
         \hat{u}_R, \hat{u}_I = \mathbf{0} & \text{ on } \Gamma_D \\
         \sigma(\hat{u}_R)\cdot n, \sigma(\hat{u}_I)\cdot n = \hat{\mathbf{F}}_R, \hat{\mathbf{F}}_I & \text{ on }\Gamma_N
     \end{array}
@@ -523,28 +542,28 @@ With respect to the singular value decomposition of the recorded signal, in figu
 \end{figure}
 
 
-\subsection{Rugous Exterior}
-The half-cylinder shows clear correspondence to the 2-dimensional case, showing a prevalence of the axial-propagation over the non-axial effect that occur during the wave-front. Nevertheless, it does not incorporates possible irregularities arising from the constant development of bone being not only the curvature effect relevant to a realistic simulation but also the presence of non-uniform irregularities presented mainly on the infero-interior surfaces on cortical bone samples. In this case, its assessed the mesh creation based on real $\mu$-CT cortical bone images and the data-flow necessary to create a well-defined mesh, simulation and processing of the recordings.
+\subsection{Irregular Domain Case}
+The half-cylinder shows clear correspondence to the 2-dimensional case, describing prevalence of the axial-propagation over the non-axial effect that occur during the wave-front. Nevertheless, it does not incorporates possible irregularities arising from constant development of bone, being not only the curvature effect relevant to a realistic simulation but also the presence of non-uniform irregularities mainly from the interior surfaces on cortical bone samples. In this case, it is assessed the mesh creation based on real $\mu$-CT cortical bone images and the data-flow necessary to create a well-defined mesh, simulation and processing of results.
 
 \subsubsection{Mesh Generation}
 
-The mesh generation is done using the data-flow diagram presented in (\ref{DiagramMeshGeneration}). Such procedure works by applying several layer of software's. It creates a complex tetrahedral mesh from a processed volumetric image using as back-end the \texttt{CGAL} library to compute the geometry. 
+The mesh generation is done using the data-flow diagram presented in (\ref{DiagramMeshGeneration}). Such procedure works by applying several layer of software. It creates a complex tetrahedral mesh from processed volumetric images using as back-end \texttt{CGAL} library that compute the geometry. 
 The processing of the $\mu$-CT gray-scale images stack is defined in three main steps:
 \begin{enumerate}
-    \item A scaling procedure from the input $9 \, [\mu m]$ voxel images is done to restrict the memory consumption of the full stack of $\mu$-CT images. The output images are obtained with a $56 \, [\mu m]$ voxel, i.e., considering a $40 \%$ scaling factor with cubic interpolator.
-    \item The stack is separated between gray-scale value ranges, to isolate the different sets of material involved. In this case, the separation of the mesoscale is done, being the porosities and bone matrix voxel labeled.
-    \item Each image labeled set of voxel, is then stacked, defining a volumetric image on \texttt{Octave}, meshed with \texttt{Iso2mesh} library which is a wrapped application containing the \texttt{CGAL} algorithms of mesh generation.
+    \item A scaling procedure from input $9 \, [\mu m]$ voxel images is done to restrict the memory consumption from the full stack of $\mu$-CT images. The output images are obtained with $56 \, [\mu m]$ voxel, i.e., considering a $40 \%$ scaling factor with cubic interpolator.
+    \item The stack is separated between gray-scale value ranges, to isolate the different sets of constituent materials. In this case, the separation of the mesoscale is done, being porosity and bone matrix voxels labeled.
+    \item Finally, each labeled set of voxels is stacked, defining a volumetric image on \texttt{Octave}, meshed with \texttt{Iso2mesh} library which wraps functions containing the \texttt{CGAL} algorithms of mesh generation.
 \end{enumerate}
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/ImgExt/DiagramMeshGeneration.png}
-	\caption{Pipeline: The mesh generation involves a sequence of different softwares that generates the desired domain where the simulations takes place.}
+	\caption{Data-Flow. The mesh generation involves a sequence of different software \texttt{Fiji, Octave, iso2mesh, CGAL} that used in sequence generates complex adaptive meshes that describe realistic geometries.}
 	\label{DiagramMeshGeneration}
 \end{figure} 
 
 The 3-dimensional elastodynamic study of the homogenized bone is done by considering the above mesh generation (\ref{DiagramMeshGeneration}) ignoring the labeled sets, thus defining and uniform interior mesh being adaptive to the surface irregularities.
 To keep the scaled distance to the experimental setting, its used $1000$ slices from the stack, thus defining real $56 \, [mm]$ of cortical bone geometry.
-The objective then is to recover the \textit{Lamb}-waves associated to the 2-dimensional model but now incorporating the surface effect from the curvature and irregularities, that are expected to affect the behavior of the \textit{Lamb}-curves and thus recorded signal itself.
+The objective then is to recover the dispersion curves associated to the 2-dimensional model but now incorporating the surface effect from the curvature and irregularities, that are expected to affect the behavior of the \textit{Lamb}-curves and thus the recorded signal itself.
 By applying the generation procedure described before it follows the realistic irregular mesh pictured in (\ref{HomBoneMeshFile}). It characterizes a cortical bone sample of $56 \, [mm]$ length in the long direction describing a thickness of $\sim 1.8 [mm]$. 
 
 \begin{figure}[!h]

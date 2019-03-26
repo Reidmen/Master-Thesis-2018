@@ -1,26 +1,23 @@
 \chapter{Discretization Procedures}
 
-Discretization procedures for elastic formulation have been developed since the early $60$'s under diverse setting oriented mainly in civil-engineering fields. In this section, it will be studied following literature such as \cite{ern2004theory}, \cite{raviart1983introduction} a finite-element scheme for the elastic operator in space-domain and it will be presented a standard $\beta$-Newmark time-domain discretization, thus a complete numerical formulation for various models implemented on \texttt{FEniCS}, a state-of-art library for such purposes.
+Discretization procedures for elastic formulation have been developed since the early $60$'s under diverse setting oriented mainly in civil-engineering fields. In this section, it will be studied following literature  \cite{ern2004theory}, \cite{raviart1983introduction} a finite-element discretization scheme for the space-domain and a standard $\beta$-Newmark time-domain discretization, thus a complete numerical formulation for various elastic models implemented in \texttt{FEniCS}, a state-of-art library for such purposes joint with \texttt{Python} language.
 
 \section{Numerical Schemes}
-\subsection{Approximation by Finite Spaces}
-To discretize the elastodynamic model, it is considered the elastic operator defined on a \textit{Banach} space $\mathbf{V}$ with elasticity tensor $\mathbf{C}^{hom} = (C^{hom}_{ijkl})_{ijkl}$ by:
+To discretize the elastodynamic model, it will be assumed that solution function is defined on a Banach space $\mathbf{V}$, in which the elasticity operator defined from the tensor $\mathbf{C}^{hom} = (C^{hom}_{ijkl})_{ijkl}$ by:
 \begin{equation*}
-    \mathcal{I}_C^{hom} (u,v) := \int \limits_{\Omega} C^{hom}_{ijkl}\mathbf{e}_{kl}(u) \mathbf{e}_{ij}(v) \, dx \quad \forall u,v \in \mathbf{V}
+    \mathcal{I}_C{^{hom}} (u,v) := \int \limits_{\Omega} C^{hom}_{ijkl}\mathbf{e}_{kl}(u) \mathbf{e}_{ij}(v) \, dx \quad \forall u,v \in \mathbf{V}
 \end{equation*}
-Moreover, by the uniform ellipticity condition on the coefficients $C^{hom}_{ijkl}$ it follows that $\mathcal{I}_{C^{hom}}(\cdot, \cdot)$ is coercive on $\mathbf{V}$, i.e., there exist $\alpha > 0$ constant, such that:
-\begin{equation*}
-    \mathcal{I}_{C^{hom}} (u,u) \geq  \alpha \Vert u \Vert_{\mathbf{V}}
-\end{equation*}
+is well-defined in the sense that conditions of coercivity on the operator are assured from the uniformly ellipticity of $C^{hom}_{ijkl}$.
 
-The solution of the elastodynamic problem will be found as projection solutions of finite dimensional subspaces that approximate to solution space \footnote{Such workflow is defines the approximation theory of PDE solutions and the so-called finite elements method \cite{ern2004theory}.}, in this case $\mathbf{H}^1(\Omega, \Gamma_D)$.
+\subsection{Approximation by Finite Spaces}
+The solution of the elastodynamic problem will be found as projection solutions of finite dimensional subspaces that approximate to solution space\footnote{Such workflow is defines the approximation theory of PDE solutions and the so-called finite elements method \cite{ern2004theory}.}, in this case $\mathbf{H}^1(\Omega, \Gamma_D)$.
 Let $\{\mathbf{V}_h \}_{0 \leq h \leq 1}$ be a family of finite-dimensional subspaces of $\mathbf{V}$, assume that there exist a dense subspace $\mathbf{W} \subset \mathbf{V}$, a linear interpolator $\Pi_h \in \mathcal{L}(\mathbf{W};\mathbf{V}_h)$, integer $k > 0$ such that our finite dimensional solution approximation $\Pi_{h} $ with associated to a mesh size $h>0$ satisfies:
 \begin{equation*}
     \Vert v - \Pi_h v \Vert_{\mathcal{L}(\mathbf{W};\mathbf{V}_h)} \leq h^{k+1} \Vert v \Vert_{\mathbf{W}} \quad \forall v \in \mathbf{W}
 \end{equation*}
 %In particular, the above assumptions are assured in REFERENCE: HUDGENDS PAPER.
 \begin{rem}
-In our case under study it is used $\mathbf{V} = \mathbb{L}^2(\Omega)$ and $\mathbf{W} = \mathbf{H}^1(\Omega, \Gamma_D)$ being $\mathbf{V}_h$ the $\mathbf{H}^1$-conformal finite element spaces using as reference element $\{ \hat{K}, \hat{P}, \hat{\sigma} \}$ of \textit{Lagrange} type with typical order $k \in \{1,2\}$, such that $\mathbb{P}_k \subset \hat{P}$ with $\mathbf{W} := \mathbf{H}^{k+1}(\Omega) \cap \mathbf{H}^1(\Omega, \Gamma_D)$
+In our case under study it is used $\mathbf{V} = \mathbf{L}^2(\Omega)$ and $\mathbf{W} = \mathbf{H}^1(\Omega, \Gamma_D)$ being $\mathbf{V}_h$ the $\mathbf{H}^1$-conformal finite element spaces using as reference element $\{ \hat{K}, \hat{P}, \hat{\sigma} \}$ of \textit{Lagrange} type with typical order $k \in \{1,2\}$, such that $\mathbb{P}_k \subset \hat{P}$ with $\mathbf{W} := \mathbf{H}^{k+1}(\Omega) \cap \mathbf{H}^1(\Omega, \Gamma_D)$
 \end{rem}
 
 Over such finite dimensional subspaces $\{ \mathbf{V}_h\}_{h>0}$ the approximate solution can be found, satisfying the problems:
@@ -37,15 +34,15 @@ Over such finite dimensional subspaces $\{ \mathbf{V}_h\}_{h>0}$ the approximate
 
 Problem (\ref{ODE-Discretized}) corresponds to a finite linear PDE system in time for the variable $u_h(t)$ where the existence can be obtained by application of the spectral theory decomposing the elastic operator in its spectrum. The treatment is similar to the procedure proposed in the above section \cite{raviart1983introduction}.
 
-The space discretization then is obtained from (\ref{ODE-Discretized}) which corresponds to a system of Ordinary Differential Equations (ODEs). Indeed, let $\{ \varphi_1, \dots, \varphi_{N(h)} \}$ denote a basis for the finite dimensional space $\mathbf{V}_h$ or so-called global shape functions for $\mathbf{V}_h$, then for all $t \in [0,T]$ the approximate solution $u_h(t) \in \mathbf{V}_h$ can be expanded as
+The space discretization then is obtained from (\ref{ODE-Discretized}) which corresponds to a system of Ordinary Differential Equations (ODEs). Indeed, let $\{ \varphi_1, \dots, \varphi_{N(h)} \}$ denote a basis for the finite dimensional space $\mathbf{V}_h$ or so-called global shape functions for $\mathbf{V}_h$, then for all $t \in (0,T)$ the approximate solution $u_h(t) \in \mathbf{V}_h$ can be expanded as
 \begin{equation*}
-    u_h(\mathbf{x},t) = \sum \limits_{l=1}^{N(h)} \mathbf{U}_i(t) \varphi_i
+    u_h(\mathbf{x},t) = \sum \limits_{i=1}^{N(h)} \mathbf{U}_i(t) \varphi_i
 \end{equation*}
-where for each $t \in [0,T]$ its used the notation $\mathbf{U}(t) = (U_i(t))_{1 \leq i \leq N} \in \mathbb{R}^N$.
+where it is used the notation $\mathbf{U}(t) = (U_i(t))_{1 \leq i \leq N} \in \mathbb{R}^{N(h)}$.
 
-Now, introducing also $\mathbf{F}_h(t) = \big( (\mathbf{F}(t), \varphi_i)_{\Omega} \big)_{1 \leq i \leq N}\in \mathbb{R}^N$ with the so-called stiffness $\mathcal{A}(t) \in \mathbb{R}^{N \times N}$ and stress $\mathcal{M} \in \mathbb{R}^{N \times N}$ matrices respectively by:
+Now, introducing also $\mathbf{F}_h(t) = \big( (\mathbf{F}(t), \varphi_i)_{\Omega} \big)_{1 \leq i \leq N}\in \mathbb{R}^{N(h)}$ with the so-called stiffness $\mathcal{A}(t) \in \mathbb{R}^{N(h) \times N(h)}$ and stress $\mathcal{M} \in \mathbb{R}^{N(h) \times N(h)}$ matrices respectively by:
 \begin{equation*}
-    \mathcal{A}_{ij}(t) = \mathcal{I}_C(\varphi_j, \varphi_i), \, \mathcal{M}_{ij} = (\sqrt{\rho^0} \varphi_i , \sqrt{\rho^0}\varphi_j)_{\Omega} \quad 1 \leq i,j \leq N
+    \mathcal{A}_{ij}(t) = \mathcal{I}_C(\varphi_j, \varphi_i), \, \mathcal{M}_{ij} = (\sqrt{\rho^0} \varphi_i , \sqrt{\rho^0}\varphi_j)_{\Omega} \quad 1 \leq i,j \leq N(h)
 \end{equation*}
 
 By the previous hypothesis $\mathcal{A}(t)$ is symmetric and positive-definite whereas $\mathcal{M}_{ij}$ is positive definite. Under such notation, it follows the time-dependent matrix form formulation :
@@ -53,7 +50,7 @@ By the previous hypothesis $\mathcal{A}(t)$ is symmetric and positive-definite w
     \label{MatrixFormulation}
     \left \{
     \begin{array}{cc}
-        \text{Find } \mathbf{U} \in \mathcal{C}^2(0,T; \mathbb{R}^{N\times N}) & \text{ such that} \\
+        \text{Find } \mathbf{U} \in \mathcal{C}^2(0,T; \mathbb{R}^{N(h)\times N(h)}) & \text{ such that} \\
         \mathcal{M} d_{tt} \mathbf{U}(t) + \mathcal{A}\mathbf{U}(t) = \mathbf{F}_h (t) & \text{ in }(0,T)\\ 
         d_{t} \mathbf{U}(0) = \mathbf{U}(0)  = \mathbf{0}&
     \end{array}
@@ -62,13 +59,13 @@ By the previous hypothesis $\mathcal{A}(t)$ is symmetric and positive-definite w
 which describes the full space discretization scheme by means of the FEM method, and enabling the use of time discretization techniques for the resulting ODE problem (\ref{MatrixFormulation}). In particular as will be seen in the next section the so-called $\beta$-Newmark scheme. \footnote{The implementation of such space discretization is done in Python using a state-of-art open-source project called \texttt{FEniCS} \cite{logg2012automated}, defined as a set of specific core component such as \texttt{DOLFIN}, \texttt{UFL},  \texttt{UFC}, etc. It enables the automatic solution of differential forms implementing the Theory of Finite Elements with numerically optimized libraries for arithmetic computations. The project is an international collaboration initiated in 2003 between the University of Chicago and Chalmers University of Technology currently under development from a variety of institutions.}
 
 \subsection{Time Discretization}
-Let us note first that (\ref{MatrixFormulation}) is an standard \textit{Cauchy} ODE problem, To solve numerically such system, it will be introduced an uniform time-step in the form $\Delta t = T/N^T$ with a discretization of the interval $[0, T]$ in the form:
+Let us note that (\ref{MatrixFormulation}) defines a standard \textit{Cauchy} ODE problem. To solve numerically such system, it will be introduced an uniform time-step discretization of $(0,T)$ in the form $\Delta t = T/N_T$ such that:
 \begin{equation*}
-    t_n = n \Delta t, \quad 0 \leq n \leq N^T
+    t_n = n \Delta t, \quad 0 \leq n \leq N_T
 \end{equation*}
 being $N_T \in \mathbb{N}^*$ some number of steps as used in the section before.
 
-It will be found for each $n \in \{1,\dots, N^T \}$ an approximate sequence tuple $(u_n, v_n, a_n)$ of the pair $(u(t_n), \partial_{t} u(t_n), \partial_{tt} u(t_n))$ being the method chosen the so-called $\beta$-\textit{Newmark}, a well-known scheme to study mechanically driven behavior \cite{raviart1983introduction}.
+It will be found for each $n \in \{1,\dots, N_T \}$ an approximate sequence tuple $(u_n, v_n, a_n)$ of the pair $(u(t_n), \partial_{t} u(t_n), \partial_{tt} u(t_n))$ being the method chosen the so-called $\beta$-\textit{Newmark}, a well-known scheme to study mechanically driven behavior \cite{raviart1983introduction}.
 
 Taking into account the time-domain regularity from the solution of the homogenized PDE problem (results analogous to \ref{BootstrapingProp}) let us note that by using the \textit{Taylor} expansion on the function $u \in \mathcal{C}^{p}(0,T;\mathbf{H}^1(\Omega, \Gamma_D))$ and the mean value theorem that for the displacement at time $t_{n+1}$ it follows:
 \begin{equation*}
@@ -88,8 +85,8 @@ The $\beta$-Newmark scheme consist then in a approximation of the above equation
 From (\ref{TimeDif-Scheme}) it is defined the numerical procedure by a two-step update given as follows:
 \begin{align}
     \label{TwoStage-Update}
-    \text{(Stage 1)}\longrightarrow  a_{n+1} &= \frac{1}{\beta \Delta t^2} ( u_{n+1}-u_n - \Delta t \, v_n) - \frac{(1-2\beta)}{2 \beta} a_n, \quad \forall \, 0 \leq n \leq N^T-1 \\
-    \text{(Stage 2)}\longrightarrow v_{n+1} &= v_n + \Delta t \, \big( (1-\gamma) a_n + \gamma a_{n+1} \big), \quad \forall \, 0 \leq n \leq N^T-1
+    \text{(Stage 1)}\longrightarrow  a_{n+1} &= \frac{1}{\beta \Delta t^2} ( u_{n+1}-u_n - \Delta t \, v_n) - \frac{(1-2\beta)}{2 \beta} a_n, \quad \forall \, 0 \leq n \leq N_T-1 \\
+    \text{(Stage 2)}\longrightarrow v_{n+1} &= v_n + \Delta t \, \big( (1-\gamma) a_n + \gamma a_{n+1} \big), \quad \forall \, 0 \leq n \leq N_T-1
 \end{align}
 
 Let us now show the precision of the $\beta$-\textit{Newmark} scheme. Note that the elastodynamic equation contains two derivatives in time, so that taking into account the above and applying again \textit{Taylor} expansion and the mean value theorem, it follows as $\Delta t$ tends to zero that:
@@ -109,18 +106,21 @@ so that, the scheme results of precision $\mathcal{O}(\Delta t)$ for $\gamma \ne
 Applying now such two-step scheme (\ref{TwoStage-Update}) over (\ref{MatrixFormulation}) it follows the matrix system update procedure:
 \begin{align}
     \label{MatrixSystemUpdate}
-    \frac{1}{\beta \Delta t} \mathcal{M}(\mathbf{U}_{n+1} - \mathbf{U}_{n} - \Delta t\, \mathbf{V}_n) - \frac{1}{\beta}(\frac{1}{2}- \beta) \mathcal{M}\mathbf{A}_n + \mathcal{A}\mathbf{U}_{n+1} &= \mathbf{F}_h \quad 0 \leq n \leq N^T-1 \\
-    \frac{1}{\gamma \Delta t} \mathcal{M}(\mathbf{V}_{n+1} - \mathbf{V}_{n}) - \frac{1}{\gamma}(1-\gamma) \mathcal{M}\mathbf{A}_n + \mathcal{A}\mathbf{U}_{n+1} & = \mathbf{F}_h \quad 0 \leq n \leq N^T-1
+    \frac{1}{\beta \Delta t} \mathcal{M}(\mathbf{U}_{n+1} - \mathbf{U}_{n} - \Delta t\, \mathbf{V}_n) - \frac{1}{\beta}(\frac{1}{2}- \beta) \mathcal{M}\mathbf{A}_n + \mathcal{A}\mathbf{U}_{n+1} &= \mathbf{F}_h \quad 0 \leq n \leq N_T-1 \\
+    \frac{1}{\gamma \Delta t} \mathcal{M}(\mathbf{V}_{n+1} - \mathbf{V}_{n}) - \frac{1}{\gamma}(1-\gamma) \mathcal{M}\mathbf{A}_n + \mathcal{A}\mathbf{U}_{n+1} & = \mathbf{F}_h \quad 0 \leq n \leq N_T-1
 \end{align}
 
-Note then that such a time step iteration (\ref{MatrixSystemUpdate}) corresponds to solve the linear system of equations defined for the function $\mathbf{U}_{n+1}$ in the form:
+Note that such a time step iteration (\ref{MatrixSystemUpdate}) corresponds to solve the linear system of equations defined for the function $\mathbf{U}_{n+1}$ in the form:
 \begin{equation*}
     (\mathcal{M}+ \beta \Delta t^2 \, \mathcal{A}) \mathbf{U}_{n+1} = \mathbf{F}_{n+1}
 \end{equation*}
 being $\mathbf{F}_{n+1} \in \mathbb{R}^{I(h)}$ known and then update the solution $\mathbf{U}_n$ field using the (\ref{TwoStage-Update}).
 Now, since the $\beta \geq 0$, if follows that the $\mathbf{R}^{I(h)} \times \mathbf{R}^{I(h)}$ matrix $(\mathcal{M}+ \beta \Delta t^2 \mathcal{A})$ is positive definite and moreover its symmetric. 
 
-\section{Elastodynamic Model}
+\section{Dynamic Type Models}
+The discretization procedures defined before enables the implementation of step-wise procedures of homogenized fully elastodynamic models, its attenuated version to bypass resonance effects shown in the frequency domain formulation and Viscoelastic formulations.
+\subsection{Fully Elastodynamic}
+
 Taking into account our homogenized elastodynamic model (\ref{HomogenizedPDE}) described explicitly:
 \begin{equation}
     \label{HomPDE-Model}
@@ -141,9 +141,9 @@ the discretization procedure over time applied on (\ref{HomPDE-Model}) turn into
 \end{equation*}
 with fields update (\ref{TwoStage-Update}).
 
-\section{Elastodynamic Model with Attenuation}
-The presence of eigen-frequencies in the elastodynamic operator gives a bad numerical solution after solving the discrete system in the frequency domain. This problem can be bypassed using a regularization factor, or moreover, a kind of \textit{viscosity} term which changes the eigen-frequencies and stabilizes the discrete system resulting in \textit{good} approximation to the experimental results.\\
-In this case, we add a term which in \textit{viscoelastic} literature resembles a \textit{Kelvin-Voigt} type behavior. It is added such term scaled with parameter $\epsilon$, so that the overall behavior is not abruptly disrupted but is well-posed in the set of real frequencies.
+\subsection{Elastodynamic Attenuated}
+The presence of eigen-frequencies in the elastodynamic operator gives a bad numerical solution after solving the discrete system in the frequency domain. This problem can be bypassed using a regularization factor, or moreover, a kind of viscosity term which changes the eigen-frequencies and stabilizes the discrete system resulting in \textit{good} approximation to the experimental results.\\
+In this case, we add a term which in viscoelastic literature resembles a \textit{Kelvin-Voigt} type behavior. It is added such term scaled with parameter $\epsilon$, so that the overall behavior is not abruptly disrupted but is well-posed in the set of real frequencies.
 
 \begin{rem}
 One possible way to see this technique is to consider the fact that we are moving the real frequencies $\omega$ to $\omega - i\epsilon$, it let us be away from the eigen-frequencies of the operator $\mathcal{I}_{C^{hom}}$, but the overall behavior of the real part remains close to the experimental setting.
@@ -163,7 +163,6 @@ Explicitly, the regularized elastic model in defined by:
     \right .
 \end{equation*}
 where $\epsilon$ denotes a small regularization parameter associated to a Kelvin-Voigt type viscosity. 
-\subsection{Time-discretization}
 As before, it is considered a time-discretization $\beta$-Newmark scheme following the two-step update procedure for each $n \in \{1,\dots, N\}$:
 \begin{align*}
     \text{(Stage 1)} &\longrightarrow a_{n+1} = \frac{1}{\beta (\Delta t)^2} (u_{n+1}-u_{n}-(\Delta t)v_n) - \frac{1-2\beta}{2\beta}a_n\\
@@ -175,7 +174,7 @@ It is then possible to define a numerically explicit scheme for our model, with 
     & \, - \frac{\epsilon (\Delta t)\gamma}{\beta (\Delta t)^2}(u_n + (\Delta t)v_n) - \epsilon (\Delta t)\gamma\frac{1-2\beta}{2 \beta} a_n
 \end{align*}
 
-\section{A Kelvin-Voigt Viscoelastic Model}
+\subsection{Kelvin-Voigt Viscoelastic Type}
 Following the developments of the above ideas, a $\epsilon$-\textit{Kelvin-Voigt} viscoelastic bone model captures the main characteristics observed in biological and biomechanical literature of bone. In this case, the model is considered of linear elastic-viscous behavior with an $\epsilon$-regularization of the viscous part.
 Thus, after applying the homogenization procedure, the following homogenized model is obtained:
 \begin{equation*}
@@ -189,7 +188,7 @@ Thus, after applying the homogenization procedure, the following homogenized mod
     \end{array}
     \right .
 \end{equation*}
-The standard discretization scheme is defined by a $\beta$-\textit{Newmark} implicit finite differences scheme for the time domain and FEM for the space domain (using FEniCS environment). In this case, the time discretization is obtained in the usual two steps:
+The standard discretization scheme is defined by a $\beta$-\textit{Newmark} implicit finite differences scheme for the time domain and FEM for the space domain. In this case, the time discretization is obtained in the usual two steps:
 \begin{align*}
     \text{(Stage 1)} &\longrightarrow a_{n+1} = \frac{1}{\beta (\Delta t)^2} (u_{n+1}-u_{n}-(\Delta t)v_n) - \frac{1-2\beta}{2\beta}a_n\\
     \text{(Stage 2)}& \longrightarrow v_{n+1} = v_n + \Delta t((1-\gamma)a_n + \gamma a_{n+1})
@@ -203,26 +202,26 @@ So that, the update scheme obtained at times $t_n = n+1$ in the form:
     & - (\Delta t)\gamma\frac{1-2\beta}{2 \beta} \nabla \cdot \sigma_D^{hom}(a_n)
 \end{align*}
 
-\section{Frequency Domain Formulation}
-Finally, the study on frequency domain relates to various aspects, ranging from the study of the elastic operator and its eigen-frequencies, the proximity of the fourier implementation within the device recording procedure to the computational restrictions limiting the time-domain implementation. 
+%\section{Frequency Domain Formulation}
+%Finally, the study on frequency domain relates to various aspects, ranging from the study of the elastic operator and its eigen-frequencies, the proximity of the fourier implementation within the device recording procedure to the computational restrictions limiting the time-domain implementation. 
 
-To this end, let us take Fourier transform to the time-dependent problem in such a way that it is considered particular solutions at frequency $\omega \in \mathbb{R}$ in the form:
-\begin{equation}
-    \label{FreqAnsatz}
-    u^{\epsilon}(\mathbf{x},t) = \hat{u}^{\epsilon}(\mathbf{x},\omega) e^{i \omega t}
-\end{equation}
-Again, following the homogenization procedure, the effective macroscopic PDE problem (\ref{HomPDE-Model}) is obtained:
-\begin{equation}
-    \label{VectorPDE-Freq}
-    \left \{
-    \begin{array}{cc}
-        -\rho^{hom} \omega^2 \hat{u}^{(0)}(\mathbf{x}) - \nabla \cdot \sigma^{hom} (\hat{u}^{(0)}(\mathbf{x}))=\mathbf{0}  & \text{ in }  \Omega \\
-        \sigma^{hom} (\hat{u}^{(0)}(\mathbf{x})) = \mathbf{C}^{hom}(\mathbf{x}): \mathbf{e} (\hat{u}^{(0)}(\mathbf{x})) & \text{ in } \Omega  \\
-        \hat{u}^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D\\
-        \sigma^{hom} (\hat{u}^{(0)}(\mathbf{x}))\cdot n = \hat{\mathbf{F}}(\mathbf{x}) & \text{ on } \Gamma_N \\
-    \end{array}
-    \right .
-\end{equation}
-where it is omitted the frequency dependency on the solution $\hat{u}^{(0)}$ for easiness of exposure and used $\Hat{F}(\omega, \mathbf{x})$ as the Fourier transform at frequency $\omega$ of $F(t, \mathbf{x})$. 
-Finally, the discretization of (\ref{VectorPDE-Freq}) is defined by selecting a particular array of frequencies $(\omega_i)_{i \in [N_{\omega}]}$ associated to the experimental setup, over which the frequency domain simulations takes place.
+%To this end, let us take Fourier transform to the time-dependent problem in such a way that it is considered particular solutions at frequency $\omega \in \mathbb{R}$ in the form:
+%\begin{equation}
+%    \label{FreqAnsatz}
+%    u^{\epsilon}(\mathbf{x},t) = \hat{u}^{\epsilon}(\mathbf{x},\omega) e^{i \omega t}
+%\end{equation}
+%Again, following the homogenization procedure, the effective macroscopic PDE problem (\ref{HomPDE-Model}) is obtained:
+%\begin{equation}
+%    \label{VectorPDE-Freq}
+%    \left \{
+%    \begin{array}{cc}
+%        -\rho^{hom} \omega^2 \hat{u}^{(0)}(\mathbf{x}) - \nabla \cdot \sigma^{hom} (\hat{u}^{(0)}(\mathbf{x}))=\mathbf{0}  & \text{ in }  \Omega \\
+%        \sigma^{hom} (\hat{u}^{(0)}(\mathbf{x})) = \mathbf{C}^{hom}(\mathbf{x}): \mathbf{e} (\hat{u}^{(0)}(\mathbf{x})) & \text{ in } \Omega  \\
+%        \hat{u}^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D\\
+%        \sigma^{hom} (\hat{u}^{(0)}(\mathbf{x}))\cdot n = \hat{\mathbf{F}}(\mathbf{x}) & \text{ on } \Gamma_N \\
+%    \end{array}
+%    \right .
+%\end{equation}
+%where it is omitted the frequency dependency on the solution $\hat{u}^{(0)}$ for easiness of exposure and used $\Hat{F}(\omega, \mathbf{x})$ as the Fourier transform at frequency $\omega$ of $F(t, \mathbf{x})$. 
+%Finally, the discretization of (\ref{VectorPDE-Freq}) is defined by selecting a particular array of frequencies $(\omega_i)_{i \in [N_{\omega}]}$ associated to the experimental setup, over which the frequency domain simulations takes place.
 

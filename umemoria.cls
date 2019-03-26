@@ -1,9 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%
-%%%%%%%%	Clase U-Memoria
-%%%%%%%%	Primer Autor: Nikolas Tapia M.
-%%%%%%%%	Version: 1.5
-%%%%%%%%	Fecha: 21-06-2012
+%%%%%%%%	Class U-Memoria
+%%%%%%%%	First Author: Nikolas Tapia M.
+%%%%%%%%    Modified by Reidmen Arostica
+%%%%%%%%	Version: 1.6
+%%%%%%%%	Date: 10/11/2018
 %%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}[2009/09/24]
@@ -63,7 +64,7 @@
 \let\oldenditem\enditemize
 \renewenvironment{itemize}{\olditem\setlength{\parskip}{\smallskipamount}}{\oldenditem}
 
-%% Entornos nuevos
+%% New environments
 \newenvironment{abstract}{%
 \cleardoublepage
 \begin{flushright}
@@ -74,7 +75,8 @@ AL TÍTULO DE \\
 \MakeUppercase\@carrera \\
 POR: \MakeUppercase\@author \\
 FECHA: \MakeUppercase\@date\\
-PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
+PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }\\
+PROF. COGUÍA: \foreach \x in \@coguia { \MakeUppercase\x }
 \end{tabular}
 \end{flushright}
 \begin{center}
@@ -129,6 +131,11 @@ PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
 \let\guia\setguia
 \let\setguia\relax
 
+\global\let\@coguia\@empty
+\newcommand{\setcoguia}[1]{\def\@coguia{#1}}
+\let\coguia\setcoguia
+\let\setcoguia\relax
+
 \global\let\@depto\@empty
 \newcommand{\setdepto}[1]{\def\@depto{#1}}
 \let\depto\setdepto
@@ -168,6 +175,10 @@ PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
 			\foreach \x [count=\xi] in \@guia {
 			PROFESOR GUÍA \ifnum\xi>1 \ \xi \fi:\\ \MakeUppercase\x\\
 			}
+		    \foreach \x [count=\xi] in \@coguia {
+		    PROFESOR COGUÍA \ifnum\xi>1 \ \xi \fi: \\
+		        \MakeUppercase\x\\
+		    }
 
 		\vspace{1cm}
 			COMISION\\

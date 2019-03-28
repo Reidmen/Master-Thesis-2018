@@ -165,7 +165,7 @@ In this case, a bootstrap type method is used to obtain the time-regularity for 
 
 \begin{prop}
 \label{BootstrapingProp}
-Let $u^{\epsilon} \in \mathcal{C}^{0}(0,T; \mathbf{H}^1(\Omega, \Gamma_D))$ denote the unique solution of the mixed boundary multiscale problem and suppose also the regularity for the parameters and surface force given by $A^{jk} \in L^{\infty}(\mathbf{Y})$ and $\mathbf{F} \in \mathcal{C}^p(0,T; \mathbf{L}^{2}(\Gamma_N))$, then for each $p \geq 1$ we have that:
+Let $u^{\epsilon} \in \mathcal{C}^{0}(0,T; \mathbf{H}^1(\Omega, \Gamma_D))$ denote the unique solution of the mixed boundary multiscale problem and suppose also the regularity for the parameters and surface force given by $C_{ijkl} \in L^{\infty}(\mathbf{Y})$ and $\mathbf{F} \in \mathcal{C}^p(0,T; \mathbf{L}^{2}(\Gamma_N))$, then for each $p \geq 1$ we have that:
 \begin{equation*}
     u^{\epsilon}, \partial_t u^{\epsilon} \in \mathcal{C}^p(0,T; \mathbf{L}^2(\Omega)).
 \end{equation*}
@@ -197,8 +197,9 @@ Let us develop the main idea of the proof:\\
     \begin{equation*}
         (P_{\epsilon}) \left \{
         \begin{array}{cc}
-            \rho^{\epsilon} \partial_{tt} u_h^{\epsilon} - \partial_{x_j} \big( A^{jk}(\frac{\mathbf{x}}{\epsilon}) \partial_{x_k} u_h^{\epsilon} \big) = \mathbf{0}  &  \text{ in } (0,T)\times \Omega \\
-            A^{jk}(\frac{\mathbf{x}}{\epsilon}) \partial_{x_k} u_h^{\epsilon}n_j = \mathbf{F}_h & \text{ on } (0,T)\times \Gamma_N \\
+            \rho^{\epsilon} \partial_{tt} u_h^{\epsilon} - \nabla \cdot \sigma^{\epsilon}( u_h^{\epsilon} ) = \mathbf{0}  &  \text{ in } (0,T)\times \Omega \\
+            \sigma^{\epsilon}_{ij} (u^{\epsilon}_h) = C^{\epsilon}_{ijkl} \mathbf{e}_{kl}(u^{\epsilon}_h) & \text{ in } (0,T) \times \Omega \\
+            C^{\epsilon}_{ijkl}\mathbf{e}_{kl}( u_h^{\epsilon})n_j = \mathbf{F}_h & \text{ on } (0,T)\times \Gamma_N \\
             u^{\epsilon}_h = \mathbf{0} & \text{ on }(0,T)\times \Gamma_D
         \end{array}
         \right .
@@ -206,7 +207,7 @@ Let us develop the main idea of the proof:\\
     with initial condition at rest (i.e. $\partial_t u_h^{\epsilon} = u_h^{\epsilon} = \mathbf{0}$ on $\{t=0\} \times \Omega$).
     
     
-    \item Using the assumption of regularity for the surface force $\mathbf{F}$, let us recall from spectral theory the bound:
+    \item Using the assumption of regularity for the surface force $\mathbf{F}$, it can be obtained from spectral theory the bound:
     \begin{equation*}
         \Vert u_h^{\epsilon} \Vert_{\mathbf{H}^1(\Omega, \Gamma_D)} + \Vert \partial_t u_h^{\epsilon}\Vert_{\mathbf{L}^2(\Omega)} \lesssim \int \limits_t^{t+h} \Vert \mathbf{F}(s) \Vert_{\mathbf{L}^2(\Gamma_N)} \, ds
     \end{equation*}
@@ -219,7 +220,7 @@ Let us develop the main idea of the proof:\\
     
     \item Now, let us observe that we can take a time derivative to the full problem $(P_{\epsilon})$, and obtain a similar multiscale problem. Applying again the spectral theory, it is possible to obtain a solution $v_h^{\epsilon} = \partial_t u_h^{\epsilon}$, satisfying same bounds as before. In such a way, it follows that:
     \begin{equation*}
-        \Vert \partial_{tt} u_h^{\epsilon} \Vert_{\mathbf{H}^1(\Omega, \Gamma_D)} + \Vert \partial_t u_h^{\epsilon} \Vert_{\mathbf{L}^2 (\Omega)} \lesssim \int_t^{t+h} \Vert \partial_t \mathbf{F}_h(t) \Vert_{\mathbf{L}^2(\Gamma_N)}
+        \Vert \partial_{tt} u_h^{\epsilon} \Vert_{\mathbf{H}^1(\Omega, \Gamma_D)} + \Vert \partial_t u_h^{\epsilon} \Vert_{\mathbf{L}^2 (\Omega)} \lesssim \int_t^{t+h} \Vert \partial_t \mathbf{F}(t) \Vert_{\mathbf{L}^2(\Gamma_N)}
     \end{equation*}
     so that, as $h \rightarrow 0$ we conclude the regularity
     \begin{equation*}
@@ -270,12 +271,12 @@ thus, after applying it over the strain tensor $\mathbf{e}(\cdot)$ it follows th
 %%%%%%%%%%%%
 In the following, it is used a separation of scales to obtain the so-called homogenized coefficients, approximating the overall macroscopic (effective) behavior by applying the asymptotic solution, i.e., seeking
 \begin{equation*}
-    \rho^{\epsilon}(\mathbf{x}) u(\mathbf{x})^{\epsilon} + P^{(\epsilon)}(u^{\epsilon}(\mathbf{x})) \sim \mathcal{O}(\epsilon^{\gamma}) \quad \gamma \geq 0
+    \rho^{\epsilon}(\mathbf{x}) u(\mathbf{x})^{\epsilon} + P^{(\epsilon)}(u^{\epsilon}(\mathbf{x})) = \mathcal{O}(\epsilon^{\gamma}) \quad \gamma \geq 0
 \end{equation*}
 where the elasticity operator $P^{(\epsilon)}$ is expected to satisfy under some corrections
 \begin{equation}
     \label{P-Operator}
-    P^{(\epsilon)}(u^{\epsilon}(\mathbf{x}) \sim - div \, \big[\mathbf{C}^{hom}(\mathbf{x}): \mathbf{e}(u^{(0)}(\mathbf{x}))\big] + \mathcal{O}(\epsilon)
+    P^{(\epsilon)}(u^{\epsilon}(\mathbf{x}) = - div \, \big[\mathbf{C}^{hom}(\mathbf{x}): \mathbf{e}(u^{(0)}(\mathbf{x}))\big] + \mathcal{O}(\epsilon)
 \end{equation}
 where $\mathbf{C}^{hom}(\mathbf{x})$ is some four-order tensor to be found and the right-hand side $\mathcal{O}(\epsilon^{\gamma})$ denotes the error expected from such an approximation. 
 
@@ -283,9 +284,9 @@ To handle derivatives from (\ref{P-Operator}), let us define the operator
 \begin{equation*}
     L_{\alpha \beta} (\cdot) = - \partial_{\alpha_j} \big( C_{ijkl} (\mathbf{y}) \mathbf{e}_{kl, \beta}(\cdot) \big), \quad \alpha, \beta \in \{ \mathbf{x},\mathbf{y} \}
 \end{equation*}
-And recall that, by the chain rule we have $\forall \, \Phi(\mathbf{x},\mathbf{y})$ enough regular vector function it follows:
+And recall that by the chain rule $\forall \, \Phi(\mathbf{x},\mathbf{y})$ enough regular vector functions, it follows:
 \begin{equation*}
-    \partial_{x_j} (\Phi (\mathbf{x}, \frac{\mathbf{x}}{\epsilon})) = \big \{ \partial_{x_j} \Phi (\mathbf{x}, \mathbf{y}) + \frac{1}{\epsilon} \partial_{y_j} \Phi(\mathbf{x},\mathbf{y}) \big \}_{\mathbf{y}= \epsilon^{-1}\mathbf{x}}
+    \partial_{x_j} (\Phi (\mathbf{x}, \frac{\mathbf{x}}{\epsilon})) = \big \{ \partial_{x_j} \Phi (\mathbf{x}, \mathbf{y}) + \frac{1}{\epsilon} \partial_{y_j} \Phi(\mathbf{x},\mathbf{y}) \big \}_{\mathbf{y}= \epsilon^{-1}\mathbf{x}}.
 \end{equation*}
 
 Now, using (\ref{AsymptoticExpansion}), the idea is to regroup in powers of $\epsilon$ thus impose constrains over each term $\epsilon^{(a)}$ to satisfy the main formulation (\ref{MainPDE}). To this end, note that from (\ref{P-Operator}) it follows:
@@ -300,7 +301,7 @@ where
         C &= \epsilon^2 P^{(\epsilon)}(u^{(2)}(\mathbf{x},\mathbf{y})) \\
     \end{array}
 \end{equation*}
-Expanding every term, then using (\ref{Multiscale-Strain}), it follows:
+Expanding every term and using (\ref{Multiscale-Strain}), it follows:
 \begin{align*}
     A &= - \partial_{x_j} \big( C_{ijkl}\mathbf{e}(u^{(0)}) \big) \\
     &=- \partial_{x_j} \big( C_{ijkl} \mathbf{e}_{kl,x} (u^{(0)}) + \frac{1}{\epsilon}C_{ijkl}\mathbf{e}_{kl,y}(u^{(0)} \big)\\
@@ -916,7 +917,7 @@ which implies in particular the usage of engineering \textit{Voigt} notation for
 
 In all that follows, it will be denoted by $M(\mathbf{Y})$ the space of $d \times d$ matrices $L^2(\mathbf{Y})$ entries with norm $\Vert \cdot \Vert_{M(\mathbf{Y})}$ defined for $A = (A_{kl})_{kl} \in M(\mathbf{Y})$ by
 \begin{equation}
-    \Vert A \Vert_{M(\mathbf{Y})} \underset{k,l \in \{1,\dots, d\}}{\text{ max }} \Vert A_{kl} \Vert_{L^2(\Omega)}    
+    \Vert A \Vert_{M(\mathbf{Y})} = \underset{k,l \in \{1,\dots, d\}}{\text{ max }} \Vert A_{kl} \Vert_{L^2(\mathbf{Y})}    
 \end{equation}
 Let us recall the coercivity condition over $\mathbf{C}(p, \cdot)$, applying a duality argument over the space $M(\mathbf{Y})$ it follows that:
 \begin{equation}
@@ -936,7 +937,7 @@ Using (\ref{eq:cell_symmetric}) rewritten in tensor notation, the following equa
         & \quad - \int\limits_{\mathbf{Y}}\mathbf{C}(p)-\mathbf{C}(q):\mathbf{e}(N^{rs}(q)):\mathbf{e}(v).
     \end{aligned}
 \end{equation}
-So that, using (\ref{eq:diff_Nrs}) it follows the representation $\forall v \in H^1_{\#,0}(\mathbf{Y})$
+So that, using (\ref{eq:diff_Nrs}) it follows the representation $\forall v \in \mathbf{H}^1_{0}(\mathbf{Y})$
 \begin{equation}
     \label{eq:diff_Nrs_full}
     \int\limits_{\mathbf{Y}} \mathbf{C}(p):\mathbf{e}\big(N^{rs}(p)-N^{rs}(q)\big):\mathbf{e}(v) = -\int\limits_{\mathbf{Y}} \mathbf{C}(p)-\mathbf{C}(q):m_{rs}+\mathbf{e}(N^{rs}(q)):\mathbf{e}(v).
@@ -1017,7 +1018,7 @@ Under the assumptions of regularity for the multiscale elastic coefficients $\ma
     \end{equation*}
     for some $L, l > 0$ positive constants, and each $\overline{p},\overline{q} \in (0,1)$.
 \end{enumerate}
-it follows for each $i,j,r,s \in \{1,2,3\}$ and $\overline{p},\overline{q}$ porosity levels:
+Then it follows for each $i,j,r,s \in \{1,2,3\}$ and $\overline{p},\overline{q}$ porosity levels:
 \begin{enumerate}
     \item[PI] A continuity property for the homogenized coefficients:
     \begin{equation*}
@@ -1034,7 +1035,7 @@ Moreover, if it is satisfied:
     \end{equation*}
     for $\overline{L}, \overline{l} > 0$ constants and each $\overline{p},\overline{q} \in (0,1)$.
 \end{enumerate}
-then, it follows that each $i,j,r,s \in \{1,2,3\}$ and $\overline{p},\overline{q}$ porosity levels:
+Then it follows that each $i,j,r,s \in \{1,2,3\}$ and $\overline{p},\overline{q}$ porosity levels:
 \begin{enumerate}
     \item[PII] A continuity property for the derivatives of hom. coeffients:
     \begin{equation*}

@@ -130,7 +130,7 @@ Let us prove the existence and uniqueness of solution for (\ref{MainTimePDE}).
     \begin{equation*}
         \underset{p,m \longrightarrow + \infty}{\text{lim}} \sum_{i=m+1}^p \big \{ T \int_0^T \vert (\mathbf{F}(s),w_i)_{\Gamma_N}\vert^2 \, ds \big \} = 0
     \end{equation*}
-    and by using the uniform elliticity of the tensor $\mathbf{C}$, it can be concluded that $(u_m^{\epsilon}(t))_{m \in \mathbb{N}}$ is a Cauchy sequence on the spaces $\mathcal{C}^0(0,T; \mathbf{H}^1(\Omega, \Gamma_D))$ and $\mathcal{C}^1(0,T; \mathbf{L}^2(\Omega, \Gamma_D))$.
+    and by using the uniform ellipticity of the tensor $\mathbf{C}$, it can be concluded that $(u_m^{\epsilon}(t))_{m \in \mathbb{N}}$ is a Cauchy sequence on the spaces $\mathcal{C}^0(0,T; \mathbf{H}^1(\Omega, \Gamma_D))$ and $\mathcal{C}^1(0,T; \mathbf{L}^2(\Omega, \Gamma_D))$.
     
     
     \item Since the above spaces are complete, there exist $u^{\epsilon}(t)$ limit as $m \longrightarrow +\infty$ of $u^{\epsilon}_m(t)$ belonging to the spaces $\mathcal{C}^0(0,T; \mathbf{H}^1(\Omega, \Gamma_D))$ and $\mathcal{C}^1(0,T; \mathbf{L}^2(\Omega))$.\\
@@ -206,7 +206,6 @@ Let us develop the main idea of the proof:\\
     \end{equation*}
     with initial condition at rest (i.e. $\partial_t u_h^{\epsilon} = u_h^{\epsilon} = \mathbf{0}$ on $\{t=0\} \times \Omega$).
     
-    
     \item Using the assumption of regularity for the surface force $\mathbf{F}$, it can be obtained from spectral theory the bound:
     \begin{equation*}
         \Vert u_h^{\epsilon} \Vert_{\mathbf{H}^1(\Omega, \Gamma_D)} + \Vert \partial_t u_h^{\epsilon}\Vert_{\mathbf{L}^2(\Omega)} \lesssim \int \limits_t^{t+h} \Vert \mathbf{F}(s) \Vert_{\mathbf{L}^2(\Gamma_N)} \, ds
@@ -257,7 +256,7 @@ where the vector functions $u^{(a)}(\mathbf{x}, \cdot)$ are assumed Y-periodic, 
     u^{(a)}(t, \mathbf{x},\mathbf{y}) \in \mathbf{H}^1\big(\Omega; \, \mathbf{H}^1(\mathbf{Y})\big) \quad \forall a \in \mathbb{N}
 \end{equation*}
 where $\mathbf{H}^1(\mathbf{Y})$ denotes the space of d-dimensional vector function on $H^1(\mathbf{Y})$.
-In what follows, it will be imposed several restrictions for the proposed solution (\ref{AsymptoticExpansion}) to effectively satisfy the problem (\ref{MainPDE}). In particular, the regularity assumption will naturally arise from restriction imposed for each $u^{(a)}$.
+In what follows, it will be imposed several restrictions for the proposed solution (\ref{AsymptoticExpansion}) to effectively satisfy the problem (\ref{MainPDE}). In particular, the regularity assumption will naturally arise from restriction imposed for each $u^{(a)}$. In all that follows, it is dropped the time dependency in the functions for easiness of exposition.
 
 Since there is an explicit relation between slow and fast variables, it is considered expressions of strain rate dependent on each one. Let us define for $\Phi \in \mathcal{C}^{\infty}(\Omega \times \mathbf{Y})$ the strain on each variable by:
 \begin{equation*}
@@ -304,7 +303,7 @@ where
 Expanding every term and using (\ref{Multiscale-Strain}), it follows:
 \begin{align*}
     A &= - \partial_{x_j} \big( C_{ijkl}\mathbf{e}(u^{(0)}) \big) \\
-    &=- \partial_{x_j} \big( C_{ijkl} \mathbf{e}_{kl,x} (u^{(0)}) + \frac{1}{\epsilon}C_{ijkl}\mathbf{e}_{kl,y}(u^{(0)} \big)\\
+    &=- \partial_{x_j} \big( C_{ijkl} \mathbf{e}_{kl,x} (u^{(0)}) + \frac{1}{\epsilon}C_{ijkl}\mathbf{e}_{kl,y}(u^{(0)}) \big)\\
     &= - L_{xx}u^{(0)} - \frac{1}{\epsilon} L_{yx}u^{(0)} - \frac{1}{\epsilon} L_{xy}u^{(0)} - \frac{1}{\epsilon^2}L_{yy}u^{(0)}
 \end{align*}
 Similarly, for the other terms it can be obtained:
@@ -325,15 +324,15 @@ So, the following necessary conditions for powers of $\epsilon$ are derived:
 Let us consider the asymptotic expansion (\ref{AsymptoticExpansion}) as an approximation for the exact solution of the original problem (\ref{MainPDE}) where their boundary conditions had been replaced to the behavior at $\mathcal{O}(1)$.
 \begin{equation*}
     \begin{array}{cc}   
-        u^{(0)}(\mathbf{x},\mathbf{y}) = \mathbf{0} & \forall \mathbf{x} \in \Gamma_D\\
-        \big(\mathbf{C}(\mathbf{y}): \mathbf{e} (u^{(0)}(\mathbf{x}, \mathbf{y}) \big) \cdot n = \hat{\mathbf{F}}(\mathbf{x}) & \forall (\mathbf{x},\mathbf{y}) \in \Gamma_N \times \partial \mathbf{Y}
+        u^{(0)}(\mathbf{x},\mathbf{y}) = \mathbf{0} & \forall (\mathbf{x}, \mathbf{y}) \in \Gamma_D\times \mathbf{Y}\\
+        \big(\mathbf{C}(\mathbf{y}): \mathbf{e} (u^{(0)}(\mathbf{x}, \mathbf{y}) \big) \cdot n = \hat{\mathbf{F}}(\mathbf{x}) & \forall (\mathbf{x},\mathbf{y}) \in \Gamma_N \times \mathbf{Y}
     \end{array}
 \end{equation*}
 and the remaining terms for each $a \in \mathbb{N}$ in the expansion are assigned by
 \begin{equation*}
     \begin{array}{cc}
-        u^{(a)}(\mathbf{x},\mathbf{y}) = \mathbf{0} & \forall (\mathbf{x}, \mathbf{y}) \in \Gamma_D\times \partial \mathbf{Y} \\
-        \big( \mathbf{C}(\mathbf{y}): \mathbf{e} (u^{(a)}(\mathbf{x},\mathbf{y}) \big) \cdot n = \mathbf{0} & \forall  (\mathbf{x}, \mathbf{y}) \in \Gamma_D\times \partial \mathbf{Y} 
+        u^{(a)}(\mathbf{x},\mathbf{y}) = \mathbf{0} & \forall (\mathbf{x}, \mathbf{y}) \in \Gamma_D \times \mathbf{Y} \\
+        \big( \mathbf{C}(\mathbf{y}): \mathbf{e} (u^{(a)}(\mathbf{x},\mathbf{y}) \big) \cdot n = \mathbf{0} & \forall  (\mathbf{x}, \mathbf{y}) \in \Gamma_N\times \mathbf{Y} 
     \end{array}
 \end{equation*}
 
@@ -360,7 +359,7 @@ where $\vert Y \vert$ denotes the measure of the set $\mathbf{Y}$.
 \end{rem}
 
 \subsection{Contribution at Second Order}
-For the contribution at order $\mathcal{O}(\epsilon^{-2})$ recall that, the problem (\ref{MainPDE}) with their boundary conditions states:
+For the contribution at order $\mathcal{O}(\epsilon^{-2})$ recall that problem (\ref{MainPDE}) with their boundary conditions states:
 \begin{equation}
     \label{Order-2VectorPDE}
     \left \{
@@ -376,10 +375,10 @@ By the Lemma (\ref{ExistenceLemma}) it can be deduced that $u(\mathbf{x},\mathbf
     \label{IndepencyofY}
     u^{(0)}(t, \mathbf{x},\mathbf{y}) = v(t, \mathbf{x})
 \end{equation}
-i.e. being independent with respect to the microstructure (or fast variable) $\mathbf{Y}$. In particular, the contribution of the boundary conditions is associated to such vector function $v(t, \mathbf{x})$ in the form:
+i.e. being independent with respect to the microstructure (or fast variable) $\mathbf{Y}$. In particular, the contribution of the boundary conditions is associated to such vector function $v(t, \mathbf{x})$, at each time $t \in (0,T)$ in the form:
 \begin{equation*}
     \begin{array}{cc}
-        v^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D\\
+        v(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D\\
         \big(\mathbf{C}(\mathbf{y}):\mathbf{e}(v(\mathbf{x})) \big) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } \Gamma_N \times \mathbf{Y}
     \end{array}
 \end{equation*}
@@ -420,7 +419,7 @@ and applying lemma (\ref{ExistenceLemma}), it follows that $\mathbf{N}^{rs}$ is 
     \left \{
     \begin{array}{cc}
          - \partial_{y_j} \big( C_{ijkl} \mathbf{e}_{kl,y} (\mathbf{N}^{rs}(t,\mathbf{y})) \big) = \partial_{y_j} (C_{ijrs}) & \text{ in } (0,T)\times \mathbf{Y} \\
-        \big( \mathbf{C}(\mathbf{y}) : \mathbf{e}(\mathbf{N}^{rs}(t,\mathbf{y})) \big) \cdot n = \mathbf{0} & \text{ on } (0,T)\times \mathbf{Y}\\
+        \big( \mathbf{C}(\mathbf{y}) : \mathbf{e}(\mathbf{N}^{rs}(t,\mathbf{y})) \big) \cdot n = \mathbf{0} & \text{ on } (0,T)\times \partial \mathbf{Y}\\
         \mathbf{N}^{rs} (0, \mathbf{y}) = \mathbf{0} &  \text{ in } \mathbf{Y}
     \end{array}
     \right.
@@ -448,11 +447,11 @@ then by Lemma \ref{ExistenceLemma}, it follows existence of a $Y$-periodic solut
 From \ref{Order-0ExistenceCond} the homogenized equation is obtained, which can be deduced explicitly in the form:
 \begin{align*}
     & \quad \langle \rho(\mathbf{y}) \rangle \partial_{tt} v(\mathbf{x}) + \langle L_{xx} u^{(0)}(\mathbf{x},\mathbf{y}) +L_{xy} u^{(1)}(\mathbf{x},\mathbf{y}) \rangle = \mathbf{0} \\
-    \Leftrightarrow & \quad \langle \rho(\mathbf{y}) \rangle \partial_{tt} v(\mathbf{x}) + \langle L_{xx} u^{(0)}(\mathbf{x}, \mathbf{y}) + L_{xy}\big( \mathbf{N}^{rs}(\mathbf{y})\mathbf{e}_{rs,x}(v(\mathbf{x})) + \hat{w}(\mathbf{x})\big) = \mathbf{0} \\
+    \Leftrightarrow & \quad \langle \rho(\mathbf{y}) \rangle \partial_{tt} v(\mathbf{x}) + \langle L_{xx} u^{(0)}(\mathbf{x}, \mathbf{y}) + L_{xy}\big( \mathbf{N}^{rs}(\mathbf{y})\mathbf{e}_{rs,x}(v(\mathbf{x})) \big) = \mathbf{0} \\
     \Leftrightarrow & \quad \langle \rho\rangle \partial_{tt} v_i(\mathbf{x}) - \partial_{x_j}\big \langle \big(C_{ijrs}^{hom}(\mathbf{N}^{rs})\big) \mathbf{e}_{rs,x}(\hat{v}(\mathbf{x})) \big \rangle  = \mathbf{0} \quad \forall i \in \{1,\dots, d\}\\
-    \Leftrightarrow & \quad \langle \rho \rangle \partial_{tt} v_i(\mathbf{x}) - C_{ijkl}^{hom} \partial_{x_j} \mathbf{e}_{rs,x} (v(\mathbf{x})) = \mathbf{0} \quad \forall i \in \{1,\dots,d\}
+    \Leftrightarrow & \quad \rho^{0} \partial_{tt} v_i(\mathbf{x}) - C_{ijkl}^{hom} \partial_{x_j} \mathbf{e}_{rs,x} (v(\mathbf{x})) = \mathbf{0} \quad \forall i \in \{1,\dots,d\}
 \end{align*}
-where we it is denoted $C_{ijrs}^{hom}$ the so-called homogenized elastic coefficients defined by 
+where it is denoted $\rho^{0} = \langle \rho \rangle$ and $C_{ijrs}^{hom}$ the so-called homogenized elastic coefficients defined by 
 \begin{equation*}
     C_{ijrs}^{hom} = \big \langle C_{ijrs}(\mathbf{y}) + C_{ijkl}\mathbf{e}_{kl,y}\big(\mathbf{N}^{rs}(\mathbf{y})\big) \big \rangle 
 \end{equation*}
@@ -461,10 +460,10 @@ With the above definition and the homogenized equation obtained from (\ref{Order
     \label{HomogenizedPDE}
     \left \{
     \begin{array}{cc}
-        \langle \rho \rangle \partial_{tt} v(\mathbf{x}) (\mathbf{x}) - \nabla \cdot \sigma^{hom} (v(\mathbf{x}) ) = \mathbf{0} & \text{ in } \Omega \\
-        \sigma^{hom}_{ij}(\hat{v}(\mathbf{x})) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(\hat{v}(\mathbf{x})) & \text{ in } \Omega \\
-        v(\mathbf{x}) = \mathbf{0} & \text{ on } \Gamma_D \\
-        \sigma^{hom}(v(\mathbf{x})) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } \Gamma_N
+        \rho^{0} \partial_{tt} v - \nabla \cdot \sigma^{0} (v) = \mathbf{0} & \text{ in } (0,T) \times \Omega \\
+        \sigma^{0}_{ij}(v) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(v) & \text{ in } (0,T)\times\Omega \\
+        v = \mathbf{0} & \text{ on } (0,T)\times\Gamma_D \\
+        \sigma^{0}(v) \cdot n = \mathbf{F} & \text{ on }(0,T)\times \Gamma_N
     \end{array}
     \right .
 \end{equation}
@@ -497,7 +496,7 @@ Over the bounded smooth domain $\Omega \subset \mathbb{R}^d$ it is considered th
     \label{MainMultiPDE}
     \left \{
     \begin{array}{cc}
-        \mathcal{L}_{\epsilon}(u^{\epsilon}) = \rho\big( \frac{\mathbf{x}}{\epsilon} \big) \partial_{tt} u^{\epsilon} - \partial_{x_h} \big( A^{hk}\big( \frac{\mathbf{x}}{\epsilon} \big) \partial_{x_k} u^{\epsilon} \big)  = \mathbf{0} & \text{ in } (0,T)\times \Omega  \\
+        \mathcal{L}_{\epsilon}(u^{\epsilon}) := \rho\big( \frac{\mathbf{x}}{\epsilon} \big) \partial_{tt} u^{\epsilon} - \partial_{x_h} \big( A^{hk}\big( \frac{\mathbf{x}}{\epsilon} \big) \partial_{x_k} u^{\epsilon} \big)  = \mathbf{0} & \text{ in } (0,T)\times \Omega  \\
         \sigma^{\epsilon}(u^{\epsilon})\cdot n := A^{hk}\big( \frac{\mathbf{x}}{\epsilon} \big) \partial_{x_k} u^{\epsilon} n_k  = \mathbf{F}(t,\mathbf{x}) & \text{ on } (0,T) \times \Gamma_N \\
         u^{\epsilon} =  \mathbf{0} & \text{ on } (0,T) \times \Gamma_D \\
         \partial_t u^{\epsilon} = u^{\epsilon} = \mathbf{0} & \text{ on } \{ t=0 \} \times \Omega 
@@ -510,7 +509,7 @@ Recall also from (\ref{HomogenizedPDE}) the homogenized mixed boundary problem, 
     \label{HomMultiPDE}
     \left \{
     \begin{array}{ccc}
-        \mathcal{L}_0 (u^0) = \rho^0 \partial_{tt} u^0 - \partial_{x_h}\big( A^{hk}_{hom} \partial_{x_k} u^0 \big) = \mathbf{0} & \text{ in } (0,T)\times \Omega \\
+        \mathcal{L}_0 (u^0) := \rho^0 \partial_{tt} u^0 - \partial_{x_h}\big( A^{hk}_{hom} \partial_{x_k} u^0 \big) = \mathbf{0} & \text{ in } (0,T)\times \Omega \\
         \sigma^0(u^0) \cdot n := A^{hk}_{hom} \partial_{x_k}u^0 n_h = \mathbf{F}(t, \mathbf{x}) & \text{ on } (0,T) \times \Gamma_N \\
         u^0 = \mathbf{0} & \text{ on } (0,T) \times \Gamma_D \\
         \partial_t u^0 = u^0 = \mathbf{0} & \text{ on } \{ t=0 \} \times \Omega
@@ -535,7 +534,7 @@ being the matrices $\mathbf{N}^q(\mathbf{y})$ the so-called cell solutions of th
 where $\mathbf{Y} = (0,1)^d$ is the characteristic microstructure and $d \in \mathbb{N}^*$ denotes the dimension, usually $2$ or $3$.\\
 
 \begin{rem}
- Let us note from (\ref{CellProblems}) that by applying  coercivity and boundness conditions over the coefficients $A^{kj}(\mathbf{y})$, it follows continuity and boundness conditions on (\ref{HomCoeffs}). Thus the homogenized problem (\ref{HomMultiPDE}) is of elastic type, and moreover it can be applied the same proof as in the case of prop. \ref{BootstrapingProp} obtaining by bootstraping method:
+ Let us note from (\ref{CellProblems}) that by applying  coercivity and boundness conditions over the coefficients $A^{kj}(\mathbf{y})$, it follows continuity and boundness conditions on (\ref{HomCoeffs}). Thus the homogenized problem (\ref{HomMultiPDE}) is of elastic type, and moreover it can be applied the same proof as in the case of prop. \ref{BootstrapingProp} obtaining by bootstrapping method:
  \begin{equation*}
      u^0, \, \partial_{t} u^0 \in \mathcal{C}^p (0,T; \mathbf{H}^1(\Omega, \Gamma_D))
  \end{equation*}
@@ -591,7 +590,7 @@ Let us apply the operator $\mathcal{L}_{\epsilon}$ to a vector valued function $
 where in $(*)$ it was rewritten, relabeled and separated term with $\epsilon$ order.
 Taking into account the equation in (\ref{CellProblems}) for the $\mathbf{N}^s$ it follows:
 \begin{align*}
-    \mathcal{L}_{\epsilon} (u^{\epsilon} - \tilde{u})  =& - (\rho^{\epsilon}-\rho^0) \partial_{tt} u^0 - \epsilon \rho^{\epsilon} \partial_{tt}\big(\mathbf{N}^s \partial_{x_s}u^0 \big) + \epsilon A^{hk}\mathbf{N}^s \partial_{x_h x_k x_s}u^0 \\
+    \mathcal{L}_{\epsilon} (u^{\epsilon} - \tilde{u})  :=& - (\rho^{\epsilon}-\rho^0) \partial_{tt} u^0 - \epsilon \rho^{\epsilon} \partial_{tt}\big(\mathbf{N}^s \partial_{x_s}u^0 \big) + \epsilon A^{hk}\mathbf{N}^s \partial_{x_h x_k x_s}u^0 \\
     & - \big[ A^{pq}_{hom} - A^{pq} - A^{pj} \partial_{y_j} \mathbf{N}^q - \partial_{y_h}(A^{hp} \mathbf{N}^q) \big] \partial_{x_p x_q} u^0 
     \end{align*}
 
@@ -794,7 +793,7 @@ More explicitly, it is given estimations for such effective coefficients with a 
 \begin{equation*}
     C_{ijkl}(\mathbf{y}, p) = C_{ijkl}^{m} \mathbb{I}_{\mathbf{y} \in \mathbf{Y}_m(p)} + C_{ijkl}^{f} \mathbb{I}_{\mathbf{y} \in \mathbf{Y}_f(p)}
 \end{equation*}
-being $\mathbf{Y}_m(p)$ and $\mathbf{Y}_f(p)$ the matrix and fluid-like parts of the cell, where the explicit dependency on the porosity fraction $p \in (0,1)$ implies \textit{a posteriori} also the depence of $p$ on the homogenized coefficient.
+being $\mathbf{Y}_m(p)$ and $\mathbf{Y}_f(p)$ the matrix and fluid-like parts of the cell, where the explicit dependency on the porosity fraction $p \in (0,1)$ implies \textit{a posteriori} also the dependence of $p$ on the homogenized coefficient.
 
 \subsection{Definition and Estimates}
 In this section, its formalize the space in which the highly oscillatory coefficients $C_{ijkl}(\cdot)$ belongs dependent on the porosity parameter.
@@ -818,7 +817,7 @@ With the above it can then be defined the space of bounded and coercive tensors 
 Let $(C_{ijkl})_{ijkl} \in \mathbf{T}((0,1)\times \mathbf{Y})$, consider $\alpha, \beta$ two positive parameters and define the following properties:
 \begin{enumerate}
     \item[(H1)] If $\xi \in \mathbf{R}^{d\times d} \setminus \{\mathbf{0}_{d \times d}\}$ then $\alpha \xi_{ij} \, \xi_{ij} \leq C_{ijkl}(p,\mathbf{y})  \xi_{kl}\,\xi_{ij}\, \text{a.e.} \mathbf{y} \in \mathbf{Y}$ for each $p \in (0,1)$.
-    \item[(H2)] If $\xi \in \mathbf{R}^{d\times d} \setminus \{\mathbf{0}_{d \times d}\}$ then $\vert \mathbf{C}(p,\mathbf{y}) \xi\cdot \xi \vert \leq \beta \vert \xi \vert^2 \, \text{a.e.}\mathbf{y} \in \mathbf{Y}$ for each $p \in (0,1)$ where $\vert \cdot \vert$ denotes a norm on the space of square matrices $\mathcal{M}_{d\times d}(\mathbb{R})$.
+    \item[(H2)] If $\xi \in \mathbf{R}^{d\times d} \setminus \{\mathbf{0}_{d \times d}\}$ then $C_{ijkl}(p,\mathbf{y}) \xi_{kl} \xi_{ij} \vert \leq \beta  \xi_{ij} \xi_{ij} \, \text{ a.e. }\mathbf{y} \in \mathbf{Y}$ for each $p \in (0,1)$.
 \end{enumerate}
 The above enables the reasonable space of linear elastic tensors, related to the generalized \textit{Hookes} law.
 \begin{defn}
@@ -853,7 +852,7 @@ Solutions to problem (\ref{eq:cell}) are found via variational formulation of su
     \label{eq:cell_variational}
     \left \{
     \begin{array}{cc}
-        \text{Find a function} N^{rs} \in \mathbf{H}^1_{0}(\mathbf{Y}) \text{ such that } & \quad \\
+        \text{Find a function } N^{rs} \in \mathbf{H}^1_{0}(\mathbf{Y}) \text{ such that } & \quad \\
         \int\limits_{\mathbf{Y}} C_{ijkl}(p,\mathbf{y})\mathbf{e}_{kl,y} N^{rs} \, \partial_{y_j}(v_i)\,d\mathbf{y} = -\int\limits_{\mathbf{Y}} C_{ijrs}(p, \mathbf{y}) \partial_{y_j}(v_i)\,d\mathbf{y} &  \forall v \in \mathbf{H}^1_{0}(\mathbf{Y}).
     \end{array}
     \right.

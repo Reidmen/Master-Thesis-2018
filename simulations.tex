@@ -193,9 +193,9 @@ The experimental measurement and recording procedure consist in the following st
 \begin{enumerate}
     \item Each emission source within a section of the transducer is placed approximately at a distance of $0.5 \, [mm]$ from one another, being together a set of 5-12 different sources experimentally. Each one activated independently thus defining unique wave-guide propagation profiles, i.e., characterized by (porosity, thickness) pair. The numerical implementation uses data recording reconstructing 8 sources, allowing greater singular value fidelity for comparison, thus containing the standard experimental setting.
     
-    \item The detection is obtained by placing tipicaly 12-24 sensors depending on the configuration used, where each one is placed at a distance approximately of $0.4 \, [mm]$ from one another. In particular, the choice is made regarding the single source or multiple source setting used, with 48 and 66 sensors respectively.
+    \item The detection is obtained by placing typically 12-24 sensors depending on the configuration used, where each one is placed at a distance approximately of $0.4 \, [mm]$ from one another. In particular, the choice is made regarding the single source or multiple source setting used, with 48 and 66 sensors respectively.
 \end{enumerate}
-Each force source acting at the surface is modeled on the vertical direction associated to the horizontal plane of the skin pointing to the mid section of the cortical bone with a central time $t_0 > 0$ and angular velocity $\tau_0 > 0$, i.e., described in the form:
+Each force source acting at the surface is modeled on the vertical direction associated to the horizontal plane of the skin pointing to the mid section of the cortical bone with a central time $t_0 > 0$ and angular frequency $f_0 > 0$, i.e., described in the form:
 \begin{equation}
     \label{Force-eq}
     \mathbf{F}(\mathbf{x},t) = - e^{\frac{(t-t_0)^2}{2\sigma^2}} cos( 2 \pi (t-t_0) f_0 ) \mathbb{I}_{\mathbf{x} \in \Gamma_u} \hat{j} \quad \text{ on } \Gamma_N
@@ -217,10 +217,10 @@ by finding the solution of (\ref{HomPDE-Simulation}) under the $\beta$-Newmark (
     \label{HomPDE-Simulation}
     \left \{
     \begin{array}{cc}
-        \rho^{hom} \partial_{tt} u^{(0)} - \nabla \cdot \sigma^{hom} (u^{(0)}) = \mathbf{0} & \text{ in } (0,T)\times \Omega \\
-        \sigma^{hom}_{ij}(u^{(0)}) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(u^{(0)}) & \text{ in } (0,T)\times \Omega \\
+        \rho^{0} \partial_{tt} u^{(0)} - \nabla \cdot \sigma^{0} (u^{(0)}) = \mathbf{0} & \text{ in } (0,T)\times \Omega \\
+        \sigma^{0}_{ij}(u^{(0)}) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(u^{(0)}) & \text{ in } (0,T)\times \Omega \\
         u^{(0)} = \mathbf{0} & \text{ on } (0,T)\times \Gamma_l \cup \Gamma_r \\
-        \sigma^{hom}(u^{(0)}) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } (0,T)\times \Gamma_u \cup \Gamma_d
+        \sigma^{0}(u^{(0)}) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } (0,T)\times \Gamma_u \cup \Gamma_d
     \end{array}
     \right .
 \end{equation}
@@ -376,10 +376,10 @@ solving the effective elastic formulation
     \label{VectorPDE-Freq}
     \left \{
     \begin{array}{cc}
-        -\rho^{hom} \omega^2 \hat{u}^{(0)} - \nabla \cdot \sigma^{hom} (\hat{u}^{(0)})=\mathbf{0}  & \text{ in }  \Omega \\
-        \sigma^{hom}_{ij} (\hat{u}^{(0)}) = \mathbf{C}^{hom}_{ijkl} \mathbf{e}_{kl} (\hat{u}^{(0)}) & \text{ in } \Omega  \\
+        -\rho^{0} \omega^2 \hat{u}^{(0)} - \nabla \cdot \sigma^{0} (\hat{u}^{(0)})=\mathbf{0}  & \text{ in }  \Omega \\
+        \sigma^{0}_{ij} (\hat{u}^{(0)}) = \mathbf{C}^{hom}_{ijkl} \mathbf{e}_{kl} (\hat{u}^{(0)}) & \text{ in } \Omega  \\
         \hat{u}^{(0)} = \mathbf{0} & \text{ on } \Gamma_D\\
-        \sigma^{hom} (\hat{u}^{(0)}(\mathbf{x}))\cdot n = \hat{\mathbf{F}} & \text{ on } \Gamma_N \\
+        \sigma^{0} (\hat{u}^{(0)}(\mathbf{x}))\cdot n = \hat{\mathbf{F}} & \text{ on } \Gamma_N \\
     \end{array}
     \right .
 \end{equation}
@@ -460,10 +460,10 @@ For a fix frequency $\omega \in \mathbb{R}$, let us consider solutions in the fo
 \begin{equation*}
     \left \{
     \begin{array}{cc}
-        -\omega^2 \rho^{hom} \hat{u}(\mathbf{x}) - i \epsilon \hat{u}(\mathbf{x}) - \nabla \cdot \sigma(\hat{u}) = \mathbf{0} & \text{ in } \Omega\\
-        \sigma^{hom}(\hat{u}(\mathbf{x}))  =  C_{ijkl}^{hom}\mathbf{e}_{kl}(\hat{u}) & \text{ in } \Omega \\
+        -\omega^2 \rho^{0} \hat{u} - i \epsilon \hat{u} - \nabla \cdot \sigma^0 (\hat{u}) = \mathbf{0} & \text{ in } \Omega\\
+        \sigma^{0}(\hat{u})  =  C_{ijkl}^{hom}\mathbf{e}_{kl}(\hat{u}) & \text{ in } \Omega \\
         \hat{u} = \mathbf{0} & \text{ on } \Gamma_D\\
-        \sigma^{hom}(\hat{u}) \cdot n = \mathbf{F}(\mathbf{x}, \omega) & \text{ on } \Gamma_N
+        \sigma^{0}(\hat{u}) \cdot n = \mathbf{F}(\cdot, \omega) & \text{ on } \Gamma_N
     \end{array}
     \right .
 \end{equation*}
@@ -569,7 +569,7 @@ By applying the generation procedure described before it follows the realistic i
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{images/ImgExt/CorticalBoneS1000OPT20-View.png}
-	\caption{Mesh Generated from 1000 Slices from $\mu-CT$ images using the mesh-generation diagram (\ref{DiagramMeshGeneration}). It characterizes a cortical bone sample of $56 \, [mm]$ length in the long direction associated to a thickness $\sim 1.8 [mm]$ and experimentally tested porosity of $\sim 11 \%$. Explicitly, the mesh is described by $432,280$ vertices with $1,393,709$ tetrahedras.}
+	\caption{Mesh Generated from 1000 Slices from $\mu-CT$ images using the mesh-generation diagram (\ref{DiagramMeshGeneration}). It characterizes a cortical bone sample of $56 \, [mm]$ length in the long direction associated to a thickness $\sim 1.8 [mm]$ and experimentally tested porosity of $\sim 11 \%$. Explicitly, the mesh is described by $432,280$ vertices with $1,393,709$ tetrahedrons.}
 	\label{HomBoneMeshFile}
 \end{figure} 
 
@@ -609,7 +609,7 @@ Similarly, singular values associated to data recording described by (\ref{FK-Ho
 	\caption{Singular values obtained by the SVD decomposition of the recorded signal from the simulated diagram (\ref{FK-Cyl-DiagramS1P11M18}), describing the 8 recordings at the receptors.}
 	\label{SVD-HomBone-S1P11M18}
 \end{figure}
-In comparison with the half-cylinder case it's shown a clear variation on the general wavefront behavior, expressed in modes not align with respect to the reference cases for the parameters used in the simulation. Moreover, figure (\ref{FK-HomBone-DiagramS1P11M18}) shows clear signal distortion at the high frequency range of $(1, 2) [Mhz]$ for all the different \textit{Lamb}-curves involved, expressed in color diffusion within the curves. Explicitly, at higher $M$ values, which characterize the amount of receptors information to analyze, shows clear interaction within the domain mesh, thus more error fitting associated to the inverse problem solution.
+In comparison with the half-cylinder case it's shown a clear variation on the general wavefront behavior, expressed in modes not align with respect to the reference cases for the parameters used in the simulation. Moreover, figure (\ref{FK-HomBone-DiagramS1P11M18}) shows clear signal distortion at the high frequency range of $(1, 2)\, [Mhz]$ for all the different \textit{Lamb}-curves involved, expressed in color diffusion within the curves. Explicitly, at higher $M$ values, which characterize the amount of receptors information to analyze, shows clear interaction within the domain mesh, thus more error fitting associated to the inverse problem solution.
 
 On the other hand, figure (\ref{FK-Cyl-DiagramS1P11M18}) associated to the half-cylinder setting describes a more regular behavior of the curves in all the frequency range, corresponding to a wave-front in which the curvature effect does not affect the main axial propagation, thus describing at each $M$ values clear \textit{Lamb}-curves, thus fully comparative signal with the 2-dimensional case. The explanation to such behavior relates to missing interaction within the inner irregularities that fully deform the characteristic wave propagation. Moreover, the simulations shows concentration of displacement in the interior irregularities being an aspect to further investigate. In this sense, the plausible explanation on the first symmetric and anti-symmetric modes is related to missed damping effects on the bone marrow that are not captured in the simulations, which requires a generalization to a viscoelastic model to capture such effects.
 

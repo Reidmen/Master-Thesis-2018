@@ -5,7 +5,7 @@ Discretization procedures for elastic formulation have been developed since the 
 \section{Numerical Schemes}
 To discretize the elastodynamic model, it will be assumed that solution function is defined on a Banach space $\mathbf{V}$, in which the elasticity operator defined from the tensor $\mathbf{C}^{hom} = (C^{hom}_{ijkl})_{ijkl}$ by:
 \begin{equation*}
-    \mathcal{I}_C{^{hom}} (u,v) := \int \limits_{\Omega} C^{hom}_{ijkl}\mathbf{e}_{kl}(u) \mathbf{e}_{ij}(v) \, dx \quad \forall u,v \in \mathbf{V}
+    \mathcal{I}_{C^{hom}} (u,v) := \int \limits_{\Omega} C^{hom}_{ijkl}\mathbf{e}_{kl}(u) \mathbf{e}_{ij}(v) \, dx \quad \forall u,v \in \mathbf{V}
 \end{equation*}
 is well-defined in the sense that conditions of coercivity on the operator are assured from the uniformly ellipticity of $C^{hom}_{ijkl}$.
 
@@ -26,7 +26,7 @@ Over such finite dimensional subspaces $\{ \mathbf{V}_h\}_{h>0}$ the approximate
     \left \{
     \begin{array}{cc}
         \text{Find } u_h \in \mathcal{C}^2(0,T; \mathbf{V}_h) & \text{ such that } \\
-        (d_{tt} u_h(t), v_h)_{\Omega} + \mathcal{I}_{C^{hom}}(u_h(t), v_h) = (\mathbf{F}(t), v_h)_{\Gamma_N} & \forall v_h \in \mathbf{V}_h\\
+        (\rho^0 d_{tt} u_h(t), v_h)_{\Omega} + \mathcal{I}_{C^{hom}}(u_h(t), v_h) = (\mathbf{F}(t), v_h)_{\Gamma_N} & \forall v_h \in \mathbf{V}_h\\
         d_t u_h(0) = u_h(0) = \mathbf{0} & 
     \end{array}
     \right. 
@@ -65,9 +65,9 @@ Let us note that (\ref{MatrixFormulation}) defines a standard \textit{Cauchy} OD
 \end{equation*}
 being $N_T \in \mathbb{N}^*$ some number of steps as used in the section before.
 
-It will be found for each $n \in \{1,\dots, N_T \}$ an approximate sequence tuple $(u_n, v_n, a_n)$ of the pair $(u(t_n), \partial_{t} u(t_n), \partial_{tt} u(t_n))$ being the method chosen the so-called $\beta$-\textit{Newmark}, a well-known scheme to study mechanically driven behavior \cite{raviart1983introduction}.
+It will be found for each $n \in \{1,\dots, N_T \}$ an approximate sequence tuple $(u_n, v_n, a_n)$ of the solutions $(u(t_n), \partial_{t} u(t_n), \partial_{tt} u(t_n))$ being the method chosen the so-called $\beta$-\textit{Newmark}, a well-known scheme to study mechanically driven behavior \cite{raviart1983introduction}.
 
-Taking into account the time-domain regularity from the solution of the homogenized PDE problem (results analogous to \ref{BootstrapingProp}) let us note that by using the \textit{Taylor} expansion on the function $u \in \mathcal{C}^{p}(0,T;\mathbf{H}^1(\Omega, \Gamma_D))$ and the mean value theorem that for the displacement at time $t_{n+1}$ it follows:
+Taking into account the time-domain regularity from the solution $u^{(0)}(t, \mathbf{x}) := u(t,\mathbf{x})$ of the homogenized PDE problem (result analogous to \ref{BootstrapingProp}), let us note that by using the \textit{Taylor} expansion on $u \in \mathcal{C}^{p}(0,T;\mathbf{H}^1(\Omega, \Gamma_D))$ and the mean value theorem that for the displacement at time $t_{n+1}$ it follows:
 \begin{equation*}
     u(t_{n+1}) = u(t_n) + \Delta t \, \partial_{t} u(t_n) + \Delta t^2 \, \big( \beta \partial_{tt} u(t_{n+1} + (\frac{1}{2} - \beta) \partial_{tt} u(t_{n+1}) \big) + \mathcal{O}(\Delta t^3)    
 \end{equation*}
@@ -127,17 +127,17 @@ Taking into account our homogenized elastodynamic model (\ref{HomogenizedPDE}) d
     \left \{
     \begin{array}{cc}
         \text{Find $u \in \mathcal{C}^2(0,T;\mathbf{H}^1(\Omega, \Gamma_D))$} & \text{such that} \\
-        \rho^{hom} \partial_{tt} u^{(0)}(\mathbf{x}) (\mathbf{x}) - \nabla \cdot \sigma^{hom} (u^{(0)}(\mathbf{x}) ) = \mathbf{0} & \text{ in } (0,T)\times \Omega \\
-        \sigma^{hom}_{ij}(u^{(0)}(\mathbf{x})) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(u^{(0)}(\mathbf{x})) & \text{ in } (0,T)\times \Omega \\
-        u^{(0)}(\mathbf{x}) = \mathbf{0} & \text{ on } (0,T)\times \Gamma_D \\
-        \sigma^{hom}(u^{(0)}(\mathbf{x})) \cdot n = \mathbf{F}(\mathbf{x}) & \text{ on } (0,T)\times \Gamma_N
+        \rho^{0} \partial_{tt} u^{(0)}(t,\mathbf{x}) - \nabla \cdot \sigma^{0} (u^{(0)}(t,\mathbf{x}) ) = \mathbf{0} & \text{ in } (0,T)\times \Omega \\
+        \sigma^{0}_{ij}(u^{(0)}(t, \mathbf{x})) = C^{hom}_{ijkl}\mathbf{e}_{kl,x}(u^{(0)}(t,\mathbf{x})) & \text{ in } (0,T)\times \Omega \\
+        u^{(0)}(t, \mathbf{x}) = \mathbf{0} & \text{ on } (0,T)\times \Gamma_D \\
+        \sigma^{0}(u^{(0)}(t, \mathbf{x})) \cdot n = \mathbf{F}(t, \mathbf{x}) & \text{ on } (0,T)\times \Gamma_N
     \end{array}
     \right .
 \end{equation}
 the discretization procedure over time applied on (\ref{HomPDE-Model}) turn into the update scheme for each $n \in \{1,\dots, N\}$ in the form:
 \begin{equation*}
     \label{HomPDE-TimeUpdate}
-    \frac{\rho^{hom}}{\beta (\Delta t)^2} u_{n+1} - \nabla \cdot \sigma(u_{n+1}) = \frac{\langle\rho\rangle}{\beta (\Delta t)^2} ( u_{n} + (\Delta t) v_n ) + \langle\rho\rangle\frac{(1-2\beta)}{2\beta} a_n
+    \frac{\rho^{0}}{\beta (\Delta t)^2} u_{n+1} - \nabla \cdot \sigma(u_{n+1}) = \frac{\rho^{0}}{\beta (\Delta t)^2} ( u_{n} + (\Delta t) v_n ) + \rho^{0}\frac{(1-2\beta)}{2\beta} a_n
 \end{equation*}
 with fields update (\ref{TwoStage-Update}).
 
@@ -154,9 +154,9 @@ Explicitly, the regularized elastic model in defined by:
 \begin{equation*}
     \left \{
     \begin{array}{cc}
-        \rho^{hom} \partial_{tt} u^{(0)} - \epsilon \partial_{t} u^{(0)} - \nabla \cdot \sigma^{hom}(u^{(0)}) = \mathbf{0} & \text{in } (0,T)\times \Omega\\
-        \sigma^{hom}(u^{(0)}(\mathbf{x},t)) =  \mathbf{C}^{hom}:\mathbf{e}(u^{(0)}(\mathbf{x},t))  & \text{in }(0,T)\times \Omega\\ 
-        \sigma^{hom}(u^{(0)})\cdot n = \mathbf{F} & \text{on } (0,T)\times \Gamma_N\\
+        \rho^{0} \partial_{tt} u^{(0)} - \epsilon \partial_{t} u^{(0)} - \nabla \cdot \sigma^{0}(u^{(0)}) = \mathbf{0} & \text{in } (0,T)\times \Omega\\
+        \sigma^{0}(u^{(0)}) =  \mathbf{C}^{hom}:\mathbf{e}(u^{(0)})  & \text{in }(0,T)\times \Omega\\ 
+        \sigma^{0}(u^{(0)})\cdot n = \mathbf{F} & \text{on } (0,T)\times \Gamma_N\\
         u^{(0)} = \mathbf{0} & \text{on }(0,T)\times \Gamma_D \\
         u^{(0)} = \partial_t u^{(0)} = \mathbf{0}& \text{ on } \{t=0\}\times\Omega
     \end{array}
@@ -170,8 +170,8 @@ As before, it is considered a time-discretization $\beta$-Newmark scheme followi
 \end{align*}
 It is then possible to define a numerically explicit scheme for our model, with update procedure at time $n+1$ given in the form:
 \begin{align*}
-    \frac{(\langle \rho \rangle- \epsilon (\Delta t) \gamma)}{\beta (\Delta t)^2} u_{n+1} - \nabla \cdot u_{n+1} &= \frac{\langle \rho \rangle}{\beta (\Delta t)^2} (u_n + (\Delta t)v_n) + \langle \rho \rangle\frac{ (1-2\beta)}{2\beta}a_n \\
-    & \, - \frac{\epsilon (\Delta t)\gamma}{\beta (\Delta t)^2}(u_n + (\Delta t)v_n) - \epsilon (\Delta t)\gamma\frac{1-2\beta}{2 \beta} a_n
+    \frac{(\rho^{0}- \epsilon (\Delta t) \gamma)}{\beta (\Delta t)^2} u_{n+1} - \nabla \cdot u_{n+1} &= \frac{\rho^{0}}{\beta (\Delta t)^2} (u_n + (\Delta t)v_n) + \rho^{0}\frac{ (1-2\beta)}{2\beta}a_n \\
+    & \, - \frac{\epsilon \gamma}{\beta (\Delta t)}(u_n + (\Delta t)v_n) - \epsilon (\Delta t)\gamma\frac{1-2\beta}{2 \beta} a_n
 \end{align*}
 
 \subsection{Kelvin-Voigt Viscoelastic Type}
@@ -180,11 +180,11 @@ Thus, after applying the homogenization procedure, the following homogenized mod
 \begin{equation*}
     \left \{
     \begin{array}{cc}
-        \rho^{hom} \partial_{tt} u - \nabla \cdot \sigma^{hom}(u^{(0)}) = 0 & \text{ in } (0,T)\times\Omega\\
-        \sigma^{hom}(u^{(0)}(\mathbf{x},t)) =  \mathbf{C}^{hom}:\mathbf{e}(u^{(0)}) + \epsilon \mathbf{D}^{hom}:\mathbf{e}(\partial_{t}u^{(0)}) & \text{ in }(0,T)\times \Omega\\
-        \sigma^{hom}(u^{(0)})\cdot n = \mathbf{F} & \text{ on }(0,T)\times\Gamma_N\\
+        \rho^{0} \partial_{tt} u^{(0)} - \nabla \cdot \sigma^{0}(u^{(0)}) = \mathbf{0} & \text{ in } (0,T)\times\Omega\\
+        \sigma^{0}(u^{(0)}) =  \mathbf{C}^{hom}:\mathbf{e}(u^{(0)}) + \epsilon \mathbf{D}^{0}:\mathbf{e}(\partial_{t}u^{(0)}) & \text{ in }(0,T)\times \Omega\\
+        \sigma^{0}(u^{(0)})\cdot n = \mathbf{F} & \text{ on }(0,T)\times\Gamma_N\\
         u^{(0)} = \mathbf{0} & \text{ on }(0,T)\times\Gamma_D \\
-    \partial_t u^{(0)} = u^{(0)} = \mathbf{0} &  \text{ on } \{t=0\}\times\Omega
+        u^{(0)} = \partial_t u^{(0)} = \mathbf{0} &  \text{ on } \{t=0\}\times\Omega
     \end{array}
     \right .
 \end{equation*}
@@ -195,12 +195,14 @@ The standard discretization scheme is defined by a $\beta$-\textit{Newmark} impl
 \end{align*}
 So that, the update scheme obtained at times $t_n = n+1$ in the form:
 \begin{align*}
-    \frac{\rho^{hom}}{\beta (\Delta t)^2} u_{n+1} - \nabla \cdot \sigma_C^{hom}( u_{n+1})  & - \frac{\gamma \Delta t}{\beta (\Delta t)^2} \nabla \cdot \sigma_D^{hom}(u_{n+1}) \\
-    &= \frac{\rho^{hom}}{\beta (\Delta t)^2} (u_n + (\Delta t)v_n) + \rho^{hom}\frac{ (1-2\beta)}{2\beta} a_n \\
-    & + \nabla \cdot \sigma_D^{hom}(v_n) + (1-\gamma)(\Delta t) \nabla\cdot \sigma_D^{hom}(a_n) \\
-    & - \frac{(\Delta t)\gamma}{\beta (\Delta t)^2}\nabla \cdot \sigma_D^{hom}(u_n + (\Delta t)v_n) \\
-    & - (\Delta t)\gamma\frac{1-2\beta}{2 \beta} \nabla \cdot \sigma_D^{hom}(a_n)
+    \frac{\rho^{0}}{\beta (\Delta t)^2} u_{n+1} - \nabla \cdot \sigma_C^{0}( u_{n+1})  & - \frac{\gamma \Delta t}{\beta (\Delta t)^2} \nabla \cdot \sigma_D^{0}(u_{n+1}) \\
+    &= \frac{\rho^{0}}{\beta (\Delta t)^2} (u_n + (\Delta t)v_n) + \rho^{0}\frac{ (1-2\beta)}{2\beta} a_n \\
+    & + \nabla \cdot \sigma_D^{0}(v_n) + (1-\gamma)(\Delta t) \nabla\cdot \sigma_D^{0}(a_n) \\
+    & - \frac{(\Delta t)\gamma}{\beta (\Delta t)^2}\nabla \cdot \sigma_D^{0}(u_n + (\Delta t)v_n) \\
+    & - (\Delta t)\gamma\frac{1-2\beta}{2 \beta} \nabla \cdot \sigma_D^{0}(a_n)
 \end{align*}
+
+where it is used the notation $\sigma_C^{0}(w) = \mathbf{C}:\mathbf{e}(w)$ and $\sigma_D^{0}(w) = \mathbf{D}:\mathbf{e}(w)$ for $w \in \mathbf{H}^1(\Omega)$.
 
 %\section{Frequency Domain Formulation}
 %Finally, the study on frequency domain relates to various aspects, ranging from the study of the elastic operator and its eigen-frequencies, the proximity of the fourier implementation within the device recording procedure to the computational restrictions limiting the time-domain implementation. 

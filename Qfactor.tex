@@ -1,6 +1,6 @@
 \chapter{Viscoelastic Predictions}
 %The ultrasound method \cite{Foiret2014} enables the simultaneous measurement of cortical thickness and tissue elastic properties where previous techniques such as DXA (the \textit{de facto} method) could archieve.
-As explained before, factors of risk fracture such as thickness, porosity and particular quality elements of the extracelular matrix, define the bone quality assessed by DXA techniques and BMD values. The QUS method \textit{Minonzio and Foiret et al.} \cite{Foiret2014}, \cite{Minonzio2018} of axial transmission technique simulated in the chapter before, is based on recording from the guided-wave propagation over the media, where damping factors naturally affect the signal. This relates to a viscoelastic behavior of the cortical bone arising mainly from the presence of collagen fibers, specifically treated with Resonant Ultrasound Spectroscopy (RUS) techniques. Thus, it becomes natural to study the correspondence between such damping elements and their preponderance on the resulting homogenized coefficients by the two-scale homogenization theory.
+As explained before, factors of risk fracture such as thickness, porosity and particular quality elements of the extracellular matrix, define the bone quality assessed by DXA techniques and BMD values. The QUS method \textit{Minonzio and Foiret et al.} \cite{Foiret2014}, \cite{Minonzio2018} of axial transmission technique simulated in the chapter before, is based on recording from the guided-wave propagation over the media, where damping factors naturally affect the signal. This relates to a viscoelastic behavior of the cortical bone arising mainly from the presence of collagen fibers, specifically treated with Resonant Ultrasound Spectroscopy (RUS) techniques. Thus, it becomes natural to study the correspondence between such damping elements and their preponderance on the resulting homogenized coefficients by the two-scale homogenization theory.
 
 Describing the damping effects on cortical bone is not new, \textit{Bernard} \textit{et al. }\cite{Bernard2015} studied a viscoelastic-type behavior on a frequency domain, in which he modelled the elastic tensor $C^*_{ij}$ with damping effect described by the formulas:
 \begin{equation*}
@@ -48,7 +48,7 @@ Given the requirements of a viscous-like behavior, in time domain it's considere
 \begin{rem}
 In the above and the next developments, we assume resting initial conditions, i.e., $\partial_t u^{\epsilon} = u^{\epsilon} = \mathbf{0}$, not written explicitly in the models and deduction.
 \end{rem}
-Existence results can be derived similarly to the elastic case proposed before, by applying spectral decomposition on both: the elastic and viscoelastic operators. Similar mathematical description of viscous models are given by \cite{Abdessamad2009}, \cite{Boughammoura2013} on fully \textit{Dirichlet} boundary condition cases.
+Existence results can be derived similarly to the elastic case proposed before, by applying spectral decomposition on both: the elastic and viscoelastic operators. Similar mathematical description of viscous models are given by \cite{Abdessamad2009}, \cite{Boughammoura2013} on homogeneous \textit{Dirichlet} boundary condition cases.
 
 The interest is regarded to the frequency-domain, thus applying \textit{Fourier} transform defined at frequency $\omega \in \mathbb{R}$ with base $\{e^{i\omega t}\}_{\omega}$, it's obtained the redefined problem in Fourier domain as follows:
 \begin{equation*}
@@ -177,7 +177,7 @@ direction-dependent strong non-linear preponderance on the overall behavior for 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/Qfactors/PlotsVisc_Circular2DPart50EPS5-2_Ome05.pdf}
-	\caption{The nonlineary produced from cell-problem solutions described in the above plots. They describe three relevant quality-factor accounting the linear and non-linear contributions.}
+	\caption{The effects from cell-problem solutions is shown for some representative quality factors accounting the linear and non-linear contributions over the range of biomedical interest.}
 	\label{QfactorDecomposition}
 \end{figure} 
 
@@ -186,7 +186,7 @@ Studying such dependency, figure (\ref{BernardPrediction-Freq}) describes the ob
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{images/Qfactors/QfactorsFreqsEPS5-2.pdf}
-	\caption{Predicted Behavior for the Viscoelastic Model: Its shown on the left figure the predicted quality factors for a \textit{Kelvin-Voigt} model; the center figure a prediction of homogenized coefficient ratios, and on the right figure some homogenized shear ratios behaves as in \cite{Bernard2015} }
+	\caption{Predicted behavior for the viscoelastic model. It is shown in the left figure the predicted quality factors for a \textit{Kelvin-Voigt} model; the center figure a prediction of homogenized coefficient ratios, and in the right figure some homogenized shear ratios behaves as in \cite{Bernard2015} }
 	\label{BernardPrediction-Freq}
 \end{figure}.
 

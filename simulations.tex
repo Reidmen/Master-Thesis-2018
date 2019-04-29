@@ -1,11 +1,11 @@
 \chapter{Simulations}
-The numerical simulations studied in this section define the main tool for evaluation and validation of the ultrasound technique. It includes assessment of the homogenized coefficient predictions by means of the FEM method under the clinical-range of porosities with regards to standard literature, elastodynamic simulations associated to the experimental device on time-and frequency formulations described in the section before and the processing of \textit{Lamb}-modes characterizing the material behavior recorded at the receivers. In this context, aspects such as computational costs, fidelity derived from the meshes and instabilities are faced at various degrees of success.
-Moreover, \texttt{Python} source code to recreate the results is freely available at the repository \href{www.github.com/PublicMistakes/Codes}{Codes}.
+The numerical simulations studied in this section define the main tool for evaluation and validation of the ultrasound technique. It includes assessment of the homogenized coefficient predictions by means of the FEM method under the clinical-range of porosities regarding to standard literature, elastodynamic simulations associated to the experimental device on time-and frequency formulations and the processing of \textit{Lamb}-modes characterizing the material behavior recorded at the receivers. In this context, aspects such as computational costs, fidelity derived from the meshes and instabilities are faced at various degrees of success.
+Moreover, \texttt{Python} source code to recreate the results is freely available at the repository \href{www.github.com/PublicMistakes/Codes}{github.com/Reidmen}.
 
 \section{Numerical Solutions to Cell Problems}
 Following the developments done before to obtain effective equations governing the macroscopic mechanical behavior of cortical bone, one of the main difficulties to solve is related to the so-called cell problems which contains the non-linear component associated to the homogenized coefficients.
-Such a PDE problem is characterized by unique vector-valued solutions $\mathbf{N}^{rs} \in \mathbf{H}^1_{\#} (\mathbf{Y})$ for each $r,s \in \{1,\dots, d\}$ satisfying the elliptic PDE system:
-\begin{equation*}
+Such a PDE problem is characterized by unique vector-valued solutions $\mathbf{N}^{rs} \in \mathbf{H}^1 (\mathbf{Y})$ for each $r,s \in \{1,\dots, d\}$ satisfying the elliptic PDE system:
+\begin{equation}
     \label{CellProblem-System}
     \left \{
     \begin{array}{cc}
@@ -13,19 +13,19 @@ Such a PDE problem is characterized by unique vector-valued solutions $\mathbf{N
         \big[ C_{ijkl}(\mathbf{y}) \mathbf{e}_{kl,\mathbf{y}}\big( \mathbf{N}^{rs}(\mathbf{y}) \big) \big]n_j = \mathbf{0} &  \forall \mathbf{y} \in \partial \mathbf{Y}
     \end{array}
     \right.
-\end{equation*}
-where its added the condition 
+\end{equation}
+where it is added the condition 
 \begin{equation*}
     \int_{\partial Y} \mathbf{N}^{rs}(\mathbf{y}) \, d\mathbf{y} = \mathbf{0}
 \end{equation*}
-to obtain uniqueness, since the right hand side to \ref{CellProblem-System}) is constructed satisfies average equal to $\mathbf{0}$.
-The variational formulation is then given by integration by parts, where for $\phi \in \mathbf{H}^1_{\#}(\mathbf{Y})$ it follows:
+to obtain uniqueness, since the right hand side of (\ref{CellProblem-System}) is constructed to satisfy average equal $\mathbf{0}$.
+The variational formulation is derived using integration by parts, in which for $\phi \in \mathbf{H}^1(\mathbf{Y})$ it follows:
 \begin{equation*}
     \int_{Y} C_{ijkl}(\mathbf{y}) \mathbf{e}_{kl,\mathbf{y}}(N^{rs}(\mathbf{y})) \partial_{y_j}\phi_i = - \int_{Y}C_{ijrs}(\mathbf{y}) \partial_{y_j} \phi_i + \int_{\partial Y}C_{ijrs}(\mathbf{y}) n_j \phi_i
 \end{equation*}
 
 Considering the standard biomechanical literature \cite{Foiret2014}, the bone matrix is mainly made from hydroxyapatite, a material which can be modeled with a linear elastic behavior and inclusion defining the mesoscale composed mainly of saturated fluid, which in this approximation is assumed of static elastic type. Taking axial symmetry along the long axis of bone, the composed material is modeled with transverse isotropy for each component $C^m_{ijkl}$, $C^f_{ijkl}$ of matrix and water phases respectively.
-It follows then the elastic tensors $C_{ijkl}$ defined on the cell $\mathbf{Y}$ by
+Thus, it follows the elastic tensor $C_{ijkl}$ defined on the cell $\mathbf{Y}$ by
 \begin{equation*}
     C_{ijkl} (\mathbf{y}) := C^m_{ijkl} \mathbb{I}_{\{\mathbf{y} \in  \mathbf{Y}_{m}\}} + C^f_{ijkl} \mathbb{I}_{\{ \mathbf{y} \in \mathbf{Y}_{p}\}}
 \end{equation*}
@@ -46,8 +46,10 @@ which is given by the transverse isotropy symmetries of the material components.
 
 Simulations are done of the homogenized coefficients in function of the porosity level, i.e. setting the circular inclusion with radius $r(p)$ being $p \in (0,1)$ the set of admissible porosity levels, in the form $ p := \frac{\vert \mathbf{Y}_f \vert }{\vert \mathbf{Y}\vert} $. Moreover, 2-dimensional and 3-dimensional cases are assumed over the microstructure to assess different aspects of symmetry.
 
-Explicitly, an increasing array of possible porosity levels is chosen limited to the value-ranges of interest, i.e. it's limited to the $[0, 0.3]$ interval of possible porosities. The numerical solution to the model is obtained using the \texttt{UFL} language implemented within the library \texttt{FEniCS}\footnote{The \texttt{FEniCS} project \cite{logg2012automated} is an international initiative, started in 2013 with the objective to automate the solution of mathematical models based of Partial Differential Equations of the type elliptic as the heat equation, hyperbolic as the wave equation, quasi-hyperbolic equations, etc., using the Finite Element theory and formalism to find such solution. More in general, its capable to find an approximate solution by means of a well-posed general variational formulation. Different use scenarios can be seen at \cite{abali2016computational}.\\
-Defined as a set of interdependent base \texttt{C++} libraries such as \texttt{DOLFIN} \cite{LoggWells2010a}, \texttt{FIAT}, \texttt{SFC} to just mention some. \texttt{FEniCS} implements a close-to-abstract coding and procedure to solve PDE problems on interface languages such as the native \texttt{C++} or via wrappers \texttt{Python}. Moreover, such base libraries rely on high-performance libraries for the algebra computations necessary in the FEM, such as \texttt{PETSc} which implements iterative solver of \textit{Krylov} type and a range of preconditioner to find an approximate solution $x \in \mathbb{R}^m$ of $Ax = b$ for $\mathcal{M}_{m \times m}(\mathbb{R})$, $b \in \mathbb{R}^m$ for $m \gg 1$.} to solve PDE's in variational formulation. In particular, it is used the \texttt{PETScKrylov} solver to solve the matrix system obtained after discretize the variational formulation by FEM, and over such solver we used the \texttt{GMRES} (Generalized Minimal Residual Method)\footnote{The \texttt{GMRES} method is an efficient algorithm to solve large linear systems. It uses an iterative method associated to the Theory of Krylov subspaces to approximate the solution of the system by reducing the high dimensional problem to a sequence of low dimensional, solved each one by least squares.
+Explicitly, an increasing array of possible porosity levels is chosen limited to the range of interest, i.e. it is limited to the $[0, 0.3]$ interval of possible porosities. The numerical solution to the model is obtained using the \texttt{UFL} language implemented within the library \texttt{FEniCS}\footnote{The \texttt{FEniCS} project \cite{logg2012automated} is an international initiative, started in 2013 with the objective to automate the solution of mathematical models based of Partial Differential Equations of the type elliptic as the heat equation, hyperbolic as the wave equation, quasi-hyperbolic equations, etc., using the Finite Element theory and formalism to find such solution. More in general, its capable to find an approximate solution by means of a well-posed general variational formulation. Different use scenarios can be seen at \cite{abali2016computational}.\\
+Defined as a set of interdependent base \texttt{C++} libraries such as \texttt{DOLFIN} \cite{LoggWells2010a}, \texttt{FIAT}, \texttt{SFC} to just mention some. \texttt{FEniCS} implements a close-to-abstract coding and procedure to solve PDE problems on interface languages such as the native \texttt{C++} or via wrappers \texttt{Python}. Moreover, such base libraries rely on high-performance libraries for the algebra computations necessary in the FEM, such as \texttt{PETSc} which implements iterative solver of \textit{Krylov} type and a range of preconditioner to find an approximate solution $x \in \mathbb{R}^m$ of $Ax = b$ for $\mathcal{M}_{m \times m}(\mathbb{R})$, $b \in \mathbb{R}^m$ for $m \gg 1$.} to solve PDE's in variational formulation. 
+
+In particular, it is used the \texttt{PETScKrylov} solver to solve the matrix system obtained after discretization of the variational formulation by FEM, and over such solver we used the \texttt{GMRES} (Generalized Minimal Residual Method)\footnote{The \texttt{GMRES} method is an efficient algorithm to solve large linear systems. It uses an iterative method associated to the Theory of Krylov subspaces to approximate the solution of the system by reducing the high dimensional problem to a sequence of low dimensional, solved each one by least squares.
 Explicitly, given $A \in \mathcal{M}_{m\times m} (\mathbb{R})$, $b \in \mathbb{R}^m$ for $m\gg 1$, the \texttt{GMRES} algorithm solves the problem $A x = b$ by solving the problems 
 \begin{equation*}
     \underset{x \in \mathcal{K}_n}{\text{ min }} \Vert b - Ax \Vert_2   
@@ -56,22 +58,29 @@ for increasing values of $n \in \mathbb{N}$, knowing $\mathcal{K}_n = \mathcal{K
 \begin{equation*}
  \mathcal{K}_n(A,b) = \text{span }\{ b, Ab, \dots, A^{n-1}b \} \subset \mathbb{R}^m   
 \end{equation*}
-At each iteration, its computed the residual by least squares, where under reasonable assumptions of symmetry of the matrix, the residual will be sufficiently small for $n \ll m$.} with preconditioner given by \textit{iLU} (incomplete LU factorization). Such consideration where done to tackle in numerical instabilities and non-convergence results shown, assembling a linear system sparse with better properties for numerical inversion.
+At each iteration, its computed the residual by least squares, where under reasonable assumptions of symmetry of the matrix, the residual will be sufficiently small for $n \ll m$.} with preconditioner given by \textit{iLU} (incomplete LU factorization). Such consideration where done to tackle numerical instabilities and non-convergence results, assembling a sparse linear system with better properties for numerical inversion.
 
-The predictions are then compared with the approximation of the homogenized coefficients for cortical bone using the same input coefficient tensor of \textit{Parnell} and \textit{Grimal} (PG), whom by means of a multipolar approximation of the solution to (\ref{CellProblem-System}) obtained semi-analytic approximate expressions for the solution \cite{Parnell2008}, thus enabling in this case a comparison to a FEM method proposed here to solve each of the cell problems involved in the homogenized coefficient description. It's important to emphasize that PG solutions define the standard reference used in literature and a relevant comparison study must be made to test validity and robustness under different configuration.
+Predictions are then compared with the approximation of the homogenized coefficients for cortical bone using the same input coefficient tensor of \textit{Parnell} and \textit{Grimal} (PG), whom by means of a multipolar approximation to the solution of problem (\ref{CellProblem-System}), obtained semi-analytic approximate expressions \cite{Parnell2008}, thus enabling in this case a comparison to a FEM method proposed here to solve each of the cell problems involved in the homogenized coefficient description. 
+
+It is important to emphasize that PG solutions define the standard reference used in literature and a relevant comparison study must be done to test validity and robustness under different configurations.
 
 \subsection{2-Dimensional Models}
-Taking into account the symmetry condition assumed for the microstructure described as repetition along the long axis of bone, motivates the consideration of $d = 2$ over a unit square microstructure domain, i.e. $\mathbf{Y} = (0,1)^2$. While the porosity is of circular type.
+Taking into account the symmetry condition assumed for the microstructure described as repetition along the long axis of bone, motivates the usage of $d = 2$ with a unit square microstructure domain, i.e. $\mathbf{Y} = (0,1)^2$, being the porosity of circular type.
 
-The figure (\ref{MainHomCoeffsSquare}) contains the predictions of the diagonal homogenized elastic coefficients by means of the FEM, compared to the results obtained from PG. It's shown a close behavior for the results, and moreover in two different mesh sizes. The representative isotropic values in particular, shows differences with a error percentages $< 5 \%$ validating the numerical solutions.
+Figure (\ref{MainHomCoeffsSquare}) contains the predictions of the diagonal homogenized elastic coefficients by means of the FEM, compared to the results obtained from PG.
+It is shown a close behavior for the results in the two different mesh sizes. The representative isotropic values, shows differences with a error percentages $< 5 \%$ validating the numerical solutions.
+
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/CellsProb/CellProb_MainHomCoeffsCircular.pdf}
 	\caption{Main diagonal elastic homogenized coefficients in \textit{Voigt} notation. They describe an transverse isotropic behavior, spanned in the figure on the biomedical range of $(1,30) [\%]$ cortical porosity. The characteristic microstructure in this case is of unitary square. The blue, orange lines describe the FEM predictions at different mesh sizes, whereas the green line describes the PG approximation.}
 	\label{MainHomCoeffsSquare}
 \end{figure}
-Similarly, figure (\ref{OtherHomCoeffsSquare}) shows the non-diagonal homogenized coefficients that describe the shear behavior again compared to the PG reference case. It shows moreover a lower percentage error in all the coefficients describing the mechanical behavior related to the axial plane (in this case $C_{55}^{hom}, C_{23}^{hom}$), whereas the $C_{66}^{hom}$ that describes full shear interaction on the anti-axial plane, shows a clear difference toward bigger porosity values with $> 5\%$ percentage errors. 
-Such failure in the prediction can be attributed to errors regarding to the boundary conditions \textit{Neumann} conditions being imposed, and moreover to the assumption on the characteristic microstructure. Nevertheless, as the PG predictions for the $C_{66}^{hom}$ are validated with respect to experimental data results under an error percentages of $> 5 \%$, the solutions found for such coefficient cannot be rejected since the predictions in are in the same range of error percentages.
+
+Similarly, figure (\ref{OtherHomCoeffsSquare}) shows the non-diagonal homogenized coefficients that describe the shear behavior again compared to the PG reference case.
+It shows a lower percentage error in all the coefficients describing the mechanical behavior related to the axial plane (in this case $C_{55}^{hom}, C_{23}^{hom}$), whereas the $C_{66}^{hom}$ that describes full shear interaction on the anti-axial plane, shows a clear difference toward bigger porosity values with $> 5\%$ percentage errors. 
+
+Such failure in the prediction can be attributed to errors regarding to the boundary conditions \textit{Neumann} conditions being imposed, and moreover to the assumption on the characteristic microstructure. Nevertheless, as the PG predictions for the $C_{66}^{hom}$ are validated with respect to experimental data results under an error percentages of $> 5 \%$, the solutions found for such coefficient cannot be rejected since the predictions in are in the same range of error.
 
 \begin{figure}[!h]
 	\centering
@@ -80,7 +89,8 @@ Such failure in the prediction can be attributed to errors regarding to the boun
 	\label{OtherHomCoeffsSquare}
 \end{figure}
 
-The explicit results of error percentages associated to the predictions for the complete homogenized elastic tensor are shown in table (\ref{HomCoeffSquareTable}). It describes the clear correspondence between coefficients associated to the axial plane with errors $< 0.1\%$, whilst differences over all anti-axial coefficients such as $C_{12}^{hom}, C_{66}^{hom}$.
+The explicit results of error percentages associated to the predictions for the complete homogenized elastic tensor are shown in table (\ref{HomCoeffSquareTable}).
+It describes the clear correspondence between coefficients associated to the axial plane with errors $< 0.1\%$, whilst differences over all anti-axial coefficients such as $C_{12}^{hom}, C_{66}^{hom}$.
 \begin{table}[!h]
 \centering
     \begin{tabular}{ |p{2.2cm}||p{2cm}|p{2cm}|p{2cm}|p{2cm}| }
@@ -105,14 +115,16 @@ To assess the high error percentage obtained from (\ref{HomCoeffSquareTable}) sh
 
 In the following, it will be considered a 2-dimensional hexagonal polygon domain with porosity inclusion of circular type. As before, simulations are done using the same solver proposed for the square case, the linear system derived from the governing system (\ref{CellProblem-System}) is solved preconditioned using an iterative solver.
 
-The figure (\ref{MainHomCoeffHexa}) described the predictions results for the diagonal coefficients in this case by the FEM method, compared to the reference results. Its shows a clear prediction on the two main diagonal coefficients, being the isotropic values with percentage errors $< 1 \%$, thus being a best prediction in this cases.
+Figure (\ref{MainHomCoeffHexa}) describe the predictions results for the diagonal coefficients in this case by the FEM method, compared to the reference results. It shows a clear prediction on the two main diagonal coefficients, being the isotropic values with percentage errors $< 1 \%$, thus a best prediction in this cases.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/CellsProb/CellProb_MainHomCoeffsCircularHexa.pdf}
 	\caption{Main diagonal elastic tensor coefficients in \textit{Voigt} notation. The figure shows the prediction values over the range $(1,30) [\%]$ of porosities with characteristic microstructure defined by an hexagonal 2-dimensional polygon. The blue, orange lines describe the FEM predictions at different mesh sizes, whereas the green line describes the PG approximation.}
 	\label{MainHomCoeffHexa}
 \end{figure}
-Similarly, figure (\ref{OtherHomoCoeffsHexa}) shows the non-diagonal elastic coefficients describing shear behavior comparing again to (PG) approximations. The coefficients connected to the axial-plane shows predictions with errors $< 2 \%$ thus validated under the clinical range, whereas the problematic prediction on the $C_{66}^{hom}$ coefficient persist as in the case before and moreover, the errors become $> 15 \%$ at bigger porosity values. Again, the prediction failure is assessed to the boundary conditions being imposed on the domain, and the continuity conditions over the mesh. The instability effects obtained, shows a clear dependence on the mesh size, thus further studies must be done.
+Similarly, figure (\ref{OtherHomoCoeffsHexa}) shows the non-diagonal elastic coefficients describing shear behavior comparing again to (PG) approximations. The coefficients connected to the axial-plane shows predictions with errors $< 2 \%$, therefore validated under the clinical range, whereas the problematic prediction of the $C_{66}^{hom}$ coefficient persist as in the case before and moreover, the errors become $> 15 \%$ at bigger porosity values. 
+
+As before, the prediction failure is related to the boundary conditions being imposed on the domain, and the continuity conditions over the mesh. The instability effects obtained, shows a clear dependence on the mesh size, thus further studies must be done.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=.5]{images/CellsProb/CellProb_OthersHomCoeffsCircularHexa.pdf}
@@ -145,7 +157,7 @@ Finally, the explicit results of percentage errors are shown in the table (\ref{
 From tables (\ref{HomCoeffSquareTable}), (\ref{HomCoeffHexaTable}) it can be concluded that the 2-dimensional axial type description of the characteristic periodic microstructure relates correctly to realistic mechanical behavior in bone, nevertheless it lacks of non-axial type description regarding to PG predictions. It related then to a possible failure to incorporate non-axial structures that marginally could affect the homogenized coefficients by means of the two-scale framework. Such effects are currently under study in a experimentally oriented setting \cite{Cai2019}.
 
 \subsection{3-Dimensional Model}
-To test the insight observed using 2-dimensional case and assuming the lower percentage error shown from the unit-square type domain, a 3-dimensional cubic domain with cylindrical type inclusion is proposed as periodic microstructure characteristic of cortical bone, i.e. $\mathbf{Y} = (0,1)^3$. Such new degree of freedom is expected to contribute on the non-axial behavior, thus incorporating missing elements that vanish from a lower dimensional description. However, it requires computational cost associated to finer meshes for fidelity results. \\
+To test the insight observed using 2-dimensional case and assuming the lower percentage error shown from the unit-square type domain, a 3-dimensional cubic domain with cylindrical type inclusion is proposed as periodic microstructure characteristic of cortical bone, i.e. $\mathbf{Y} = (0,1)^3$. Such new degree of freedom is expected to contribute on the non-axial behavior, thus incorporating missing elements that are vanished from a lower dimensional description. However, it requires computational cost associated to finer meshes for fidelity results. \\
 
 The figure (\ref{Main3dHomCoeffSquare}) describes diagonal coefficients by means of FEM method, comparing with PG predictions. Nevertheless, the isotropic ratio predicts a different behavior from the 2-dimensional models, assumed from the new terms describing multiple axial and anti-axial interaction on the cell PDE system. 
 \begin{figure}[!h]
@@ -154,7 +166,9 @@ The figure (\ref{Main3dHomCoeffSquare}) describes diagonal coefficients by means
 	\caption{Main diagonal elastic tensor coefficients in \textit{Voigt} notation. It describes prediction values over the range $(1,30) [\%]$ of porosities with 3-dimensional cubic characteristic microstructure. The blue, orange lines describe the FEM predictions at different mesh sizes, whereas the green line describes the PG approximation.}
 	\label{Main3dHomCoeffSquare}
 \end{figure}
-Similarly, (\ref{Other3dHomCoeffSquare}) describes no-diagonal coefficients that in 2-dimensional case contains the greater error percentages. As stated before, such behavior assumed to be interactions between non-axial and axial behaviors as described from $C_{55}^{hom}, C_{23}^{hom}$ coefficients shows error of $\sim 1 \%$ regarding to PG predictions. Thus, such error percentages result close to 2-dimensional models tested before, but it remains a different behavior on the $C_{66}^{hom}$ coefficient with error $\sim 10 \%$.
+Similarly, (\ref{Other3dHomCoeffSquare}) describes non-diagonal coefficients that in the 2-dimensional case contains greater error percentages. 
+
+As stated before, such behavior assumed as interactions between non-axial and axial behavior as described from $C_{55}^{hom}, C_{23}^{hom}$ coefficients, shows error of $\sim 1 \%$ regarding to PG predictions. Thus, such error result close to 2-dimensional models tested before, but it remains with different behavior on the $C_{66}^{hom}$ coefficient.
 
 \begin{figure}[!h]
 	\centering
@@ -163,7 +177,9 @@ Similarly, (\ref{Other3dHomCoeffSquare}) describes no-diagonal coefficients that
 	\label{Other3dHomCoeffSquare}
 \end{figure}
 
-Finally, table (\ref{Hom3dCoeffSquareTable}) shows explicitly error percentages obtained at various porosity levels. It can be concluded that, diagonal elastic coefficients describes with lower errors the mechanical behavior following PG asymptotic solutions, as shown by $C_{22}^{hom}, C_{33}^{hom}$. With similar characteristics, axial interacting coefficients such as $C_{23}^{hom}, C_{55}^{hom}$ follows predicted values regarding the reference which implies correct incorporation of realistic interaction within long bone axis. Nevertheless, $C_{66}^{hom}$ remains with higher errors of $\sim 10 \%$ which enable us to conclude possible underlying effects from produced from the microstructure, having impact on the overall elastic behavior on bone. Such conclusion it backed-up from the validity of PG model, which fits experimental data with $C_{66}^{hom}$ errors of $\sim 9 \%$. It can be associated moreover to the presence of \textit{Volksmann} canals that interact on the non-axial plane and that are assumed to have minimal impact on the periodic structure, which might not be fully valid at this scale.
+Finally, table (\ref{Hom3dCoeffSquareTable}) shows explicitly error percentages obtained at various porosity levels. It can be concluded that diagonal elastic coefficients, describe with lower errors the mechanical behavior following PG asymptotic solutions, as shown by $C_{22}^{hom}, C_{33}^{hom}$. 
+
+Similarly, axial interacting coefficients such as $C_{23}^{hom}, C_{55}^{hom}$ follows predicted values regarding the reference which implies correct incorporation of realistic interaction within long bone axis. Nevertheless, $C_{66}^{hom}$ remains with higher errors of $\sim 10 \%$ which enable us to conclude possible underlying effects from produced from the microstructure, having impact on the overall elastic behavior on bone. Such conclusion it backed-up from the validity of PG model, which fits experimental data with $C_{66}^{hom}$ errors of $\sim 9 \%$. It can be associated moreover to the presence of \textit{Volksmann} canals that interact on the non-axial plane and that are assumed to have minimal impact on the periodic structure, which might not be fully valid at this scale.
 
 \begin{table}[!h]
 \centering
@@ -258,7 +274,7 @@ Moreover, figure (\ref{Sim2D-TimeStep}) describes an explicit time-step of simul
 Its simulated under the setting of 8 force sources activated independently, i.e., one at each experimental simulation, thus defining 8 different wave-guided propagation of the model (\ref{HomPDE-Simulation}).
 
 \begin{rem}
-The computation times associated to the multiple-cases setting vary according to the thickness parameter, since it defines the mesh size. Using a test size of $40 \, [\mu m]$ for the diameter of the cells within the mesh, the simulation times for different cases varies between $\sim 16-28$ hrs in the range of thicknesses $1-3 \, [mm]$. Moreover, it is found experimentally a quadratic time increment depending on the mesh size, for which a testing case at $20 [\mu m]$ takes $\sim 5-7$ days. 
+The computation times associated to the multiple-cases setting vary according to the thickness parameter, since it defines the mesh size. Using a test size of $40 \, [\mu m]$ for the diameter of the cells within the mesh, the simulation times for different cases varies between $\sim 16-28$ hrs in the range of thicknesses $1-3 \, [mm]$. Moreover, it is found experimentally a quadratic time increment depending on the mesh size, for which a testing case at $20 [\mu m]$ takes $\sim 5-7$ days under 1 core of a Xeon E5-2660 v2 processor with 4 Gb. DRR3 RAM. 
 Therefore it was necessary to consider particular properties of the wave propagation to reduce the computational times for each simulation.
 \end{rem}
 
@@ -293,7 +309,7 @@ The above study of simulations with 8-source force to generate one sample of dat
 To tackle such problems, it is used the space invariance of the elastic wave, since essentially, the excitation produced by a particular force-source defines a wave-front that propagates throughout the receivers varying only the position of each one of the 8 input forces, thus the recording generated from each one are defined by spatial translation of the wave-front. Therefore by the homogeneity and symmetry of the domain being used nad the parameter independence of the domain, the 8-source setting can be exchanged to a one-source force with a higher number of receivers. This setting produces a decrease of time require to generate a full simulation, explicitly decreasing to 1/8 of the initial time but introducing reflection effects from the boundary conditions that affect the wave-front.
 
 \begin{rem}
-In this setting of one-source force, it is simulated for the mesh with cell diameters of $\sim 20 \, [\mu m]$ describing high-fidelity results with respect to the inverse problem prediction. The simulation times range with respect to the mesh thickness, in which under 1 cores of a Xeon E5-2660 v2 processor with 4 Gb. DRR3 RAM, it requires $\sim 18-26$ hrs. to describe a full simulation using $1024$ time step associated to $51.2 [\mu s]$ of real-time experimentation.
+In this setting of one-source force, it is simulated for the mesh with cell diameters of $\sim 20 \, [\mu m]$ describing high-fidelity results with respect to the inverse problem prediction. The simulation times range with respect to the mesh thickness, in which under 1 core of a Xeon E5-2660 v2 processor with 4 Gb. DRR3 RAM, it requires $\sim 18-26$ hrs. to describe a full simulation using $1024$ time step associated to $51.2 [\mu s]$ of real-time experimentation.
 \end{rem}
 It is shown on figure (\ref{FK-DiagramS1P6M33}) the $(f,k)$-diagram associated to the 1-source simulations from such setting described above. It presents natural reflections related to the rectangular 2-dimensional domain with mixed boundary conditions used.
 \begin{figure}[!h]
@@ -456,7 +472,7 @@ In (\ref{EigenValuesComparison}) is shown the frequencies used in the experiment
 \subsection{Solution using Attenuation.}
 To bypass the oscillation observed at the frequency-domain problem, its considered adding a $\epsilon$ viscous-like term, such model in particular defines a translation of the eigen-frequencies from the elastic operator to the complex plane, thus avoiding the real plane resonances. In this sense, is expected an smoothing effect on the real part recordings, and moreover this implies avoiding the ill-conditioned matrix system from the FEM space discretization procedure.
 
-For a fix frequency $\omega \in \mathbb{R}$, let us consider solutions in the form: $u(\mathbf{x},t) = e^{2 \pi i \omega t}\hat{u}(\mathbf{x})$, so that $\hat{u}(\mathbf{x})$ solves the equivalent problem in the frequency domain
+For a fix frequency $\omega \in \mathbb{R}$, let us consider solutions in the form: $u(\mathbf{x},t) = e^{ i \omega t}\hat{u}(\mathbf{x})$, so that $\hat{u}\in \mathbf{H}^1(\Omega)$ solves the equivalent problem in the frequency domain
 \begin{equation*}
     \left \{
     \begin{array}{cc}
@@ -561,10 +577,12 @@ The processing of the $\mu$-CT gray-scale images stack is defined in three main 
 	\label{DiagramMeshGeneration}
 \end{figure} 
 
-The 3-dimensional elastodynamic study of the homogenized bone is done by considering the above mesh generation (\ref{DiagramMeshGeneration}) ignoring the labeled sets, thus defining and uniform interior mesh being adaptive to the surface irregularities.
-To keep the scaled distance to the experimental setting, its used $1000$ slices from the stack, thus defining real $56 \, [mm]$ of cortical bone geometry.
+The 3-dimensional elastodynamic study of the homogenized bone is done by considering the above mesh generation (\ref{DiagramMeshGeneration}) ignoring the labeled sets, thus defining an uniform interior mesh being adaptive to the surface irregularities.
+To keep the scaled distance relating to the experimental setting, it is used $1000$ slices from the stack, thus defining real $56 \, [mm]$ of cortical bone geometry.
+
 The objective then is to recover the dispersion curves associated to the 2-dimensional model but now incorporating the surface effect from the curvature and irregularities, that are expected to affect the behavior of the \textit{Lamb}-curves and thus the recorded signal itself.
-By applying the generation procedure described before it follows the realistic irregular mesh pictured in (\ref{HomBoneMeshFile}). It characterizes a cortical bone sample of $56 \, [mm]$ length in the long direction describing a thickness of $\sim 1.8 [mm]$. 
+
+By applying the generation procedure described before, it follows the realistic irregular mesh pictured in (\ref{HomBoneMeshFile}). It characterizes a cortical bone sample of $56 \, [mm]$ length in the long direction describing a thickness of $\sim 1.8 [mm]$. 
 
 \begin{figure}[!h]
 	\centering
@@ -575,14 +593,16 @@ By applying the generation procedure described before it follows the realistic i
 
  \subsubsection{Simulation and Results}
 
-The configuration is defined similar to the cylindrical case. The figure (\ref{HomBoneSubdomainsFile}) describes explicitly the settings of rectangular sources and receivers implemented, each one defined by a width of $\sim 0.8 [mm]$ with height $\sim 8 [mm]$ located at the top surface of the mesh. As in the cylinder case, the receivers record force-signal of type $\sigma^{hom}(u)\cdot n$ over each of the subdomain locations.
+The configuration is defined similar to the cylindrical case. The figure (\ref{HomBoneSubdomainsFile}) describes explicitly the settings of rectangular sources and receivers implemented, each one defined by a width of $\sim 0.8 [mm]$ with height $\sim 8 [mm]$ located at the top surface of the mesh. As in the cylinder case, the receivers record force-signal of type $\sigma^{0}(u)\cdot n$ over each of the subdomain locations.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{images/ImgExt/Cortical3dsc04Mesh1000Fill-MeshBoundaries.png}
 	\caption{The colors markers define the different subdomains associated to the mesh (\ref{HomBoneMeshFile}). It is described $48$ receivers and a transmitter locations in a array-like form resembling the experimental transducer. Moreover, each subdomain is defined approximately by $\sim 200$ marked tetrahedral cells.}
 	\label{HomBoneSubdomainsFile}
 \end{figure} 
-The adaptive mesh (\ref{HomBoneMeshFile}) resembles a real geometry by meshing the irregularities on the inner surface characteristics of a natural cortical bone sample. Over such geometry is simulated an elastodynamic model propagating a guided wave and thus generating the guided-waves shown in (\ref{FK-HomBone-DiagramS1P11M18}) as shown in figure (\ref{HomBone-TimeStep}). Varying in color intensity, it is shown the wave-front interacting with the non-uniform mesh. Moreover, different view-planes show direct impact in the wave behavior as it interacts with the inner irregular surface, creating points of high displacement. This kind of behavior not observed on the cylindrical case studied before, thus becoming an inherent effect from the irregularities.
+The adaptive mesh (\ref{HomBoneMeshFile}) resembles a real geometry by meshing the irregularities on the inner surface characteristics of a natural cortical bone sample. 
+
+Over such geometry is simulated an elastodynamic model propagating a guided wave and thus generating the dispersion curves of figure (\ref{FK-HomBone-DiagramS1P11M18}) related to the wavefront in figure (\ref{HomBone-TimeStep}). Varying in color intensity, it is shown the wave-front interacting with the non-uniform mesh. Moreover, different view-planes show direct impact in the wave behavior as it interacts with the inner irregular surface, creating points of high displacement. This kind of behavior not observed on the cylindrical case studied before, thus becoming an inherent effect from the irregularities.
 
 \begin{figure}[!h]
 	\centering
@@ -611,7 +631,9 @@ Similarly, singular values associated to data recording described by (\ref{FK-Ho
 \end{figure}
 In comparison with the half-cylinder case it's shown a clear variation on the general wavefront behavior, expressed in modes not align with respect to the reference cases for the parameters used in the simulation. Moreover, figure (\ref{FK-HomBone-DiagramS1P11M18}) shows clear signal distortion at the high frequency range of $(1, 2)\, [Mhz]$ for all the different \textit{Lamb}-curves involved, expressed in color diffusion within the curves. Explicitly, at higher $M$ values, which characterize the amount of receptors information to analyze, shows clear interaction within the domain mesh, thus more error fitting associated to the inverse problem solution.
 
-On the other hand, figure (\ref{FK-Cyl-DiagramS1P11M18}) associated to the half-cylinder setting describes a more regular behavior of the curves in all the frequency range, corresponding to a wave-front in which the curvature effect does not affect the main axial propagation, thus describing at each $M$ values clear \textit{Lamb}-curves, thus fully comparative signal with the 2-dimensional case. The explanation to such behavior relates to missing interaction within the inner irregularities that fully deform the characteristic wave propagation. Moreover, the simulations shows concentration of displacement in the interior irregularities being an aspect to further investigate. In this sense, the plausible explanation on the first symmetric and anti-symmetric modes is related to missed damping effects on the bone marrow that are not captured in the simulations, which requires a generalization to a viscoelastic model to capture such effects.
+On the other hand, figure (\ref{FK-Cyl-DiagramS1P11M18}) associated to the half-cylinder setting describes a more regular behavior of the curves in all the frequency range, corresponding to a wave-front in which the curvature effect does not affect the main axial propagation, thus describing at each $M$ values clear \textit{Lamb}-curves, thus fully comparative signal with the 2-dimensional case. 
+
+The explanation to such behavior relates to missing interaction within the inner irregularities that fully deform the characteristic wave propagation. Moreover, the simulations shows concentration of displacement in the interior irregularities being an aspect to further investigate. In this sense, the plausible explanation on the first symmetric and anti-symmetric modes is related to missed damping effects on the bone marrow that are not captured in the simulations, which requires a generalization to a viscoelastic model to capture such effects.
 
 
 %\subsubsection{Fully Porous Material}

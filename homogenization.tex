@@ -34,11 +34,12 @@ Assuming $0 < \rho_0 \leq \rho\big( \frac{\mathbf{x}}{\epsilon} \big) < + \infty
 \end{prop}
 
 \begin{rem}
-In the following\footnote{The formulation of the elastodynamic problem with Dirichlet boundary conditions had been studied in literature, in particular on the multiscale works from \cite{panasenko2005multi-scale}, \cite{bakhvalov1989homogenisation:}. On the other hand, the formal study of Neumann boundary conditions has been done mainly on \cite{oleinik1992mathematical}.}, inspired from \cite{raviart1983introduction}, a constructive proof is given based in the spectral decomposition of the elastic operator on $\mathbf{H}^1(\Omega, \Gamma_D)$ and solutions of the reduced ODE's associated to each eigenvalue. % of the elastic operator.
+Inspired from \cite{raviart1983introduction}, a constructive proof is given based in the spectral decomposition of the elastic operator on $\mathbf{H}^1(\Omega, \Gamma_D)$ and solutions of the reduced ODE's associated to each eigenvalue\footnote{The formulation of the elastodynamic problem with Dirichlet boundary conditions had been studied in literature, in particular on the multiscale works from \cite{panasenko2005multi-scale}, \cite{bakhvalov1989homogenisation:}. On the other hand, the formal study of Neumann boundary conditions has been done mainly on \cite{oleinik1992mathematical}.}. % of the elastic operator.
 \end{rem}
 
+In the following, it is denoted the dot product $(u,v)_{\Omega} := \int_{\Omega} \rho^{\epsilon} u\cdot v \, d\mathbf{x}$ for $u, v \in \mathbf{L}^2(\Omega)$, which is equivalent to the usual one of $\mathbf{L}^2(\Omega)$ for each $\epsilon$ by the assumptions of boundness on the density. On the other hand, $(\cdot\,, \cdot)_{\Gamma_N}$ denotes the usual dot product of $\mathbf{L}^2(\Gamma_N)$ vector functions.
 
-Let us first note that problem (\ref{MainPDE}) can be rewritten in a variational form, satisfied in distributions over $(0,T)$ by: 
+Under such notation, problem (\ref{MainPDE}) can be rewritten in variational form satisfied in distributions over $(0,T)$ by: 
 \begin{equation}
     \label{MainTimePDE}
     \begin{array}{cc}
@@ -384,7 +385,7 @@ i.e. being independent with respect to the microstructure (or fast variable) $\m
 \end{equation*}
 
 \subsection{Contributions at First Order}
-For the contribution at order $\mathcal{O}(\epsilon^{-1})$ recall by (\ref{IndepencyofY}) it follows $u^{(0)}(\mathbf{x},\mathbf{y}) = \hat{v}(\mathbf{x})$ then it can deduced by definition:
+For the contribution at order $\mathcal{O}(\epsilon^{-1})$ recall by (\ref{IndepencyofY}) it follows $u^{(0)}(\mathbf{x},\mathbf{y}) = v(\mathbf{x})$ then it can deduced by definition:
 \begin{equation*}
     L_{xy} v(\mathbf{x}) = \mathbf{0}
 \end{equation*}
@@ -786,7 +787,7 @@ Using the definition of $H^{st}$ over the multiscale energy expression, it can b
 being $\vert \tilde{R}(r^{\epsilon})\vert \lesssim \epsilon^{1/2}\Vert \mathbf{F} \Vert_{L^{\infty}(0,T;\mathbf{L}^2(\Gamma_N))}$, obtained using the same technique as in \textit{Theorem 1.3} \cite{oleinik1992mathematical}.
 \end{proof}
 
-\section{Continuity on the Porosity Level}
+\section{Continuity on the Porosity}
 The definition of homogenized coefficients contains an explicit dependency on the porosity level since it defines the characteristic microstructure. In this section, it will be studied the continuity of the homogenized coefficients with respect to the porosity level addressing the well-posedness of the inverse problem formulation. Moreover, differentiability is also assessed\footnote{A similar study has been done for the multiscale \textit{Calderón} problem by with high-oscillation conductivity coefficients, oriented to the inverse problem identification of homogenized coefficients \textit{A. Abudlle and A. di Blasio} \cite{Abdulle:221051}} by means of the cell problem definition. 
 
 More explicitly, it is given estimations for such effective coefficients with a continuity property under reasonable hypothesis on the porosity\footnote{Such reasonable hypothesis are oriented in a continuity condition on the definition of the multiscale coefficients $C_{ijkl}(\mathbf{y},p)$, for example of \textit{Lipschitz} type on $p$.}. To this end, let us recall that our formulation for the elasticity coefficients at a cell point $\mathbf{y}\in \mathbf{Y}$ is given by:
@@ -796,30 +797,30 @@ More explicitly, it is given estimations for such effective coefficients with a 
 being $\mathbf{Y}_m(p)$ and $\mathbf{Y}_f(p)$ the matrix and fluid-like parts of the cell, where the explicit dependency on the porosity fraction $p \in (0,1)$ implies \textit{a posteriori} also the dependence of $p$ on the homogenized coefficient.
 
 \subsection{Definition and Estimates}
-In this section, its formalize the space in which the highly oscillatory coefficients $C_{ijkl}(\cdot)$ belongs dependent on the porosity parameter.
+In this section is defined the space in which the highly oscillatory coefficients $C_{ijkl}(\cdot)$ belongs dependent on the porosity parameter.
 \begin{defn}
 Let us define the set of operators on the feasible porosity interval $(0,1)$, associated to a cell-domain $\mathbf{Y}$ by:
 \begin{equation}
     \label{T-definition}
-    \mathbf{T}((0,1) \times \mathbf{Y}) := \big \{ \mathbf{C}(\cdot, \cdot) \in L^{\infty}((0,1); \, \text{lin}(\textbf{Sym}^d))\, : \mathbf{C}(\mathbf{y}, p)^* = \mathbf{C}(\mathbf{y}, p) \, \forall \mathbf{y} \in \mathbf{Y}\big \}
+    \mathbf{T}((0,1) \times \mathbf{Y}) := \big \{ \mathbf{C}(\cdot, \cdot) \in L^{\infty}((0,1); \, \text{lin}(\textbf{Sym}^d))\, : \mathbf{C}(p, \mathbf{y})^* = \mathbf{C}(p, \mathbf{y}) \, \forall \mathbf{y} \in \mathbf{Y}\big \}
 \end{equation}
-where it is used the notation of $lin(\mathbf{Sym}^d)$ as the space of linear, continuous $d\times d$ symmetric matrices into itself, being $d=2,3$ and $*$ denotes the adjoint. 
+where it is used the notation of $lin(\mathbf{Sym}^d)$ as the space of linear, continuous operators from the $d\times d$ symmetric matrices space with $\mathbf{L}^2(\mathbf{Y})$ entries into itself, being $d=2,3$ and $*$ denoting the adjoint. 
 \end{defn}
 \begin{rem}
 Note that, the linear elastic second-order tensors $\mathbf{C} = (C_{ijkl})_{ijkl}$ belong to $\mathbf{T}((0,1)\times \mathbf{Y})$. In particular, the symmetry of the tensors expressed in \textit{Voigt} engineering notation described as $C_{IJ}=C_{JI}$ is given by the self-adjoint property, by identifying the set $lin(\mathbf{Sym}^d)$ with the space of arrays indexed in the form $\mathbf{C}(p, \cdot) = (C_{ijkl} (p, \cdot) )_{ijkl}$.
 Over such considerations, the set (\ref{T-definition}) becomes:
 \begin{equation*}
-    \mathbf{T}((0,1)\times \mathbf{Y}) = \big \{ C_{ijkl}(\cdot, \mathbf{y}) \in L^{\infty}((0,1); \mathbb{R})  \, \forall \mathbf{y} \in \mathbf{Y}\,:\, C_{ijkl} = C_{ijlk} = C_{klij} \big \}
+    \mathbf{T}((0,1)\times \mathbf{Y}) = \big \{ C_{ijkl}(\cdot, \mathbf{y}) \in L^{\infty}((0,1); \mathbb{R})  \,:\, C_{ijkl}(\mathbf{y}) = C_{ijlk}(\mathbf{y}) = C_{klij}(\mathbf{y}) \in L^2(\mathbf{Y})\big \}
 \end{equation*}
-where its assumed implicitly the dependency of each coefficient.
+where it is assumed implicitly the dependency on $p$ of each coefficient.
 \end{rem}
-With the above it can then be defined the space of bounded and coercive tensors associated to parameters $(\alpha,\beta) \in \mathbb{R}^2_+$ given as a subset of $\mathbf{T}((0,1)\times \mathbf{Y})$ with conditions specified below.
+With the above it can be defined the space of bounded and coercive tensors associated to parameters $(\alpha,\beta) \in \mathbb{R}^2_+$ given as a subset of $\mathbf{T}((0,1)\times \mathbf{Y})$ with conditions specified below.
 Let $(C_{ijkl})_{ijkl} \in \mathbf{T}((0,1)\times \mathbf{Y})$, consider $\alpha, \beta$ two positive parameters and define the following properties:
 \begin{enumerate}
     \item[(H1)] If $\xi \in \mathbf{R}^{d\times d} \setminus \{\mathbf{0}_{d \times d}\}$ then $\alpha \xi_{ij} \, \xi_{ij} \leq C_{ijkl}(p,\mathbf{y})  \xi_{kl}\,\xi_{ij}\, \text{a.e.} \mathbf{y} \in \mathbf{Y}$ for each $p \in (0,1)$.
-    \item[(H2)] If $\xi \in \mathbf{R}^{d\times d} \setminus \{\mathbf{0}_{d \times d}\}$ then $C_{ijkl}(p,\mathbf{y}) \xi_{kl} \xi_{ij} \vert \leq \beta  \xi_{ij} \xi_{ij} \, \text{ a.e. }\mathbf{y} \in \mathbf{Y}$ for each $p \in (0,1)$.
+    \item[(H2)] If $\xi \in \mathbf{R}^{d\times d} \setminus \{\mathbf{0}_{d \times d}\}$ then $C_{ijkl}(p,\mathbf{y}) \xi_{kl} \xi_{ij} \leq \beta  \xi_{ij} \xi_{ij} \, \text{ a.e. }\mathbf{y} \in \mathbf{Y}$ for each $p \in (0,1)$.
 \end{enumerate}
-The above enables the reasonable space of linear elastic tensors, related to the generalized \textit{Hookes} law.
+The above enables to consider the suitable space of linear elastic tensors, related to the generalized \textit{Hookes} law.
 \begin{defn}
 A tensor $\mathbf{C} = (C_{ijkl})_{ijkl} \in \mathcal{T}(\alpha, \beta, (0,1)\times \mathbf{Y})$
 if $\mathbf{C}$ is a feasible tensor, i.e., belongs to $\mathbf{T}((0,1)\times \mathbf{Y})$ and satisfies the properties $(H1)-(H2)$.
@@ -846,14 +847,14 @@ Explicitly, vector solutions $N^{rs}(\cdot,p)$ to the cell problem are found on
     \mathbf{H}^1_{ 0} (\mathbf{Y}) := \big \{ N(p) \in  \mathbf{H}^1(\mathbf{Y}) \, : \, \langle N(p) \rangle_{\mathbf{Y}}=\mathbf{0} \, \big \}
 \end{equation*}
 
-\subsection{Variational Formulations}
+\subsubsection{Variational Formulations}
 Solutions to problem (\ref{eq:cell}) are found via variational formulation of such problem for each $r,s \in \{1,2,3\}$. In all that follows, it is assumed a condition of radial symmetry on the coefficients\footnote{Such kind of condition, which is naturally presented in periodic and compound media is assumed throughout this study, moreover the numerical results developed are obtained over a formulation of bone satisfying that property since the model is defined as compounds material with the inclusion being of different kind where the surrounding is a known fixed material. It is important to observe that under such assumptions the term associated to $\partial \mathbf{Y}$ vanishes obtaining the expression observed on (\ref{eq:cell_variational}).} $C_{ijkl}(\mathbf{y})$ which applied to (\ref{eq:cell}) gives us the desired equivalent problem:
 \begin{equation}
     \label{eq:cell_variational}
     \left \{
     \begin{array}{cc}
         \text{Find a function } N^{rs} \in \mathbf{H}^1_{0}(\mathbf{Y}) \text{ such that } & \quad \\
-        \int\limits_{\mathbf{Y}} C_{ijkl}(p,\mathbf{y})\mathbf{e}_{kl,y} N^{rs} \, \partial_{y_j}(v_i)\,d\mathbf{y} = -\int\limits_{\mathbf{Y}} C_{ijrs}(p, \mathbf{y}) \partial_{y_j}(v_i)\,d\mathbf{y} &  \forall v \in \mathbf{H}^1_{0}(\mathbf{Y}).
+        \int\limits_{\mathbf{Y}} C_{ijkl}(p,\mathbf{y})\mathbf{e}_{kl,y} (N^{rs}) \, \partial_{y_j}(v_i)\,d\mathbf{y} = -\int\limits_{\mathbf{Y}} C_{ijrs}(p, \mathbf{y}) \partial_{y_j}(v_i)\,d\mathbf{y} &  \forall v \in \mathbf{H}^1_{0}(\mathbf{Y}).
     \end{array}
     \right.
 \end{equation}
@@ -863,7 +864,7 @@ Note the variational formulation (\ref{eq:cell_variational}) can be rewritten by
     \left \{
     \begin{array}{cc}
         \text{Find a function } N^{rs}(p) \in \mathbf{H}^1_{0}(\mathbf{Y}) \text{ such that } & \quad\\
-        \int\limits_{\mathbf{Y}} C_{ijkl}(p,\mathbf{y})\mathbf{e}_{kl,y} N^{rs}\, \mathbf{e}_{kl,y}(v)\,d\mathbf{y} = -\int\limits_{\mathbf{Y}} C_{ijrs}(p,\mathbf{y}) \mathbf{e}_{ij,y}(v)\,d\mathbf{y} &\forall v \in \mathbf{H}^1_{0}(\mathbf{Y}).
+        \int\limits_{\mathbf{Y}} C_{ijkl}(p,\mathbf{y})\mathbf{e}_{kl,y} (N^{rs})\, \mathbf{e}_{kl,y}(v)\,d\mathbf{y} = -\int\limits_{\mathbf{Y}} C_{ijrs}(p,\mathbf{y}) \mathbf{e}_{ij,y}(v)\,d\mathbf{y} &\forall v \in \mathbf{H}^1_{0}(\mathbf{Y}).
     \end{array}
     \right.
 \end{equation}
@@ -887,7 +888,7 @@ In particular, since $\mathbf{A} \in \mathbf{T}((0,1)\times \mathbf{Y})$ then it
 
 %%%%%%%%%%%%%%%%%%%%%%%%%5
 
-\subsection{Rewritten Coefficients}
+\subsubsection{Symmetries}
 As before, let us denote the base of $\mathbf{Sym}^d$ by the set $(m_{ij})_{ij}$ for each $i,j \in \{1,\dots d\}$, i.e., the set of $d \times d$ matrices with $1$ at the entry $(i,j)$ and $0$ otherwise. Observe that the homogenized coefficient (\ref{eq:homogenized-coeff}) (where it is assumed w.l.o.g $\vert \mathbf{Y} \vert = 1$) can be rewritten with the previously defined notation in the form:
 \begin{equation}
     \label{eq:effective_coef}
@@ -900,15 +901,15 @@ As before, let us denote the base of $\mathbf{Sym}^d$ by the set $(m_{ij})_{ij}$
 Moreover, expression (\ref{eq:cell_symmetric}) can be rewritten in the form:
 \begin{equation}
     \label{eq:cell_v}
-    \int\limits_{\mathbf{y}}\mathbf{C}(\mathbf{y},p):\mathbf{e}(v): \mathbf{e}(N^{ij}) \, d\mathbf{y} = - \int\limits_{\mathbf{y}} \mathbf{C}(\mathbf{y},p):\mathbf{e}(v):m_{rs}\, d\mathbf{y} \quad \forall v \in \mathbf{H}^1_{0}(\mathbf{Y}) \, d\mathbf{y}
+    \int\limits_{\mathbf{y}}\mathbf{C}(\mathbf{y},p):\mathbf{e}(v): \mathbf{e}(N^{rs}) \, d\mathbf{y} = - \int\limits_{\mathbf{y}} \mathbf{C}(\mathbf{y},p):\mathbf{e}(v):m_{rs}\, d\mathbf{y} \quad \forall v \in \mathbf{H}^1_{0}(\mathbf{Y}) \, d\mathbf{y}
 \end{equation}
 
-So, by using the above equality (\ref{eq:cell_v}) with $v = N^{ij}$ in the expression (\ref{eq:effective_coef}), it is obtained the homogenized coefficient given by:
+So, by using the above equality (\ref{eq:cell_v}) with $v = N^{ij}$ in the expression (\ref{eq:effective_coef}), it is obtained the homogenized coefficient in the form:
 \begin{equation}
     \label{eq:effective_coef_symmetric}
     C_{ijkl}^{hom}(p) = \int\limits_{\mathbf{Y}} \mathbf{C}(\mathbf{y},p):(m_{rs}+\mathbf{e}(N^{rs})):(m_{ij}+\mathbf{e}(N^{ij})) \, d\mathbf{y}
 \end{equation}
-It follows then from (\ref{eq:effective_coef_symmetric}) the full symmetric properties of the elements $C^{hom}_{ijkl}$, since from (\ref{eq:cell_symmetric}) $N^{rs}(p,\mathbf{y}) = N^{sr}(p, \mathbf{y})$ thus taking into account the symmetry of $\mathbf{C}(p)$ it can be deduced:
+It follows then from (\ref{eq:effective_coef_symmetric}) the full symmetric properties of the elements $C^{hom}_{ijkl}$, since by (\ref{eq:cell_symmetric}) follows the that $N^{rs}(p,\mathbf{y}) = N^{sr}(p, \mathbf{y})$ thus taking into account the symmetry of $\mathbf{C}(p)$ it can be deduced:
 \begin{equation*}
     C^{hom}_{ijkl} = C^{hom}_{klij} = C^{hom}_{ijlk} \quad \forall i,j,k,l \in \{1,2,3\}
 \end{equation*}
@@ -916,7 +917,7 @@ which implies in particular the usage of engineering \textit{Voigt} notation for
 
 In all that follows, it will be denoted by $M(\mathbf{Y})$ the space of $d \times d$ matrices $L^2(\mathbf{Y})$ entries with norm $\Vert \cdot \Vert_{M(\mathbf{Y})}$ defined for $A = (A_{kl})_{kl} \in M(\mathbf{Y})$ by
 \begin{equation}
-    \Vert A \Vert_{M(\mathbf{Y})} = \underset{k,l \in \{1,\dots, d\}}{\text{ max }} \Vert A_{kl} \Vert_{L^2(\mathbf{Y})}    
+    \Vert A \Vert_{M(\mathbf{Y})} = \big(\sum_{k,l=1}^d \Vert A_{kl} \Vert^2_{L^2(\mathbf{Y})} \big)^{1/2}
 \end{equation}
 Let us recall the coercivity condition over $\mathbf{C}(p, \cdot)$, applying a duality argument over the space $M(\mathbf{Y})$ it follows that:
 \begin{equation}
@@ -968,7 +969,7 @@ and by applying the H\"{o}lder inequality and using (\ref{eq:ineq_diff_N}) it fo
     \end{aligned}
 \end{equation}
 
-Applying finally the estimation (\ref{eq:Estimate-Nrs}) over (\ref{eq:diff-HomCoeffs}) it follows the continuity property for the coefficients:
+Finally, applying the estimation (\ref{eq:Estimate-Nrs}) over (\ref{eq:diff-HomCoeffs}) it follows the continuity property for the coefficients:
 \begin{equation}
     \label{ContinuityPropHom}
     \vert C^{hom}_{ijrs}(p) - C^{hom}_{ijrs}(q)\vert \leq \Vert \mathbf{C}(p) - \mathbf{C}(q) \Vert_{lin(M(\mathbf{Y}))} (1+\frac{\beta}{\alpha})\frac{\beta}{\alpha}
@@ -981,16 +982,21 @@ Our interest now is to obtain some estimates for the derivatives with respect to
     \partial_{p}  C_{ijkl}^{hom} (\overline{p}) = \int\limits_{\mathbf{Y}} \partial_{p}\big( \mathbf{C}(\mathbf{y},\overline{p}) \big)\, : \,m_{rs}+\mathbf{e}(N^{rs}(\overline{p}))\, :\,m_{ij}+\mathbf{e}(N^{ij}(\overline{p})) \, d\mathbf{y} 
 \end{equation}
 which results by distributing each term, rules of differentiation and (\ref{eq:cell_v}).
+
 It follows then from (\ref{eq:DerivHomCoeff}) after applying holder inequality that:
 \begin{equation*}
     \vert \partial_p C^{hom}_{ijrs}(\overline{p}) \vert \leq \Vert \mathbf{C}(\overline{p}) \Vert_{lin(M(\mathbf{Y}))} \Vert m_{rs} + \mathbf{e}(N^{rs}(\overline{p})) \Vert_{M(\mathbf{Y})} \Vert m_{ij} + \mathbf{e}(N^{ij}(\overline{p})) \Vert_{M(\mathbf{Y})}
 \end{equation*}
+
 which after applying the estimate (\ref{eq:Estimate-Nrs}) the following inequality for the derivative can be deduced:
 \begin{equation}
     \label{EstimateDerivHomCoeff}
     \vert \partial_p C^{hom}_{ijrs}(p) \vert \leq (1+\frac{\beta}{\alpha})^2 \Vert \partial_p \mathbf{C}\Vert_{L^{\infty}((0,1); lin(M(\mathbf{Y}))}
 \end{equation}
-The above estimates enable us to obtain a bound for the difference of the homogenized elastic tensors. Now, let $\overline{p}, \overline{q}$ be two porosity level on $(0,1)$.
+
+The above estimates enable us to obtain a bound for the difference of the homogenized elastic tensors.
+
+Now, let $\overline{p}, \overline{q}$ be two porosity level on $(0,1)$.
 Applying the equality (\ref{eq:DerivHomCoeff}), rearranging terms and using directly H\"{o}lder inequality, it follows:
 \begin{align*}
     \vert \partial_p C_{ijrs}(\overline{p}) - & \partial_p C_{ijrs}(\overline{q}) \vert \leq  \quad \\

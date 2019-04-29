@@ -9,14 +9,18 @@
 \depto{Departamento de Ingeniería Matemática}
 \author{Reidmen Alexander Aróstica Barrera}
 \title{Numerical Studies of a Homogenized Bone Model and applications to Porosity Identification by Ultrasound}
-\auspicio{PROYECTO FONDECYT 1151512}
-\date{MARZO 2019}
-\guia{AXEL OSSES - Universidad de Chile}
-\coguia{JEAN-GABRIEL MINONZIO - Universidad de Valparaiso}
-\carrera{Magíster en Ciencias de la Ingeniería, Mención Matemáticas Aplicadas}
-\memoria{Tesis para optar al Grado de \break Magíster en
-Ciencias de la Ingeniería, Mención Matemáticas Aplicadas}
-\comision{CARLOS CONCA - Universidad de Chile}
+\auspicio{Proyecto Fondecyt 1151512 y CMM Conicyt PIA AFB170001\\ 
+Powered@NLHPC: Esta tesis fue parcialmente apoyada por la infraestructura de supercómputo del NLHPC (ECM-02)}
+\date{2019}
+\guia{AXEL OSSES ALVARADO}
+\coguia{JEAN-GABRIEL MINONZIO}
+\carrera{Ingeniero Civil Matemático y grado de Magíster en \break Ciencias de la Ingeniería, Mención Matemáticas Aplicadas}
+\memoria{Tesis para optar al Grado de Magíster en \break 
+Ciencias de la Ingeniería, Mención Matemáticas Aplicadas \break
+\vspace{0.1cm}
+
+Memoría para optar al Título de \break Ingeniero Civil Matemático}
+\comision{CARLOS CONCA ROSENDE}
 
 \usepackage{lipsum}
 
@@ -29,7 +33,7 @@ Ciencias de la Ingeniería, Mención Matemáticas Aplicadas}
 \maketitle
 
 \begin{abstract}
-En el contexto de estudios biomecánicos en medicina, existen diversas preguntas por responder, fluctuando desde el modelamiento mismo de tejidos u organos a la simulación, predicción y validación de los diversos procedimientos experimentales que determinan factores clínicos de interés tal como son los parámetros de espesor, porosidad, rigidez, etc. Este trabajo está orientado en esta última dirección, mediante el cual se propone una formalización, justificación teorica y validación del problema directo de modelar el comportamiento mecánico de un hueso cortical de un nuevo procedimiento de ultrasonido. Asi, mediante la teoría de homogenización, se modela la propagación de una guia de ondas en un hueso poroso idealizado e implementa numericamente un modelo elastodinamico usando librerias al estado del arte. Los resultados obtenidos se comparan con la literatura reciente que propone el modelo experimental usado, validando el modelo numérico. Similarmente se estudia la presencia de viscosidad sobre el hueso mediante un modelo tipo \textit{Kelvin-Voigt}, con predicciones en los factores de calidad que investigan efectos de amortiguamiento, comparable con limitados resultados experimentales recientes. \\
+En el contexto de estudios biomecánicos en medicina, existen diversas preguntas por responder, fluctuando desde el modelamiento mismo de tejidos u órganos a la simulación, predicción y validación de los diversos procedimientos experimentales que determinan factores clínicos de interés tal como son los parámetros de espesor, porosidad, rigidez, etc. Este trabajo está orientado en esta última dirección, mediante el cual se propone una formalización, justificación teórica y validación del problema directo de modelar el comportamiento mecánico de un hueso cortical de un nuevo procedimiento de ultrasonido. Así, mediante la teoría de homogenización, se modela la propagación de una guía de ondas en un hueso poroso idealizado e implementa numéricamente un modelo elastodinámico usando librerías al estado del arte. Los resultados obtenidos se comparan con la literatura reciente que propone el modelo experimental usado, validando el modelo numérico. Similarmente se estudia la presencia de viscosidad sobre el hueso mediante un modelo tipo \textit{Kelvin-Voigt}, con predicciones en los factores de calidad que investigan efectos de amortiguamiento, comparable con limitados resultados experimentales recientes. \\
 
 In the context of biomechanical assessment of bone in medicine, there are abundant questions to be answered, fluctuating from the modelling itself of tissues and organs to the simulation, prediction and validation of the different kind of experimental procedures that determine clinical factors of interest such as the thickness, porosity, stiffness constants, etc. This work is oriented in the later direction in which it is proposed a formalization, theoretical justification and validation of the direct problem related to modelling the mechanical behavior of cortical bone from a new ultrasound experimental procedure. By means of homogenization theory, it is described the propagation of a guided-wave in porous bone and implemented numerically an elastodynamic model by applying state-of-art libraries using FEM method. The results obtained are then compared with recent literature that propose the experimental procedure, validating the numerical model. Similarly, it is studied the presence of viscoelastic type behavior in bone by applying a \textit{Kelvin-Voigt} model, predicting quality factors that assess damping effects which in particular are comparable with recent and limited experimental results.
 \end{abstract}
@@ -39,13 +43,14 @@ A mi madre y padre, por todo.
 \end{dedicated}
 
 \begin{thanks}
-During this work, many people have contributed not only from theoretical perspective but also by providing great commentaries, insight and life experiences. So, it is the least to mention my advisers Axel Osses and Jean-Gabriel Minonzio for allowing and support my curiosities, to try new techniques, technologies and moreover patiently explain interesting experiences from their personal travels and wisdom. 
+During this work, many people have contributed not only from theoretical perspective but also by providing great commentaries, insights and life experiences. The least I can do is to mention my advisers Axel Osses and Jean-Gabriel Minonzio for allowing and support my curiosities, to try new techniques, technologies and moreover patiently explain interesting experiences from their travels and general wisdom.
 
-This project couldn't have been done without the great time shared with many people at the Department of Mathematics (DIM) and to the department itself providing a nice environment to be intellectually challenged and motivated.
-In particular, my great appreciation to Pablo Arratia for the interesting discussions and funny times, Rodrigo Zelada for the curiosities I've learn from him, Vicente Ocqueteau for the most amusing times, Daniel Pereda for the life planifications and amusement, Manuel Suil for great shared experiences, Diego Marchant for the funny times, Felipe Matus for its wierd topics and experiences, Felipe Atenas for the culturally-related curiosities and experiences, Juan d'Etigny for his physically oriented passions and Martin Rapaport for the great conversations and perspectives you've given to me. 
-There are quite a numerious important people missing that I've know during that I'm also greatly gratified having shared some time.
+This project couldn't have been done without the great time shared with many people at the Department of Mathematics (DIM) and to the department itself, providing a nice environment to be intellectually challenged and motivated.
+In particular, my great appreciation to Pablo Arratia for the interesting discussions and funny times, Rodrigo Zelada for the curiosities I've learn from him, Vicente Ocqueteau for the most amusing times, Daniel Pereda for the life planifications and amusement, Manuel Suil for the great shared experiences, Diego Marchant for the funny times, Felipe Matus for its weird topics and experiences, Felipe Atenas for the culturally-related curiosities and experiences, Juan d'Etigny for his physically oriented passions and Martin Rapaport for the great conversations and perspectives you've given to me. 
+There are quite a numerous important people not mentioned from whom I'm also greatly gratified having shared some time.
 
-Lastly, even thought it is dedicated to them, this work completes a phase of outstanding support from my parent, whom I have one of the greatest admiration.
+
+Lastly, even though it is dedicated to them, this work completes a phase of outstanding support from my parents, whom I have one of the greatest admiration.
 
 \end{thanks}
 
@@ -70,10 +75,9 @@ Lastly, even thought it is dedicated to them, this work completes a phase of out
 \input{conclusion.tex}
 
 % \input{glosario.tex} % optional
-
 \bibliographystyle{plain} 
+\addcontentsline{toc}{chapter}{\protect\numberline{}Bibliography}
 \bibliography{bibliography}
-
 % \input{anexo_apendices.tex} % optional
 
 \end{document}

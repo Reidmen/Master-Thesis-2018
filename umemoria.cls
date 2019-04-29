@@ -67,18 +67,20 @@
 %% New environments
 \newenvironment{abstract}{%
 \cleardoublepage
-\begin{flushright}
+\begin{flushleft}
 \small
 \begin{tabular}{l}
 RESUMEN DE LA MEMORIA PARA OPTAR \\
 AL TÍTULO DE \\
-\MakeUppercase\@carrera \\
+%\MakeUppercase\@carrera \\
+INGENIERIO CIVIL MATEMÁTICO Y GRADO DE\\
+MAGÍSTER EN CIENCIAS DE LA INGENIERÍA, MENCIÓN MATEMÁTICAS APLICADAS \\
 POR: \MakeUppercase\@author \\
-FECHA: \MakeUppercase\@date\\
+FECHA: 10/04/\MakeUppercase\@date\\
 PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }\\
 PROF. COGUÍA: \foreach \x in \@coguia { \MakeUppercase\x }
 \end{tabular}
-\end{flushright}
+\end{flushleft}
 \begin{center}
 \MakeUppercase\@title
 \end{center}
@@ -89,6 +91,8 @@ PROF. COGUÍA: \foreach \x in \@coguia { \MakeUppercase\x }
 \newenvironment{thanks}{\cleardoublepage\chapter*{Acknowledgement}}{\vfill\null}
 \newenvironment{intro}{\addcontentsline{toc}{chapter}{\protect\numberline{}Introduction}\chapter*{Introduction}}{\vfill\null}
 \newenvironment{conclusion}{\addcontentsline{toc}{chapter}{\protect\numberline{}Conclusion}\chapter*{Conclusion}}{\vfill\null}
+%\newenvironment{biblio}{\addcontentsline{toc}{chapter}{\protect\numberline{}Bibliography}}{\vfill\null}
+
 
 %% Theorems, proofs, etc
 \renewenvironment{proof}[1][\proofname] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\scshape\footnotesize#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse}
@@ -180,14 +184,15 @@ PROF. COGUÍA: \foreach \x in \@coguia { \MakeUppercase\x }
 		        \MakeUppercase\x\\
 		    }
 
-		\vspace{1cm}
+		\vspace{0.7cm}
 			COMISION\\
 			\foreach \x in \@comision { \MakeUppercase\x\\ }
 
 		\if\@auspicio\@empty\else
 		\vfill
 			\normalfont
-			Este trabajo ha sido parcialmente financiado por \@auspicio
+			Este trabajo ha sido parcialmente financiado por \@auspicio \\
+	
 		\fi
 
 		\vfill

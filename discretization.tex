@@ -1,9 +1,9 @@
 \chapter{Discretization Procedures}
 
-Discretization procedures for elastic formulation have been developed since the early $60$'s under diverse setting oriented mainly in civil-engineering fields. In this section, it will be studied following literature  \cite{ern2004theory}, \cite{raviart1983introduction} a finite-element discretization scheme for the space-domain and a standard $\beta$-Newmark time-domain discretization, thus a complete numerical formulation for various elastic models implemented in \texttt{FEniCS}, a state-of-art library for such purposes joint with \texttt{Python} language.
+Discretization procedures for elastic formulation have been developed since the early $60$'s under diverse setting oriented mainly in civil-engineering fields. In this section, it will be presented following literature  \cite{ern2004theory}, \cite{raviart1983introduction} a finite-element discretization scheme for the space-domain and a standard $\beta$-Newmark time-domain discretization, thus a complete numerical formulation for various elastic models implemented in \texttt{FEniCS}, a state-of-art library for such purposes joint with \texttt{Python} language.
 
 \section{Numerical Schemes}
-To discretize the elastodynamic model, it will be assumed that solution function is defined on a Banach space $\mathbf{V}$, in which the elasticity operator defined from the tensor $\mathbf{C}^{hom} = (C^{hom}_{ijkl})_{ijkl}$ by:
+To discretize the elastodynamic model, it will be assumed that the solution is defined on a Banach space $\mathbf{V}$, in which the elasticity operator defined from the tensor $\mathbf{C}^{hom} = (C^{hom}_{ijkl})_{ijkl}$ by:
 \begin{equation*}
     \mathcal{I}_{C^{hom}} (u,v) := \int \limits_{\Omega} C^{hom}_{ijkl}\mathbf{e}_{kl}(u) \mathbf{e}_{ij}(v) \, dx \quad \forall u,v \in \mathbf{V}
 \end{equation*}
@@ -20,7 +20,7 @@ Let $\{\mathbf{V}_h \}_{0 \leq h \leq 1}$ be a family of finite-dimensional subs
 In our case under study it is used $\mathbf{V} = \mathbf{L}^2(\Omega)$ and $\mathbf{W} = \mathbf{H}^1(\Omega, \Gamma_D)$ being $\mathbf{V}_h$ the $\mathbf{H}^1$-conformal finite element spaces using as reference element $\{ \hat{K}, \hat{P}, \hat{\sigma} \}$ of \textit{Lagrange} type with typical order $k \in \{1,2\}$, such that $\mathbb{P}_k \subset \hat{P}$ with $\mathbf{W} := \mathbf{H}^{k+1}(\Omega) \cap \mathbf{H}^1(\Omega, \Gamma_D)$
 \end{rem}
 
-Over such finite dimensional subspaces $\{ \mathbf{V}_h\}_{h>0}$ the approximate solution can be found, satisfying the problems:
+Over such finite dimensional subspaces $\{ \mathbf{V}_h\}_{h>0}$ the approximate solution can be found, satisfying the problem for each $h>0$:
 \begin{equation}
 \label{ODE-Discretized}
     \left \{
@@ -63,19 +63,19 @@ Let us note that (\ref{MatrixFormulation}) defines a standard \textit{Cauchy} OD
 \begin{equation*}
     t_n = n \Delta t, \quad 0 \leq n \leq N_T
 \end{equation*}
-being $N_T \in \mathbb{N}^*$ some number of steps as used in the section before.
+being $N_T \in \mathbb{N}^*$ some fixed number of time steps.
 
 It will be found for each $n \in \{1,\dots, N_T \}$ an approximate sequence tuple $(u_n, v_n, a_n)$ of the solutions $(u(t_n), \partial_{t} u(t_n), \partial_{tt} u(t_n))$ being the method chosen the so-called $\beta$-\textit{Newmark}, a well-known scheme to study mechanically driven behavior \cite{raviart1983introduction}.
 
 Taking into account the time-domain regularity from the solution $u^{(0)}(t, \mathbf{x}) := u(t,\mathbf{x})$ of the homogenized PDE problem (result analogous to \ref{BootstrapingProp}), let us note that by using the \textit{Taylor} expansion on $u \in \mathcal{C}^{p}(0,T;\mathbf{H}^1(\Omega, \Gamma_D))$ and the mean value theorem that for the displacement at time $t_{n+1}$ it follows:
 \begin{equation*}
-    u(t_{n+1}) = u(t_n) + \Delta t \, \partial_{t} u(t_n) + \Delta t^2 \, \big( \beta \partial_{tt} u(t_{n+1} + (\frac{1}{2} - \beta) \partial_{tt} u(t_{n+1}) \big) + \mathcal{O}(\Delta t^3)    
+    u(t_{n+1}) = u(t_n) + \Delta t \, \partial_{t} u(t_n) + \Delta t^2 \, \big( \beta \partial_{tt} u(t_{n+1}) + (\frac{1}{2} - \beta) \partial_{tt} u(t_{n+1}) \big) + \mathcal{O}(\Delta t^3)    
 \end{equation*}
 and for the velocity
 \begin{equation*}
     \partial_{t} u(t_{n+1}) = \partial_{t} u (t_{n}) + \Delta t \, \big( \gamma \partial_{tt} u(t_{n+1}) + (1-\gamma) \partial_{tt} u(t_n) \big) + \mathcal{O}(\Delta t^2)
 \end{equation*}
-being $\beta, \gamma$ two parameters with $0 < 2\beta, \gamma < 1$.
+being $\beta, \gamma$ two parameters with $0 < 2\beta<1,\, 0 < \gamma < 1$.
 The $\beta$-Newmark scheme consist then in a approximation of the above equations by using a finite difference scheme in the form:
 \begin{align}
     \label{TimeDif-Scheme}
